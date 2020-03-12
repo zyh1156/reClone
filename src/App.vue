@@ -18,4 +18,11 @@ export default {
 </script>
 
 <style lang="scss">
+#app {
+  font:26px/1 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "WenQuanYi Micro Hei", sans-serif;
+}
+.bac-f2f{
+  background-color: #f2f2f2;
+}
 </style>

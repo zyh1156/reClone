@@ -4,18 +4,32 @@ import HelloWorld from "../components/HelloWorld"
 
 Vue.use(VueRouter)
 
-function reRouter(to){
+function reRouter(to) {
   return () => import("@/components/" + to + ".vue")
 }
 
 const router = new VueRouter({
   routes: [{
-      path: '/',
-      component: HelloWorld,
-      meta: {
-        title: "张永铧的个人主页"
-      }
+    path: '/',
+    component: HelloWorld,
+    meta: {
+      title: "张永铧的个人主页"
     }
+  },{
+    path:"/search",
+    component:reRouter("searchpage/index"),
+    meta:{
+      title:"搜索",
+    },
+    name:"search"
+  }, {
+    path: "/user",
+    component: reRouter("user/index"),
+    meta: {
+      title: "个人中心"
+    },
+    name: "user"
+  }
   ]
 })
 

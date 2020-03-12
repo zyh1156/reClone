@@ -7,7 +7,7 @@ import store from './core/store'
 import axios from 'axios'
 Vue.prototype.axios = axios
 
-import "bootstrap/dist/css/bootstrap-reboot.min.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 Vue.config.productionTip = false
 
 new Vue({
