@@ -7,7 +7,6 @@
   </section>
 </template>
 <script>
-// import "weui/dist/style/weui.css";
 import "weui";
 import weui from "weui.js";
 export default {
