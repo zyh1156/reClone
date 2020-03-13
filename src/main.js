@@ -6,13 +6,14 @@ import store from './core/store'
 
 import axios from 'axios'
 Vue.prototype.axios = axios
+//基础样式重置
+import "bootstrap/dist/css/bootstrap-reboot.min.css"
 // 阿里巴巴字体库
-import "./core/iconfont.css";
-import "bootstrap/dist/css/bootstrap.min.css"
+import "./core/iconfont.css"
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app')
