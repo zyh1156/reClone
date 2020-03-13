@@ -42,7 +42,7 @@
       </div>
     </div>
     <!-- 主体内容 -->
-    <div class="bac-f2f">
+    <div class="bac-f2f p27">
       <!-- 轮播图 -->
       <div class="swiper-box">
         <div class="swiper-container">
@@ -124,6 +124,67 @@
             <img src="../assets/menu.jpg" alt />
           </div>
           <div class="text">签到中心</div>
+        </div>
+      </div>
+      <!-- 主推列表 -->
+      <div class="wares">
+        <div>
+          <!-- 标题 -->
+          <div class="tit-box d-flex align-items-center justify-content-between">
+            <div class="title">商家案例</div>
+            <div class="more">查看更多</div>
+          </div>
+          <!-- 商品列表 -->
+          <div>
+            <!-- 商品 -->
+            <div class="ware d-flex justify-content-between">
+              <div class="position-relative lshow">
+                <div class="ware-img">
+                  <img src="../assets/menu.jpg" alt />
+                </div>
+                <div class="w-100 text-center ware-sales position-absolute">6.2万人</div>
+              </div>
+              <div class="rshow">
+                <div class="ware-title">UP主必备PR软件实操：20节短视频赚钱课，教你月入过万</div>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="ware-renew">已更新22期</div>
+                  <div class="ware-discount">立减10元</div>
+                </div>
+              </div>
+            </div>
+            <!-- 商品 -->
+            <div class="ware d-flex justify-content-between">
+              <div class="position-relative lshow">
+                <div class="ware-img">
+                  <img src="../assets/menu.jpg" alt />
+                </div>
+                <div class="w-100 text-center ware-sales position-absolute">6.2万人</div>
+              </div>
+              <div class="rshow">
+                <div class="ware-title">UP主必备PR软件实操：20节短视频赚钱课，教你月入过万</div>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="ware-renew">已更新22期</div>
+                  <div class="ware-discount">立减10元</div>
+                </div>
+              </div>
+            </div>
+            <!-- 商品 -->
+            <div class="ware d-flex justify-content-between">
+              <div class="position-relative lshow">
+                <div class="ware-img">
+                  <img src="../assets/menu.jpg" alt />
+                </div>
+                <div class="w-100 text-center ware-sales position-absolute">6.2万人</div>
+              </div>
+              <div class="rshow">
+                <div class="ware-title">UP主必备PR软件实操：20节短视频赚钱课，教你月入过万</div>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="ware-renew">已更新22期</div>
+                  <div class="ware-discount">立减10元</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -268,7 +329,7 @@ export default {
   }
 }
 .swiper-box {
-  padding: 27px 27px 16px;
+  padding-bottom: 16px;
   height: 292px;
   .swiper-container {
     border: 2px solid #fff;
@@ -281,7 +342,7 @@ export default {
   }
 }
 .menux5 {
-  padding: 6px 30px;
+  padding: 6px 3px;
   .tips {
     left: 70px;
     top: -10px;
@@ -306,6 +367,69 @@ export default {
   }
   .text {
     margin-top: 20px;
+  }
+}
+.wares {
+  margin-top: 27px;
+  background-color: #fff;
+  padding: 0 27px;
+  border-radius: 10px;
+  .tit-box {
+    height: 85px;
+    .title {
+      font-size: 31px;
+      color: #000;
+      font-weight: bold;
+    }
+    .more {
+      color: #9f9f9f;
+      font-size: 23px;
+    }
+  }
+  .ware:nth-child(n+1){
+      padding-top: 27px;
+      border-top: 1px solid #f5f5f5;
+  }
+  .ware {
+    padding-bottom: 27px;
+    .lshow {
+      border-radius: 5px;
+      overflow: hidden;
+      width: 212px;
+    }
+    .rshow {
+      width: 410px;
+    }
+    .ware-img img {
+      width: 210px;
+      height: 160px;
+    }
+    .ware-sales {
+      left: 0;
+      bottom: 0;
+      font-size: 22px;
+      color: #8d8d8d;
+      background-color: #f4f4f4;
+    }
+    .ware-title {
+      font-size: 28px;
+      line-height: 37px;
+      color: #000;
+      font-weight: bold;
+      padding-bottom: 42px;
+    }
+    .ware-renew{
+        color: #999;
+        font-size: 20px;
+    }
+    .ware-discount{
+        background-color: #eb5046;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 20px;
+        padding: 6px;
+        border: 1px solid #e83b30;
+    }
   }
 }
 </style>

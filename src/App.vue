@@ -19,10 +19,14 @@ export default {
 
 <style lang="scss">
 #app {
-  font:26px/1 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+  font: 26px/1 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
     "WenQuanYi Micro Hei", sans-serif;
+  background-color: #f8f8f8;
 }
-.bac-f2f{
+.bac-f2f {
   background-color: #f2f2f2;
+}
+.p27 {
+  padding: 27px;
 }
 </style>

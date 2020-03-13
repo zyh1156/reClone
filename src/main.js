@@ -6,7 +6,8 @@ import store from './core/store'
 
 import axios from 'axios'
 Vue.prototype.axios = axios
-
+// 阿里巴巴字体库
+import "./core/iconfont.css";
 import "bootstrap/dist/css/bootstrap.min.css"
 Vue.config.productionTip = false
 
