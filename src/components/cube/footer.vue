@@ -1,24 +1,19 @@
 <template>
   <footer>
-    <div class="d-flex position-fixed align-items-center justify-content-between btmenu w-100">
-      <router-link :class="{'active':toto=='index'}" :to="{name:'index'}">
-        <div class="text-center">
-          <span class="iconfont icon-icon_discovery"></span>
-        </div>
-        <div class="menu-text">发现</div>
-      </router-link>
-      <router-link :to="{name:'user'}">
-        <div class="text-center">
-          <span class="iconfont icon-icon_new_recruit"></span>
-        </div>
-        <div class="menu-text">开始学习</div>
-      </router-link>
-      <router-link :class="{'active':toto=='user'}" :to="{name:'user'}">
-        <div class="text-center">
-          <span class="iconfont icon-icon_boss"></span>
-        </div>
-        <div class="menu-text">个人中心</div>
-      </router-link>
+    <div class="trace"></div>
+    <div class="trace2 fixed-bottom">
+      <div class="d-flex justify-content-center menu-list">
+        <a
+          class="d-inline-block text-center"
+          :href="ml.url"
+          v-for="(ml,inx) in menulist"
+          v-bind:key="inx"
+          :class="ml.classObject2"
+        >
+          <div class="iconfont" :class="ml.classObject"></div>
+          <div class="text">{{ml.text}}</div>
+        </a>
+      </div>
     </div>
   </footer>
 </template>
@@ -26,34 +21,80 @@
 export default {
   data() {
     return {
-      toto: ""
+      menulist: [
+        {
+          text: "发现",
+          url: "/#/",
+          classObject: {
+            "icon-icon_discovery": true
+          }
+        },
+        {
+          text: "开始学习",
+          url: "/#/study",
+          classObject: {
+            "icon-icon_new_recruit": true
+          }
+        },
+        {
+          text: "个人中心",
+          url: "/#/user",
+          classObject: {
+            "icon-icon_boss": true
+          }
+        }
+      ]
     };
   },
   mounted() {
-    this.toto = this.$route.name;
+    // 修改样式
+    this.changeClass();
+    this.getFoot();
+  },
+  methods: {
+    changeClass() {
+      let trp = this.$route.path,
+        menulist = [],
+        i;
+      this.menulist.forEach(ele => {
+        ele.classObject2 = {
+          active: ele.url.indexOf(trp) >= 0
+        };
+        menulist.push(ele);
+      });
+      this.menulist = menulist;
+    },
+    getFoot() {
+      document.querySelector(".trace").style.height =
+        document.querySelector(".trace2").offsetHeight + "px";
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
-.btmenu {
-  bottom: 0;
-  padding: 10px 84px;
-  min-height: 89px;
-  background-color: #fff;
-  border-top: 1px solid #f0f0f0;
-  .iconfont {
-    font-size: 44px;
-  }
-  .menu-text {
-    margin-top: 8px;
-    font-size: 17px;
-  }
+.trace2 {
+  background-color: #fefefe;
+  padding: 9px 0 10px;
+  border-top: 2px solid #f4f4f4;
+}
+.menu-list {
   a {
-    color: #b8b8b8;
+    color: #909090;
     text-decoration: none;
+    width: 250px;
+    .iconfont {
+      font-size: 44px;
+    }
+    .text {
+      margin-top: 8px;
+      font-size: 18px;
+    }
   }
-  a.active {
-    color: #ed7452;
+  .active {
+    color: #ea4f25;
+  }
+  .active + .active {
+    color: #909090;
   }
 }
 </style>

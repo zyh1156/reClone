@@ -18,9 +18,10 @@ module.exports = {
                         exclude: /(\/|\\)(node_modules)(\/|\\)/,        //忽略某些文件夹下的文件或特定文件
                     }),
                     require("cssnano")({
-                        preset: "advanced",     //高级模式（抛弃未使用的值）
-                        autoprefixer: false,        //是否自动刷新（开启会导致样式复用）
-                        "postcss-zindex": false     //开启会重置CSS：zIndex为1
+                        "cssnano-preset-advanced": {
+                            zindex: false,
+                            autoprefixer: false
+                        }
                     }),
                     require("postcss-write-svg")({
                         utf8: false

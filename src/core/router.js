@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HelloWorld from "../components/HelloWorld"
+import reprint from "../components/cube/router"
 import err404 from "../components/cube/error404"
 
 Vue.use(VueRouter)
@@ -11,29 +12,29 @@ function reRouter(to) {
 
 const router = new VueRouter({
     routes: [{
-        path: '/',
+        path: "/",
         component: HelloWorld,
-        meta: {
-            title: "张永铧的个人主页"
-        },
-        name:"index"
+        name: "index",
+        alias: "/index"
     }, {
         path: "/search",
-        component: reRouter("searchpage/index"),
-        meta: {
-            title: "搜索",
-        },
-        name: "search"
+        component: reRouter("search/index")
+    }, {
+        path: "/study",
+        component: reRouter("study/index"),
+        meta:{
+            title:"开始学习"
+        }
     }, {
         path: "/user",
-        component: reRouter("user/index"),
-        meta: {
-            title: "个人中心"
-        },
-        name: "user"
-    },{
-        path:"*",
-        component:err404
+        component: reprint,
+        children: [{
+            path: "",
+            component: reRouter("user/index")
+        }]
+    }, {
+        path: "*",
+        component: err404
     }]
 })
 

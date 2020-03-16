@@ -1,22 +1,120 @@
+.swiper-container-horizontal>.swiper-pagination-bullets {
+    bottom: 0;
+}
+.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet {
+    margin: 0 5px;
+}
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0,0,0,.5);
+    border-radius: 4px;
+    transition: all .3s;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #fff;
+    width: 21px;
+}
+
+/* text */
+.text-center {
+    text-align: center !important;
+}
+
 /* display */
+
+
+.d-none {
+    display: none !important;
+}
+
+.d-inline {
+    display: inline !important;
+}
+
+.d-inline-block {
+    display: inline-block !important;
+}
+
+.d-block {
+    display: block !important;
+}
+
+.d-table {
+    display: table !important;
+}
+
+.d-table-row {
+    display: table-row !important;
+}
+
+.d-table-cell {
+    display: table-cell !important;
+}
+
 .d-flex {
     display: -ms-flexbox !important;
     display: flex !important;
 }
 
+.d-inline-flex {
+    display: -ms-inline-flexbox !important;
+    display: inline-flex !important;
+}
+/* width */
+.w-100 {
+    width: 100% !important;
+  }
 /* position */
-.position-relative {
+.overflow-auto {
+    overflow: auto !important;
+  }
+  
+  .overflow-hidden {
+    overflow: hidden !important;
+  }
+  
+  .position-static {
+    position: static !important;
+  }
+  
+  .position-relative {
     position: relative !important;
-}
-
-.position-absolute {
+  }
+  
+  .position-absolute {
     position: absolute !important;
-}
-
-.position-fixed {
+  }
+  
+  .position-fixed {
     position: fixed !important;
+  }
+  
+  .position-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+  }
+  
+
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
 }
 
+.fixed-bottom {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1030;
+}
+.font-weight-bold {
+    font-weight: 700 !important;
+  }
 /* flex */
 
 
@@ -103,6 +201,10 @@
 .justify-content-around {
     -ms-flex-pack: distribute !important;
     justify-content: space-around !important;
+}
+
+.justify-content-evenly {
+    justify-content: space-evenly !important;
 }
 
 .align-items-start {

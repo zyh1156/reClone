@@ -1,108 +1,245 @@
 <template>
-  <section>
-    <!-- 基础资料 -->
-    <div>
-      <!-- 头像 -->
-      <div></div>
-      <!-- 昵称 -->
-      <div>
-        <div>
-          <div>Cytus</div>
-          <div>学习卡</div>
+  <section class="col-f8">
+    <!-- 资料页 -->
+    <div class="user-data position-relative">
+      <div class="d-flex align-items-center">
+        <!-- 头像 -->
+        <div class="user-img">
+          <img src="../../assets/menu.jpg" alt />
         </div>
-        <div>一句话形容美丽的自己</div>
+        <!-- 资料 -->
+        <div class="user-abo">
+          <div class="d-flex align-items-center">
+            <div class="font-weight-bold">Cytus</div>
+            <div class="user-vip text-center">学习卡</div>
+          </div>
+          <div class="describe">一句话形容美丽的自己</div>
+        </div>
       </div>
-      <!-- 签到 -->
-      <div>
-        <div></div>
+      <div class="sign position-absolute d-flex align-items-center">
+        <div class="ico text-center d-flex justify-content-center align-items-center">
+          <span class="iconfont icon-tuipiao"></span>
+        </div>
         <div>签到中心</div>
       </div>
     </div>
-    <!-- 基础功能 -->
-    <div class="d-flex text-center basic">
-      <!-- 关注 -->
-      <div>
-        <div>
-          <span class="iconfont icon-aixin"></span>
+    <!-- 功能背景 -->
+    <div class="dpgo">
+      <!-- 功能页 -->
+      <div class="d-flex copgo">
+        <div class="copbox text-center" v-for="(co,inx) in oplist" v-bind:key="inx">
+          <div class="copico iconfont" :class="co.classObj"></div>
+          <div class="coptxt">{{co.text}}</div>
         </div>
-        <div>关注</div>
       </div>
-      <!-- 收藏 -->
-      <div>
-        <div>
-          <span class="iconfont icon-shoucang"></span>
-        </div>
-        <div>收藏</div>
-      </div>
-      <!-- 优惠券 -->
-      <div>
-        <div>
-          <span class="iconfont icon-dianyingpiao"></span>
-        </div>
-        <div>优惠券</div>
-      </div>
-      <!-- 订单记录 -->
-      <div>
-        <div>
-          <span class="iconfont icon-dingdan"></span>
-        </div>
-        <div>订单记录</div>
+      <!-- 开课 -->
+      <div class="copbtn text-center font-weight-bold">
+        <span>一键开课</span>
+        <span class="iconfont icon-icon_circle_line"></span>
       </div>
     </div>
-    <!-- 一件开课 -->
-    <div>
-      <div class="text-center onetap">
-          <span>一键开课</span>
-          <span class="iconfont icon-icon_circle_line"></span>
+    <!-- 功能列表1 -->
+    <div class="menu-list">
+      <div class="menu-box" v-for="(m0,inx) in menu0" v-bind:key="inx">
+        <span class="menu-ico iconfont" :class="m0.classObj"></span>
+        <span class="menu-txt">{{m0.text}}</span>
       </div>
     </div>
-    <!-- 功能点1 -->
-    <div>
-      <div>钱包</div>
-      <div>分销记录</div>
-      <div>我的笔记本</div>
-      <div>我的勋章</div>
-      <div>消息</div>
+    <!-- 功能列表2 -->
+    <div class="menu-list">
+      <div class="menu-box" v-for="(m1,inx) in menu1" v-bind:key="inx">
+        <span class="menu-ico iconfont" :class="m1.classObj"></span>
+        <span class="menu-txt">{{m1.text}}</span>
+      </div>
     </div>
-    <!-- 功能点2 -->
-    <div>
-      <div>联系客服</div>
-      <div>帮助与反馈</div>
-    </div>
-    <fter></fter>
+    <footer2></footer2>
   </section>
 </template>
 <script>
-import fter from "../cube/footer";
+import footer2 from "../cube/footer";
 export default {
   data() {
-    return {};
+    return {
+      oplist: [
+        {
+          text: "关注",
+          classObj: {
+            "icon-aixin": true
+          }
+        },
+        {
+          text: "收藏",
+          classObj: {
+            "icon-shoucang": true
+          }
+        },
+        {
+          text: "优惠券",
+          classObj: {
+            "icon-dianyingpiao": true
+          }
+        },
+        {
+          text: "订单记录",
+          classObj: {
+            "icon-dingdan": true
+          }
+        }
+      ],
+      menu0: [
+        {
+          text: "钱包",
+          classObj: {
+            "icon-icon_coinpurse_line": true
+          }
+        },
+        {
+          text: "分销记录",
+          classObj: {
+            "icon-icon_statistics": true
+          }
+        },
+        {
+          text: "消息",
+          classObj: {
+            "icon-icon_sms": true
+          }
+        }
+      ],
+      menu1: [
+        {
+          text: "联系客服",
+          classObj: {
+            "icon-icon_service": true
+          }
+        },
+        {
+          text: "帮助与反馈",
+          classObj: {
+            "icon-icon_shakehands": true
+          }
+        },
+        {
+          text: "设置",
+          classObj: {
+            "icon-icon_setting": true
+          }
+        }
+      ]
+    };
   },
   components: {
-    fter
+    footer2
   }
 };
 </script>
 <style lang="scss" scoped>
-.basic {
-  margin: 0 28px;
-  .iconfont {
-    color: #ff582f;
-    font-size: 56px;
+.col-f8 {
+  background-color: #f8f8f8;
+}
+.user-data {
+  padding-top: 36px;
+  .user-img {
+    margin-left: 26px;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 40px;
+    }
+  }
+  .user-abo {
+    padding-left: 18px;
+    .user-vip {
+      color: #a56224;
+      width: 78px;
+      height: 34px;
+      line-height: 34px;
+      background-color: #eac88e;
+      border-radius: 4px;
+      margin-left: 10px;
+    }
+    .describe {
+      color: #5a5a5a;
+      font-size: 24px;
+      margin-top: 8px;
+    }
+  }
+  .sign {
+    color: #ec6641;
+    height: 72px;
+    border-radius: 36px 0 0 36px;
+    font-size: 25px;
+    background-color: #f4e1db;
+    padding: 0 16px 0 10px;
+    top: 40px;
+    right: 0;
+    .ico {
+      background-color: #ec6541;
+      height: 50px;
+      width: 50px;
+      border-radius: 25px;
+      margin-right: 10px;
+      span {
+        color: #fff;
+        font-size: 28px;
+      }
+    }
   }
 }
-.onetap{
-    height: 100px;
-    padding: 30px 0;
-    border-radius: 50px;
-    margin: 0 28px;
-    font-size: 40px;
-    font-weight: bold;
+.dpgo {
+  background-color: #f7f7f7;
+  padding: 35px 27px 25px;
+  .copgo {
+    background-color: #fff;
+    border-radius: 11px;
+    padding: 38px 0 20px;
+  }
+  .copbtn {
+    margin-top: 24px;
     color: #fff;
-    background-color: #ff5a31;
+    background-color: #ec6541;
+    box-shadow: 0 4px 16px 0 rgba(255, 90, 49, 0.4);
+    font-size: 32px;
+    height: 90px;
+    line-height: 90px;
+    border-radius: 45px;
     .iconfont{
-        margin-left: 8px;
-        font-size: 40px;
+      margin-left: 12px;
     }
+  }
+}
+.copbox {
+  width: 25%;
+  .copico {
+    color: #e94f25;
+    font-size: 52px;
+  }
+  .coptxt {
+    margin-top: 28px;
+    font-size: 24px;
+  }
+}
+.menu-list {
+  background-color: #fff;
+  padding-left: 12px;
+  margin-bottom: 27px;
+  .menu-box {
+    border-top: 2px solid #f1f1f1;
+    padding: 27px 0 27px 15px;
+    font-size: 27px;
+    background-image: url(../../assets/right-ico2.png);
+    background-position:681px center;
+    background-repeat: no-repeat;
+    background-size:auto 22px;
+  }
+  .menu-box:hover{
+    background-color: #f2f2f2;
+  }
+  .menu-ico {
+    font-size: 32px;
+  }
+  .menu-txt{
+    margin-left: 23px;
+  }
 }
 </style>

@@ -11,7 +11,6 @@ export default {
     return {};
   },
   methods: {
-    add() {}
   },
   mounted() {}
 };
@@ -22,11 +21,5 @@ export default {
   // 字体参考：新浪微博
   font: 26px/1 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
     "WenQuanYi Micro Hei", sans-serif;
-}
-.bac-f2f {
-  background-color: #f2f2f2;
-}
-.p27 {
-  padding: 27px;
 }
 </style>
