@@ -17,13 +17,16 @@ const router = new VueRouter({
         name: "index",
         alias: "/index"
     }, {
+        path: "/entry",
+        component: reRouter("entry/index")
+    }, {
         path: "/search",
         component: reRouter("search/index")
     }, {
         path: "/study",
         component: reRouter("study/index"),
-        meta:{
-            title:"开始学习"
+        meta: {
+            title: "开始学习"
         }
     }, {
         path: "/user",
@@ -31,6 +34,17 @@ const router = new VueRouter({
         children: [{
             path: "",
             component: reRouter("user/index")
+        }, {
+            path: "signin",
+            component: reRouter("user/signin"),
+            name: "signin"
+        }, {
+            path: "wallet",
+            component: reprint,
+            children: [{
+                path: "",
+                component: reRouter("user/wallet/index")
+            }]
         }]
     }, {
         path: "*",

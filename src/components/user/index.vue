@@ -16,12 +16,12 @@
           <div class="describe">一句话形容美丽的自己</div>
         </div>
       </div>
-      <div class="sign position-absolute d-flex align-items-center">
+      <a href="/#/user/signin" class="active sign position-absolute d-flex align-items-center">
         <div class="ico text-center d-flex justify-content-center align-items-center">
           <span class="iconfont icon-tuipiao"></span>
         </div>
         <div>签到中心</div>
-      </div>
+      </a>
     </div>
     <!-- 功能背景 -->
     <div class="dpgo">
@@ -37,20 +37,27 @@
         <span>一键开课</span>
         <span class="iconfont icon-icon_circle_line"></span>
       </div>
+      <!-- 功能页 -->
+      <div class="d-flex copgo">
+        <div class="copbox text-center" v-for="(co,inx) in oplist1" v-bind:key="inx">
+          <div class="copico iconfont" :class="co.classObj"></div>
+          <div class="coptxt">{{co.text}}</div>
+        </div>
+      </div>
     </div>
     <!-- 功能列表1 -->
     <div class="menu-list">
-      <div class="menu-box" v-for="(m0,inx) in menu0" v-bind:key="inx">
+      <a :href="m0.url" class="d-block menu-box" v-for="(m0,inx) in menu0" v-bind:key="inx">
         <span class="menu-ico iconfont" :class="m0.classObj"></span>
         <span class="menu-txt">{{m0.text}}</span>
-      </div>
+      </a>
     </div>
     <!-- 功能列表2 -->
     <div class="menu-list">
-      <div class="menu-box" v-for="(m1,inx) in menu1" v-bind:key="inx">
+      <a :href="m1.url" class="d-block menu-box" v-for="(m1,inx) in menu1" v-bind:key="inx">
         <span class="menu-ico iconfont" :class="m1.classObj"></span>
         <span class="menu-txt">{{m1.text}}</span>
-      </div>
+      </a>
     </div>
     <footer2></footer2>
   </section>
@@ -86,12 +93,39 @@ export default {
           }
         }
       ],
+      oplist1: [
+        {
+          text: "我的课程",
+          classObj: {
+            "icon-training": true
+          }
+        },
+        {
+          text: "我的活动",
+          classObj: {
+            "icon-process": true
+          }
+        },
+        {
+          text: "我的答题",
+          classObj: {
+            "icon-customization": true
+          }
+        },
+        {
+          text: "我的学习",
+          classObj: {
+            "icon-manage-order": true
+          }
+        }
+      ],
       menu0: [
         {
           text: "钱包",
           classObj: {
             "icon-icon_coinpurse_line": true
-          }
+          },
+          url: "/#/user/wallet/"
         },
         {
           text: "分销记录",
@@ -130,6 +164,9 @@ export default {
   },
   components: {
     footer2
+  },
+  mounted() {
+    document.querySelector(".sign").classList.remove("active");
   }
 };
 </script>
@@ -167,12 +204,14 @@ export default {
   .sign {
     color: #ec6641;
     height: 72px;
+    width: 220px;
     border-radius: 36px 0 0 36px;
     font-size: 25px;
     background-color: #f4e1db;
     padding: 0 16px 0 10px;
     top: 40px;
-    right: 0;
+    right: -34px;
+    transition: right 0.8s;
     .ico {
       background-color: #ec6541;
       height: 50px;
@@ -185,17 +224,21 @@ export default {
       }
     }
   }
+  .sign.active {
+    right: 0;
+  }
 }
 .dpgo {
   background-color: #f7f7f7;
-  padding: 35px 27px 25px;
+  padding: 0 27px 27px;
   .copgo {
     background-color: #fff;
     border-radius: 11px;
+    margin-top: 27px;
     padding: 38px 0 20px;
   }
   .copbtn {
-    margin-top: 24px;
+    margin-top: 27px;
     color: #fff;
     background-color: #ec6541;
     box-shadow: 0 4px 16px 0 rgba(255, 90, 49, 0.4);
@@ -203,7 +246,7 @@ export default {
     height: 90px;
     line-height: 90px;
     border-radius: 45px;
-    .iconfont{
+    .iconfont {
       margin-left: 12px;
     }
   }
@@ -224,21 +267,23 @@ export default {
   padding-left: 12px;
   margin-bottom: 27px;
   .menu-box {
+    color: #333;
+    text-decoration: none;
     border-top: 2px solid #f1f1f1;
     padding: 27px 0 27px 15px;
     font-size: 27px;
     background-image: url(../../assets/right-ico2.png);
-    background-position:681px center;
+    background-position: 681px center;
     background-repeat: no-repeat;
-    background-size:auto 22px;
+    background-size: auto 22px;
   }
-  .menu-box:hover{
+  .menu-box:hover {
     background-color: #f2f2f2;
   }
   .menu-ico {
     font-size: 32px;
   }
-  .menu-txt{
+  .menu-txt {
     margin-left: 23px;
   }
 }
