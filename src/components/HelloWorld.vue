@@ -251,6 +251,8 @@
           </div>
         </div>
       </div>
+      <!-- 展示柜 -->
+      <showcase :obj="w33"></showcase>
     </div>
     <!-- 底脚 -->
     <footer2></footer2>
@@ -259,11 +261,16 @@
 <script>
 import header2 from "./cube/header";
 import footer2 from "./cube/footer";
+import showcase from "./cube/showcase";
 import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
 export default {
   data() {
     return {
+      w33: {
+        name: "w33",
+        age: "24"
+      },
       menu5: [
         {
           text: "课程中心",
