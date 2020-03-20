@@ -364,7 +364,18 @@
     background-color: #e1e1e1;
     border-radius: 50%;
 }
-.wh_content_item .wh_isToday{
+
+.wh_content_item .wh_isToday {
     color: #fff;
-    background: #ee8145!important;
+    background: #ee8145 !important;
+}
+
+/* 灰色容器 */
+.gray-pack {
+    padding: 27px 27px 0;
+    background-color: #f7f7f7;
+}
+
+img {
+    max-width: 100%;
 }

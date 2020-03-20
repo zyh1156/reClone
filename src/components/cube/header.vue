@@ -15,6 +15,7 @@
       <div class="menu0">
         <div class="d-flex">
           <div
+            :href="ml.url"
             class="nav flex-shrink-0 text-center position-relative"
             :class="{'active':inx==menuIndex[0]}"
             v-for="(ml,inx) in menuList"
@@ -43,6 +44,7 @@
         </div>
       </div>
     </div>
+    <div class="menu-shadow"></div>
   </header>
 </template>
 <script>
@@ -69,7 +71,18 @@ export default {
         },
         {
           text: "内容分销",
-          url: "/#/entry"
+          url: "/#/entry",
+          child: [
+            {
+              text: "终究"
+            },
+            {
+              text: "觉得"
+            },
+            {
+              text: "你最好"
+            }
+          ]
         },
         {
           text: "面授课",
@@ -94,9 +107,32 @@ export default {
       } else {
         this.$set(this.menuIndex, 1, inx);
       }
+      //   跳转
+      location.href = this.menuList[inx].url + "?inx=" + inx;
+    },
+    lightUp() {
+      let inx = this.$route.query.inx || 0,
+        that = this;
+      this.menuIndex = [inx, 0];
+      $(document).scroll(() => {
+        that.menuTop();
+      });
+    },
+    menuTop() {
+      let t = $(".search-box").height(),
+        t2;
+      t2 = $(document).scrollTop();
+      if (t2 > t) {
+        $("header").css("min-height", $("header").height());
+        $(".menu-box").css("position", "fixed");
+      } else {
+        $(".menu-box").css("position", "relative");
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.lightUp();
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -122,7 +158,6 @@ export default {
   font-size: 30px;
   background-color: #fff;
   z-index: 1030;
-  padding-top: 18px;
   top: 0;
   left: 0;
   position: relative;
@@ -131,10 +166,12 @@ export default {
   .menu1 {
     overflow: auto;
   }
+  .menu0 {
+    padding-top: 18px;
+  }
   .menu1 {
-    padding: 18px 0;
     .nav {
-      padding: 0 13.5px;
+      padding: 18px 13.5px;
       .nav-body {
         padding: 13px 32px;
         border-radius: 26px;

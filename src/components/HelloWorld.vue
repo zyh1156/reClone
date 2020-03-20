@@ -71,189 +71,9 @@
           <img src="../assets/menu.jpg" alt />
         </div>
       </div>
-      <!-- 单个章节 -->
-      <div class="course-box">
-        <!-- 标题部分 -->
-        <div class="course-title d-flex align-items-center justify-content-between">
-          <div class="title">标题</div>
-          <div class="remore">查看更多</div>
-        </div>
-        <!-- 课程部分 -->
-        <div>
-          <div class="course-body d-flex">
-            <!-- 左边 -->
-            <div class="cour-left overflow-hidden position-relative text-center">
-              <div class="cl-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="w-100 position-absolute cl-men">2355人</div>
-            </div>
-            <!-- 右边 -->
-            <div class="cour-right">
-              <div class="cr-text line-clamp2">【国粤双语】&nbsp;小学生必背古诗108首，每天三分钟，让孩子轻松学习。</div>
-              <div class="cr-money d-flex justify-content-between">
-                <div class="renew">已更新109期</div>
-                <div>
-                  <span class="money0">￥&nbsp;99.00</span>
-                  <span class="money1">
-                    ￥&nbsp;
-                    <span class="money2">9</span>.90
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="course-body d-flex">
-            <!-- 左边 -->
-            <div class="cour-left overflow-hidden position-relative text-center">
-              <div class="cl-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="w-100 position-absolute cl-men">
-                <span class="iconfont icon-remen"></span>
-                <span>2335人</span>
-              </div>
-            </div>
-            <!-- 右边 -->
-            <div class="cour-right">
-              <div class="cr-text line-clamp2">【国粤双语】&nbsp;小学生必背古诗108首，每天三分钟，让孩子轻松学习。</div>
-              <div class="cr-money d-flex justify-content-between">
-                <div class="renew">已更新109期</div>
-                <div>
-                  <span class="money0">￥&nbsp;99.00</span>
-                  <span class="money1">
-                    ￥&nbsp;
-                    <span class="money2">9</span>.90
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 单个章节 -->
-      <div class="course-box">
-        <!-- 标题部分 -->
-        <div class="course-title d-flex align-items-center justify-content-between">
-          <div class="title">标题</div>
-          <div class="remore">查看更多</div>
-        </div>
-        <!-- 课程部分 -->
-        <div>
-          <div class="course-body d-flex">
-            <!-- 左边 -->
-            <div class="cour-left overflow-hidden position-relative text-center">
-              <div class="cl-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="w-100 position-absolute cl-men">2355人</div>
-            </div>
-            <!-- 右边 -->
-            <div class="cour-right">
-              <div class="cr-text line-clamp2">【国粤双语】&nbsp;小学生必背古诗108首，每天三分钟，让孩子轻松学习。</div>
-              <div class="cr-money d-flex justify-content-between">
-                <div class="renew">已更新109期</div>
-                <div>
-                  <span class="money0">￥&nbsp;99.00</span>
-                  <span class="money1">
-                    ￥&nbsp;
-                    <span class="money2">9</span>.90
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="course-body d-flex">
-            <!-- 左边 -->
-            <div class="cour-left overflow-hidden position-relative text-center">
-              <div class="cl-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="w-100 position-absolute cl-men">2355人</div>
-            </div>
-            <!-- 右边 -->
-            <div class="cour-right">
-              <div class="cr-text line-clamp2">【国粤双语】&nbsp;小学生必背古诗108首，每天三分钟，让孩子轻松学习。</div>
-              <div class="cr-money d-flex justify-content-between">
-                <div class="renew">已更新109期</div>
-                <div>
-                  <span class="money0">￥&nbsp;99.00</span>
-                  <span class="money1">
-                    ￥&nbsp;
-                    <span class="money2">9</span>.90
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 免费章节 -->
-      <div class="course-box2">
-        <!-- 标题部分 -->
-        <div class="course-title d-flex align-items-center justify-content-between">
-          <div class="title">免费课程</div>
-          <div class="remore">查看更多</div>
-        </div>
-        <!-- 课程部分 -->
-        <div class="d-flex flex-wrap justify-content-between">
-          <div class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
-            <div class="cr-free">免费</div>
-          </div>
-          <div class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
-            <div class="cr-free">免费</div>
-          </div>
-          <div class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
-            <div class="cr-free">免费</div>
-          </div>
-          <div class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img src="../assets/menu.jpg" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
-            <div class="cr-free">免费</div>
-          </div>
-        </div>
-      </div>
-      <!-- 展示柜 -->
-      <showcase :obj="w33"></showcase>
     </div>
+    <!-- 展示柜 -->
+    <showcase :datas="w33"></showcase>
     <!-- 底脚 -->
     <footer2></footer2>
   </section>
@@ -314,7 +134,8 @@ export default {
   },
   components: {
     footer2,
-    header2
+    header2,
+    showcase
   },
   mounted() {
     this.toSwiper();
@@ -348,20 +169,11 @@ export default {
   margin-left: 12px;
   width: 20px;
 }
-// 灰色容器
-.gray-pack {
-  padding: 27px;
-  background-color: #f7f7f7;
-}
 // 轮播图
 .swiper-container {
-  // width: 692px;
   height: 235px;
   border: 2px solid #fff;
   border-radius: 8px;
-  img {
-    max-width: 100%;
-  }
 }
 .choice {
   padding: 27px;
@@ -390,136 +202,6 @@ export default {
     height: 192px;
     overflow: hidden;
     border-radius: 10px;
-    img {
-      max-width: 100%;
-    }
-  }
-}
-.course-box {
-  padding: 10px 17px;
-  background-color: #fff;
-  border-radius: 10px;
-  margin-top: 32px;
-  .course-title {
-    padding: 14.5px 10px;
-    .title {
-      font-size: 34px;
-      color: #000;
-      font-weight: bold;
-    }
-    .remore {
-      font-size: 25px;
-      color: #9a9a9a;
-    }
-  }
-  .course-body:hover {
-    background-color: #f8f8f8;
-  }
-  .course-body {
-    border-top: 2px solid #f6f6f6;
-    padding: 10px 10px 25px;
-    margin-top: 17px;
-    .cour-left {
-      width: 212px;
-      height: 162px;
-      overflow: hidden;
-      border-radius: 5px;
-      .cl-img {
-        height: 122px;
-      }
-      .cl-men {
-        color: #838383;
-        background-color: #f4f4f4;
-        border-top: 1px solid #f6f6f6;
-        height: 40px;
-        bottom: 0;
-        line-height: 40px;
-        .iconfont {
-          margin-right: 8px;
-          font-size: 26px;
-        }
-      }
-    }
-    .cour-right {
-      width: 430px;
-      padding: 0 0 0 20px;
-      .cr-money {
-        margin-top: 50px;
-        .renew {
-          color: #999999;
-        }
-        .money0 {
-          color: #919191;
-          font-size: 15px;
-          text-decoration: line-through;
-        }
-        .money1 {
-          color: #e8362b;
-          font-size: 16px;
-          font-weight: bold;
-          .money2 {
-            font-size: 20px;
-          }
-        }
-      }
-    }
-  }
-  img {
-    max-width: 100%;
-  }
-  .cr-text {
-    font-size: 28px;
-    line-height: 1.43;
-    font-weight: bold;
-  }
-}
-
-.course-box2 {
-  margin-top: 32px;
-  .course-title {
-    padding: 14.5px 10px 0 10px;
-    .title {
-      font-size: 34px;
-      color: #000;
-      font-weight: bold;
-    }
-    .remore {
-      font-size: 25px;
-      color: #9a9a9a;
-    }
-  }
-  .course-body2 {
-    width: 335px;
-    border-radius: 10px;
-    background-color: #fff;
-    overflow: hidden;
-    margin-top: 27px;
-    .cr-img {
-      height: 172px;
-      overflow: hidden;
-    }
-    .play-num {
-      left: 18px;
-      bottom: 8px;
-      color: #fff;
-      font-size: 22px;
-    }
-    .cr-text {
-      padding: 17px 18px 0 18px;
-    }
-    .cr-free {
-      color: #da2b16;
-      font-size: 21px;
-      padding: 22px 18px;
-    }
-  }
-  img {
-    max-width: 100%;
-  }
-  .cr-text {
-    font-size: 28px;
-    line-height: 1.43;
-    font-weight: bold;
   }
 }
 .menu-5 {

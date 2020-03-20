@@ -1,6 +1,5 @@
 <template>
-  <article>
-  </article>
+  <article>404页面</article>
 </template>
 <script>
 export default {

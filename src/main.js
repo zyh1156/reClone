@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueLazyload from 'vue-lazyload'
 
 import router from './core/router'
 import store from './core/store'
+
+Vue.use(VueLazyload)
 
 import axios from 'axios'
 Vue.prototype.axios = axios

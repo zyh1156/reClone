@@ -47,6 +47,16 @@ const router = new VueRouter({
             }]
         }]
     }, {
+        path: "/wares",
+        component: reprint,
+        children: [{
+            path: "",
+            redirect: "/search"
+        }, {
+            path: ":waresid",
+            component: reRouter("wares/index")
+        }]
+    }, {
         path: "*",
         component: err404
     }]

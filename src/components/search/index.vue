@@ -1,5 +1,5 @@
 <template>
-  <section></section>
+  <section>搜索页</section>
 </template>
 <script>
 export default {
