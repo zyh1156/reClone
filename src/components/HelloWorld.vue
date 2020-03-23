@@ -110,7 +110,7 @@ export default {
         {
           text: "圈子话题",
           classObj: { "icon-huati": true },
-          url: "#"
+          url: "/#/bbs"
         },
         {
           text: "签到中心",
@@ -139,6 +139,9 @@ export default {
   },
   mounted() {
     this.toSwiper();
+    this.axios("http://192.168.1.92/api/").then(res=>{
+        console.log(res);
+    })
   }
 };
 </script>

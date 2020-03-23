@@ -17,6 +17,32 @@ const router = new VueRouter({
         name: "index",
         alias: "/index"
     }, {
+        path: "/bbs",
+        component: reprint,
+        children: [{
+            path: "",
+            component: reRouter("bbs/index"),
+            meta: {
+                title: "圈子首页"
+            }
+        }, {
+            path: ":communityid",
+            component: reprint,
+            children: [{
+                path: "",
+                component: reRouter("bbs/community"),
+                meta: {
+                    title: "社区详情"
+                }
+            }, {
+                path: ":content",
+                component: reRouter("bbs/content"),
+                meta: {
+                    title: "帖子详情"
+                }
+            }]
+        }]
+    }, {
         path: "/entry",
         component: reRouter("entry/index")
     }, {

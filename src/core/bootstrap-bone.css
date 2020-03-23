@@ -23,7 +23,12 @@
 .text-center {
     text-align: center !important;
 }
-
+/* 单行文本省略号 */
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 /* 多行文本换行 */
 .line-clamp2 {
 
