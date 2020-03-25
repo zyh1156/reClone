@@ -5,6 +5,10 @@ import VueLazyload from 'vue-lazyload'
 import router from './core/router'
 import store from './core/store'
 
+import "weui"
+import weui from "weui.js"
+Vue.prototype.weui = weui
+
 Vue.use(VueLazyload)
 
 import axios from 'axios'

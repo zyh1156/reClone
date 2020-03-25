@@ -72,8 +72,12 @@
         </div>
       </div>
     </div>
-    <!-- 展示柜 -->
-    <showcase :datas="w33"></showcase>
+    <!-- 推荐课程 -->
+    <showcase :datas="tjCourse"></showcase>
+    <!-- 热门课程 -->
+    <showcase :datas="hotCourse"></showcase>
+    <!-- 免费课程 -->
+    <showcase :datas="freeCourse"></showcase>
     <!-- 底脚 -->
     <footer2></footer2>
   </section>
@@ -87,9 +91,23 @@ import "swiper/css/swiper.min.css";
 export default {
   data() {
     return {
-      w33: {
-        name: "w33",
-        age: "24"
+      hotCourse: {
+        name: "热门课程",
+        link: "",
+        list: [],
+        type: 0
+      },
+      freeCourse: {
+        name: "免费课程",
+        link: "",
+        list: [],
+        type: 1
+      },
+      tjCourse: {
+        name: "推荐课程",
+        link: "",
+        list: [],
+        type: 0
       },
       menu5: [
         {
@@ -124,10 +142,21 @@ export default {
     toSwiper() {
       new Swiper(".swiper-container", {
         loop: true, // 循环模式选项
-
         // 如果需要分页器
         pagination: {
           el: ".swiper-pagination"
+        }
+      });
+    },
+    getData() {
+      let loading = this.weui.loading("获取中"),
+        that = this;
+      this.axios("http://192.168.1.92/api/").then(res => {
+        if (res.status == 200) {
+          loading.hide();
+          that.$set(that.tjCourse, "list", res.data.data.tj_goods);
+          that.$set(that.hotCourse, "list", res.data.data.hot_goods);
+          that.$set(that.freeCourse, "list", res.data.data.mf_goods);
         }
       });
     }
@@ -138,10 +167,10 @@ export default {
     showcase
   },
   mounted() {
+    //   启动轮播
     this.toSwiper();
-    this.axios("http://192.168.1.92/api/").then(res=>{
-        console.log(res);
-    })
+    // 获取数据
+    this.getData();
   }
 };
 </script>

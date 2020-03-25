@@ -2,19 +2,18 @@
   <article class="gray-pack">
     <div>
       <!-- 单个章节 -->
-      <div class="course-box">
+      <div v-if="datas.type==0" class="course-box">
         <!-- 标题部分 -->
         <div class="course-title d-flex align-items-center justify-content-between">
-          <div class="title">标题</div>
+          <div class="title">{{datas.name}}</div>
           <div class="remore">查看更多</div>
         </div>
         <!-- 课程部分 -->
-        <div>
-          <div class="course-body d-flex">
+          <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body d-flex">
             <!-- 左边 -->
             <div class="cour-left overflow-hidden position-relative text-center">
               <div class="cl-img">
-                <img src="../../assets/menu.jpg" alt />
+                <img v-lazy="dl.thumbnail" alt />
               </div>
               <div class="w-100 position-absolute cl-men">
                 <span class="iconfont icon-remen"></span>
@@ -23,7 +22,7 @@
             </div>
             <!-- 右边 -->
             <div class="cour-right">
-              <div class="cr-text line-clamp2">【国粤双语】&nbsp;小学生必背古诗108首，每天三分钟，让孩子轻松学习。</div>
+              <div class="cr-text line-clamp2">{{dl.post_title}}</div>
               <div class="cr-money d-flex justify-content-between">
                 <div class="renew">已更新109期</div>
                 <div>
@@ -36,93 +35,27 @@
               </div>
             </div>
           </div>
-          <div class="course-body d-flex">
-            <!-- 左边 -->
-            <div class="cour-left overflow-hidden position-relative text-center">
-              <div class="cl-img">
-                <img src="../../assets/menu.jpg" alt />
-              </div>
-              <div class="w-100 position-absolute cl-men">
-                <span class="iconfont icon-remen"></span>
-                <span>2355人</span>
-              </div>
-            </div>
-            <!-- 右边 -->
-            <div class="cour-right">
-              <div class="cr-text line-clamp2">【国粤双语】&nbsp;小学生必背古诗108首，每天三分钟，让孩子轻松学习。</div>
-              <div class="cr-money d-flex justify-content-between">
-                <div class="renew">已更新109期</div>
-                <div>
-                  <span class="money0">￥&nbsp;99.00</span>
-                  <span class="money1">
-                    ￥&nbsp;
-                    <span class="money2">9</span>.90
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <!-- 免费章节 -->
-      <div class="course-box2">
+      <div v-if="datas.type==1" class="course-box2">
         <!-- 标题部分 -->
         <div class="course-title d-flex align-items-center justify-content-between">
-          <div class="title">免费课程</div>
+          <div class="title">{{datas.name}}</div>
           <div class="remore">查看更多</div>
         </div>
         <!-- 课程部分 -->
         <div class="d-flex flex-wrap justify-content-between">
-          <div class="course-body2">
+          <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body2">
             <div class="position-relative">
               <div class="cr-img">
-                <img src="../../assets/menu.jpg" alt />
+                <img v-lazy="dl.thumbnail" alt />
               </div>
               <div class="position-absolute play-num">
                 <span class="iconfont icon-play-circle"></span>
                 <span>386次</span>
               </div>
             </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
-            <div class="cr-free">免费</div>
-          </div>
-          <div class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img src="../../assets/menu.jpg" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
-            <div class="cr-free">免费</div>
-          </div>
-          <div class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img src="../../assets/menu.jpg" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
-            <div class="cr-free">免费</div>
-          </div>
-          <div class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img src="../../assets/menu.jpg" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">先导课：不辛苦，不节食，人人都能轻松快乐减肥</div>
+            <div class="cr-text line-clamp2">{{dl.post_title}}</div>
             <div class="cr-free">免费</div>
           </div>
         </div>
@@ -133,33 +66,7 @@
 <script>
 export default {
   data() {
-    return {
-      datalist: [
-        {
-          name: "",
-          url: "",
-          type: 0,
-          list: [
-            {
-              name: "",
-              img: "",
-              fire: "",
-              oldMoney: "",
-              money: "",
-              renow: ""
-            },
-            {
-              name: "",
-              img: "",
-              fire: "",
-              oldMoney: "",
-              money: "",
-              renow: ""
-            }
-          ]
-        }
-      ]
-    };
+    return {};
   },
   props: ["datas"],
   mounted() {}
@@ -217,6 +124,9 @@ export default {
     .cour-right {
       width: 430px;
       padding: 0 0 0 20px;
+      .cr-text{
+          height: 78px;
+      }
       .cr-money {
         margin-top: 50px;
         .renew {
@@ -277,6 +187,7 @@ export default {
     }
     .cr-text {
       padding: 17px 18px 0 18px;
+    height: 93px;
     }
     .cr-free {
       color: #da2b16;
