@@ -2,39 +2,40 @@
   <article class="gray-pack">
     <div>
       <!-- 单个章节 -->
-      <div v-if="datas.type==0" class="course-box">
+      <div v-if="datas.type!=1" class="course-box">
         <!-- 标题部分 -->
         <div class="course-title d-flex align-items-center justify-content-between">
           <div class="title">{{datas.name}}</div>
           <div class="remore">查看更多</div>
         </div>
         <!-- 课程部分 -->
-          <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body d-flex">
-            <!-- 左边 -->
-            <div class="cour-left overflow-hidden position-relative text-center">
-              <div class="cl-img">
-                <img v-lazy="dl.thumbnail" alt />
-              </div>
-              <div class="w-100 position-absolute cl-men">
-                <span class="iconfont icon-remen"></span>
-                <span>2355人</span>
-              </div>
+        <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body d-flex">
+          <!-- 左边 -->
+          <div class="cour-left overflow-hidden position-relative text-center">
+            <div class="cl-img">
+              <img v-lazy="dl.thumbnail" alt />
             </div>
-            <!-- 右边 -->
-            <div class="cour-right">
-              <div class="cr-text line-clamp2">{{dl.post_title}}</div>
-              <div class="cr-money d-flex justify-content-between">
-                <div class="renew">已更新109期</div>
-                <div>
-                  <span class="money0">￥&nbsp;99.00</span>
-                  <span class="money1">
-                    ￥&nbsp;
-                    <span class="money2">9</span>.90
-                  </span>
-                </div>
+            <div class="w-100 position-absolute cl-men">
+              <span class="iconfont icon-remen"></span>
+              <span>2355人</span>
+            </div>
+          </div>
+          <!-- 右边 -->
+          <div class="cour-right">
+            <div class="cr-text line-clamp2">{{dl.post_title}}</div>
+            <div class="cr-money d-flex justify-content-between">
+              <div class="renew">已更新109期</div>
+              <div>
+                <span v-if="dl.onzk" class="money0">￥&nbsp;{{dl.price}}</span>
+                <span class="money1">
+                  ￥&nbsp;
+                  <span class="money2">{{dl.money[0]}}</span>
+                  .{{dl.money[1]}}
+                </span>
               </div>
             </div>
           </div>
+        </div>
       </div>
       <!-- 免费章节 -->
       <div v-if="datas.type==1" class="course-box2">
@@ -66,10 +67,36 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      dataRe: this.datas
+    };
+  },
+  methods: {
+    ChangeDate() {
+      let data = this.datas,
+        i;
+      console.log(data.list.length);
+      for (i = 0; i < data.list.length; i++) {
+        data.list[i].price = parseFloat(data.list[i].price);
+        data.list[i].money = parseFloat(data.list[i].money);
+        data.list[i].onzk = data.list[i].price > data.list[i].price;
+        data.list[i].price = data.list[i].price.toFixed(2);
+        data.list[i].money = data.list[i].money.toFixed(2).split(".");
+      }
+    }
   },
   props: ["datas"],
-  mounted() {}
+  watch: {
+    datas: {
+      immediate: true,
+      handler: function(newV, oldV) {
+        this.ChangeDate();
+      }
+    }
+  },
+  mounted() {
+    console.log(this.datas);
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -82,7 +109,7 @@ export default {
   border-radius: 10px;
   margin-bottom: 32px;
   .course-title {
-    padding: 14.5px 10px;
+    padding: 14.5px 14.5px;
     .title {
       font-size: 34px;
       color: #000;
@@ -98,12 +125,10 @@ export default {
   }
   .course-body {
     border-top: 2px solid #f6f6f6;
-    padding: 10px 10px 25px;
-    margin-top: 17px;
+    padding: 25px 10px 25px;
     .cour-left {
       width: 212px;
       height: 162px;
-      overflow: hidden;
       border-radius: 5px;
       .cl-img {
         height: 122px;
@@ -124,8 +149,8 @@ export default {
     .cour-right {
       width: 430px;
       padding: 0 0 0 20px;
-      .cr-text{
-          height: 78px;
+      .cr-text {
+        height: 78px;
       }
       .cr-money {
         margin-top: 50px;
@@ -156,9 +181,8 @@ export default {
 }
 
 .course-box2 {
-  margin-top: 27px;
   .course-title {
-    padding: 14.5px 10px 27px 10px;
+    padding: 14.5px 10px 0;
     .title {
       font-size: 34px;
       color: #000;
@@ -174,7 +198,7 @@ export default {
     border-radius: 10px;
     background-color: #fff;
     overflow: hidden;
-    margin-bottom: 27px;
+    margin-top: 27px;
     .cr-img {
       height: 172px;
       overflow: hidden;
@@ -184,10 +208,13 @@ export default {
       bottom: 8px;
       color: #fff;
       font-size: 22px;
+      .iconfont {
+        margin-right: 12px;
+      }
     }
     .cr-text {
       padding: 17px 18px 0 18px;
-    height: 93px;
+      height: 93px;
     }
     .cr-free {
       color: #da2b16;

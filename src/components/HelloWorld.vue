@@ -56,19 +56,20 @@
       <!-- 课程列表 -->
       <div class="menu-5 d-flex">
         <a :href="m5.url" class="m5-box text-center" v-for="(m5,inx) in menu5" v-bind:key="inx">
-          <div :class="m5.classObj" class="d-inline-block m5-ico iconfont"></div>
-          <div class="m5-txt">{{m5.text}}</div>
+          <div class="d-inline-block m5-ico"></div>
+          <div class="m5-txt">{{m5.title}}</div>
         </a>
       </div>
       <!-- 精选课 -->
-      <div class="choice d-flex justify-content-between">
+      <div @click="getData" class="choice d-flex justify-content-between">
         <div class="ch0">
           <div class="txt0 font-weight-bold">本周精选课</div>
           <div class="txt1">最强大脑记忆法</div>
           <div class="txt2">17堂最强大脑记忆法，带你干掉烂尾记性。</div>
         </div>
-        <div class="ch1">
+        <div class="ch1 position-relative">
           <img src="../assets/menu.jpg" alt />
+          <div class="ico-play iconfont icon-timeout position-absolute"></div>
         </div>
       </div>
     </div>
@@ -78,6 +79,7 @@
     <showcase :datas="hotCourse"></showcase>
     <!-- 免费课程 -->
     <showcase :datas="freeCourse"></showcase>
+    <div class="hello-shadow"></div>
     <!-- 底脚 -->
     <footer2></footer2>
   </section>
@@ -109,33 +111,7 @@ export default {
         list: [],
         type: 0
       },
-      menu5: [
-        {
-          text: "课程中心",
-          classObj: { "icon-salescenter": true },
-          url: "#"
-        },
-        {
-          text: "大V直播",
-          classObj: { "icon-video": true },
-          url: "#"
-        },
-        {
-          text: "报名活动",
-          classObj: { "icon-online-tracking": true },
-          url: "#"
-        },
-        {
-          text: "圈子话题",
-          classObj: { "icon-huati": true },
-          url: "/#/bbs"
-        },
-        {
-          text: "签到中心",
-          classObj: { "icon-default-template": true },
-          url: "/#/user/signin"
-        }
-      ]
+      menu5: []
     };
   },
   methods: {
@@ -154,6 +130,9 @@ export default {
       this.axios("http://192.168.1.92/api/").then(res => {
         if (res.status == 200) {
           loading.hide();
+          //分类
+          that.$set(that, "menu5", res.data.data.f_c);
+          //课程
           that.$set(that.tjCourse, "list", res.data.data.tj_goods);
           that.$set(that.hotCourse, "list", res.data.data.hot_goods);
           that.$set(that.freeCourse, "list", res.data.data.mf_goods);
@@ -170,7 +149,7 @@ export default {
     //   启动轮播
     this.toSwiper();
     // 获取数据
-    this.getData();
+    // this.getData();
   }
 };
 </script>
@@ -234,6 +213,12 @@ export default {
     height: 192px;
     overflow: hidden;
     border-radius: 10px;
+    .ico-play{
+        right: 10px;
+        bottom: 10px;
+        color: #fff;
+        font-size: 66px;
+    }
   }
 }
 .menu-5 {
@@ -247,12 +232,10 @@ export default {
     width: 20%;
     text-decoration: none;
     .m5-ico {
-      color: #fff;
-      background-color: #bf2b1d;
-      background-image: linear-gradient(to right bottom, #e43a1d, #b8281b);
       border-radius: 22px;
-      padding: 12px;
-      font-size: 45px;
+      width: 76px;
+      height: 76px;
+      background-size: 100% 100%;
     }
     .m5-txt {
       color: #797979;
@@ -260,6 +243,26 @@ export default {
       font-size: 22px;
     }
   }
+
+  .m5-box:nth-child(1) .m5-ico {
+    background-image: url(../assets/icon/1.png);
+  }
+  .m5-box:nth-child(2) .m5-ico {
+    background-image: url(../assets/icon/2.png);
+  }
+  .m5-box:nth-child(3) .m5-ico {
+    background-image: url(../assets/icon/3.png);
+  }
+  .m5-box:nth-child(4) .m5-ico {
+    background-image: url(../assets/icon/4.png);
+  }
+  .m5-box:nth-child(5) .m5-ico {
+    background-image: url(../assets/icon/5.png);
+  }
+}
+.hello-shadow {
+  background-color: #f7f7f7;
+  height: 90px;
 }
 // 动画
 @keyframes iconKF {

@@ -49,7 +49,6 @@ export default {
   mounted() {
     // 修改样式
     this.changeClass();
-    this.getFoot();
   },
   methods: {
     changeClass() {
@@ -63,18 +62,17 @@ export default {
         menulist.push(ele);
       });
       this.menulist = menulist;
-    },
-    getFoot() {
-      document.querySelector(".trace").style.height =
-        document.querySelector(".trace2").offsetHeight + "px";
     }
   }
 };
 </script>
 <style lang="scss" scoped>
+.trace{
+    height: 90px;
+}
 .trace2 {
   background-color: #fefefe;
-  padding: 9px 0 10px;
+  padding: 10px 0;
   border-top: 2px solid #f4f4f4;
 }
 .menu-list {

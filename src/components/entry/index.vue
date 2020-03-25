@@ -10,7 +10,11 @@ import showCase from "../cube/showcase";
 export default {
   data() {
     return {
-        caseData:{}
+        caseData:{
+            name:"",
+            url:"",
+            list:[]
+        }
     };
   },
   components: {

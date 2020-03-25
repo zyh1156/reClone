@@ -128,10 +128,15 @@ export default {
       } else {
         $(".menu-box").css("position", "relative");
       }
+    },
+    getData() {
+      return;
+      this.axios("http://192.168.1.92/api/").then(res => {});
     }
   },
   mounted() {
     this.lightUp();
+    this.getData();
   }
 };
 </script>

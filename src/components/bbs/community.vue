@@ -207,8 +207,10 @@ section {
     }
   }
   .admin {
-    padding: 23px 0;
+    padding-top: 23px;
+    padding-bottom: 23px;
     .user-img {
+      margin-right: 20px;
       img {
         width: 80px;
         height: 80px;
