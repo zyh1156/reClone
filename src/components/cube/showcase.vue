@@ -1,63 +1,81 @@
 <template>
-  <article class="gray-pack">
-    <div>
-      <!-- 单个章节 -->
-      <div v-if="datas.type!=1" class="course-box">
-        <!-- 标题部分 -->
-        <div class="course-title d-flex align-items-center justify-content-between">
-          <div class="title">{{datas.name}}</div>
-          <div class="remore">查看更多</div>
+  <article>
+    <!-- 竖排章节 -->
+    <div v-if="datas.type!=1" class="course-box">
+      <!-- 标题部分 -->
+      <div
+        v-if="datas.name.length>0"
+        class="course-title d-flex align-items-center justify-content-between"
+      >
+        <div class="title">{{datas.name}}</div>
+        <div class="remore">查看更多</div>
+      </div>
+      <!-- 课程部分 -->
+      <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body">
+          <div class="course-body2 d-flex">
+        <!-- 左边 -->
+        <div class="cour-left overflow-hidden position-relative text-center">
+          <div class="cl-img">
+            <img v-lazy="dl.thumbnail" alt />
+          </div>
+          <div class="w-100 position-absolute cl-men">
+            <span class="iconfont icon-remen"></span>
+            <span>2355人</span>
+          </div>
         </div>
-        <!-- 课程部分 -->
-        <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body d-flex">
-          <!-- 左边 -->
-          <div class="cour-left overflow-hidden position-relative text-center">
-            <div class="cl-img">
+        <!-- 右边 -->
+        <div class="cour-right">
+          <div class="cr-text line-clamp2">{{dl.post_title}}</div>
+          <div class="cr-money d-flex justify-content-between">
+            <div class="renew">已更新109期</div>
+            <div v-if="dl.free" class="cr-free">免费</div>
+            <div v-else>
+              <span v-if="dl.onzk" class="money0">￥&nbsp;{{dl.price}}</span>
+              <span class="money1">
+                ￥&nbsp;
+                <span class="money2">{{dl.money[0]}}</span>
+                <span>.{{dl.money[1]}}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+              
+          </div>
+      </div>
+    </div>
+    <!-- 横排章节 -->
+    <div v-if="datas.type==1" class="course-box2">
+      <!-- 标题部分 -->
+      <div
+        v-if="datas.name.length>0"
+        class="course-title d-flex align-items-center justify-content-between"
+      >
+        <div class="title">{{datas.name}}</div>
+        <div class="remore">查看更多</div>
+      </div>
+      <!-- 课程部分 -->
+      <div class="d-flex flex-wrap justify-content-between">
+        <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body2">
+          <div class="position-relative">
+            <div class="cr-img">
               <img v-lazy="dl.thumbnail" alt />
             </div>
-            <div class="w-100 position-absolute cl-men">
-              <span class="iconfont icon-remen"></span>
-              <span>2355人</span>
+            <div class="position-absolute play-num">
+              <span class="iconfont icon-play-circle"></span>
+              <span>386次</span>
             </div>
           </div>
-          <!-- 右边 -->
-          <div class="cour-right">
-            <div class="cr-text line-clamp2">{{dl.post_title}}</div>
-            <div class="cr-money d-flex justify-content-between">
-              <div class="renew">已更新109期</div>
-              <div>
-                <span v-if="dl.onzk" class="money0">￥&nbsp;{{dl.price}}</span>
-                <span class="money1">
-                  ￥&nbsp;
-                  <span class="money2">{{dl.money[0]}}</span>
-                  .{{dl.money[1]}}
-                </span>
-              </div>
+          <div class="cr-text line-clamp2">{{dl.post_title}}</div>
+          <div class="money-box">
+            <span v-if="dl.free" class="cr-free">免费</span>
+            <div v-else>
+              <span v-if="dl.onzk" class="money0">￥&nbsp;{{dl.price}}</span>
+              <span class="money1">
+                ￥&nbsp;
+                <span class="money2">{{dl.money[0]}}</span>
+                <span>.{{dl.money[1]}}</span>
+              </span>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- 免费章节 -->
-      <div v-if="datas.type==1" class="course-box2">
-        <!-- 标题部分 -->
-        <div class="course-title d-flex align-items-center justify-content-between">
-          <div class="title">{{datas.name}}</div>
-          <div class="remore">查看更多</div>
-        </div>
-        <!-- 课程部分 -->
-        <div class="d-flex flex-wrap justify-content-between">
-          <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body2">
-            <div class="position-relative">
-              <div class="cr-img">
-                <img v-lazy="dl.thumbnail" alt />
-              </div>
-              <div class="position-absolute play-num">
-                <span class="iconfont icon-play-circle"></span>
-                <span>386次</span>
-              </div>
-            </div>
-            <div class="cr-text line-clamp2">{{dl.post_title}}</div>
-            <div class="cr-free">免费</div>
           </div>
         </div>
       </div>
@@ -67,49 +85,68 @@
 <script>
 export default {
   data() {
-    return {
-      dataRe: this.datas
-    };
+    return {};
   },
   methods: {
     ChangeDate() {
-      let data = this.datas,
+      let data = this.datas.list,
         i;
-      console.log(data.list.length);
-      for (i = 0; i < data.list.length; i++) {
-        data.list[i].price = parseFloat(data.list[i].price);
-        data.list[i].money = parseFloat(data.list[i].money);
-        data.list[i].onzk = data.list[i].price > data.list[i].price;
-        data.list[i].price = data.list[i].price.toFixed(2);
-        data.list[i].money = data.list[i].money.toFixed(2).split(".");
+      for (i = 0; i < data.length; i++) {
+        data[i].price = parseFloat(data[i].price);
+        data[i].money = parseFloat(data[i].money);
+        if (data[i].money == 0 || isNaN(data[i].money)) {
+          data[i].free = true;
+          data[i].money = "免费";
+        } else {
+          data[i].onzk = data[i].price > data[i].price;
+          data[i].price = data[i].price.toFixed(2);
+          data[i].money = data[i].money.toFixed(2).split(".");
+        }
       }
     }
   },
   props: ["datas"],
   watch: {
-    datas: {
+    "datas.list": {
       immediate: true,
       handler: function(newV, oldV) {
         this.ChangeDate();
       }
     }
-  },
-  mounted() {
-    console.log(this.datas);
   }
 };
 </script>
 <style lang="scss" scoped>
-.course-box:last-child {
-  margin-bottom: 0;
+article {
+  padding: $pardon/2 $pardon;
+  background-color: #f7f7f7;
+}
+.cr-free {
+  color: $money;
+  font-weight: 700;
+}
+
+.money0 {
+  color: #919191;
+  font-size: 15px;
+  text-decoration: line-through;
+}
+.money1 {
+  color: $money;
+  font-size: 16px;
+  font-weight: bold;
+  .money2 {
+    font-size: 20px;
+  }
 }
 .course-box {
-  padding: 10px 17px;
+  margin: $pardon/2 0;
+  padding: $pardon/2;
   background-color: #fff;
   border-radius: 10px;
-  margin-bottom: 32px;
   .course-title {
-    padding: 14.5px 14.5px;
+    padding:$pardon/2;
+    border-bottom: 2px solid #f6f6f6;
     .title {
       font-size: 34px;
       color: #000;
@@ -123,15 +160,20 @@ export default {
   .course-body:hover {
     background-color: #f8f8f8;
   }
+  .course-body:last-child .course-body2 {
+    border-bottom: none;
+  }
   .course-body {
-    border-top: 2px solid #f6f6f6;
-    padding: 25px 10px 25px;
+    padding:0 $pardon/2;
     .cour-left {
       width: 212px;
       height: 162px;
       border-radius: 5px;
       .cl-img {
         height: 122px;
+        img {
+          width: 100%;
+        }
       }
       .cl-men {
         color: #838383;
@@ -157,21 +199,12 @@ export default {
         .renew {
           color: #999999;
         }
-        .money0 {
-          color: #919191;
-          font-size: 15px;
-          text-decoration: line-through;
-        }
-        .money1 {
-          color: #e8362b;
-          font-size: 16px;
-          font-weight: bold;
-          .money2 {
-            font-size: 20px;
-          }
-        }
       }
     }
+  }
+  .course-body2{
+    padding:$pardon/2 0;
+    border-bottom: 2px solid #f6f6f6;
   }
   .cr-text {
     font-size: 28px;
@@ -182,7 +215,7 @@ export default {
 
 .course-box2 {
   .course-title {
-    padding: 14.5px 10px 0;
+      padding: $pardon/2 0;
     .title {
       font-size: 34px;
       color: #000;
@@ -194,14 +227,17 @@ export default {
     }
   }
   .course-body2 {
-    width: 335px;
+    width: 334px;
     border-radius: 10px;
     background-color: #fff;
     overflow: hidden;
-    margin-top: 27px;
+    margin: $pardon/2 0;
     .cr-img {
       height: 172px;
       overflow: hidden;
+      img {
+        width: 100%;
+      }
     }
     .play-num {
       left: 18px;
@@ -216,10 +252,9 @@ export default {
       padding: 17px 18px 0 18px;
       height: 93px;
     }
-    .cr-free {
-      color: #da2b16;
-      font-size: 21px;
-      padding: 22px 18px;
+
+    .money-box {
+      padding: 21px;
     }
   }
   .cr-text {

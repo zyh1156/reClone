@@ -72,7 +72,7 @@ export default {
 }
 .trace2 {
   background-color: #fefefe;
-  padding: 10px 0;
+  padding: 9px 0;
   border-top: 2px solid #f4f4f4;
 }
 .menu-list {
@@ -89,7 +89,7 @@ export default {
     }
   }
   .active {
-    color: #ea4f25;
+    color: $theme;
   }
   .active + .active {
     color: #909090;

@@ -143,7 +143,7 @@ export default {
 <style lang="scss" scoped>
 // 搜索框
 .search-box {
-  padding: 18px 27px 0;
+  padding: 18px $pardon 0;
   .search-body {
     color: #c4c4c4;
     font-size: 24px;

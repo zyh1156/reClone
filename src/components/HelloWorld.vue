@@ -24,7 +24,7 @@
       </div>
     </div>
     <header2></header2>
-    <div class="gray-pack">
+    <div class="swiper-box">
       <!-- 轮播图 -->
       <div class="swiper-container">
         <div class="swiper-wrapper">
@@ -61,7 +61,7 @@
         </a>
       </div>
       <!-- 精选课 -->
-      <div @click="getData" class="choice d-flex justify-content-between">
+      <div class="choice d-flex justify-content-between">
         <div class="ch0">
           <div class="txt0 font-weight-bold">本周精选课</div>
           <div class="txt1">最强大脑记忆法</div>
@@ -149,7 +149,7 @@ export default {
     //   启动轮播
     this.toSwiper();
     // 获取数据
-    // this.getData();
+    this.getData();
   }
 };
 </script>
@@ -180,6 +180,10 @@ export default {
   margin-left: 12px;
   width: 20px;
 }
+.swiper-box{
+    padding: $pardon $pardon 0;
+    background-color: #f7f7f7;
+}
 // 轮播图
 .swiper-container {
   height: 235px;
@@ -187,12 +191,12 @@ export default {
   border-radius: 8px;
 }
 .choice {
-  padding: 27px;
+  padding: $pardon;
   margin-top: 27px;
   background-color: #fefefe;
   border-radius: 6px;
   .ch0 {
-    width: 420px;
+    width: 360px;
     .txt0 {
       font-size: 36px;
       color: #bb986a;
@@ -209,7 +213,7 @@ export default {
     }
   }
   .ch1 {
-    width: 192px;
+    width: 251.26px;
     height: 192px;
     overflow: hidden;
     border-radius: 10px;

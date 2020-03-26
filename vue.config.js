@@ -3,11 +3,11 @@ module.exports = {
         port: 80, // 端口
         proxy: {
             '/rotk': {
-              target: 'http://192.168.1.92/',
-              ws: true,
-              changeOrigin: true
+                target: 'http://192.168.1.92/',
+                ws: true,
+                changeOrigin: true
             }
-          }
+        }
     },
     lintOnSave: false,
     runtimeCompiler: true,
@@ -37,6 +37,9 @@ module.exports = {
                         utf8: false
                     })
                 ]
+            },
+            sass: {
+                prependData: `@import "@/assets/scss.scss";`
             }
         }
     }

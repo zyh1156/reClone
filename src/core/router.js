@@ -43,6 +43,16 @@ const router = new VueRouter({
             }]
         }]
     }, {
+        path: "/enroll",
+        component: reprint,
+        children: [{
+            path: ":enrollId",
+            component: reRouter("enroll/enroll-page")
+        }, {
+            path: "",
+            component: reRouter("enroll/index")
+        }]
+    }, {
         path: "/entry",
         component: reRouter("entry/index")
     }, {
