@@ -56,6 +56,13 @@ const router = new VueRouter({
         path: "/entry",
         component: reRouter("entry/index")
     }, {
+        path: "/live",
+        component: reprint,
+        children: [{
+            path: "",
+            component: reRouter("live/index")
+        }]
+    }, {
         path: "/search",
         component: reRouter("search/index")
     }, {

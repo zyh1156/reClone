@@ -12,35 +12,34 @@
       </div>
       <!-- 课程部分 -->
       <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body">
-          <div class="course-body2 d-flex">
-        <!-- 左边 -->
-        <div class="cour-left overflow-hidden position-relative text-center">
-          <div class="cl-img">
-            <img v-lazy="dl.thumbnail" alt />
+        <div class="course-body2 d-flex">
+          <!-- 左边 -->
+          <div class="cour-left overflow-hidden position-relative text-center">
+            <div class="cl-img">
+              <img v-lazy="dl.thumbnail" alt />
+            </div>
+            <div class="w-100 position-absolute cl-men">
+              <span class="iconfont icon-remen"></span>
+              <span>2355人</span>
+            </div>
           </div>
-          <div class="w-100 position-absolute cl-men">
-            <span class="iconfont icon-remen"></span>
-            <span>2355人</span>
-          </div>
-        </div>
-        <!-- 右边 -->
-        <div class="cour-right">
-          <div class="cr-text line-clamp2">{{dl.post_title}}</div>
-          <div class="cr-money d-flex justify-content-between">
-            <div class="renew">已更新109期</div>
-            <div v-if="dl.free" class="cr-free">免费</div>
-            <div v-else>
-              <span v-if="dl.onzk" class="money0">￥&nbsp;{{dl.price}}</span>
-              <span class="money1">
-                ￥&nbsp;
-                <span class="money2">{{dl.money[0]}}</span>
-                <span>.{{dl.money[1]}}</span>
-              </span>
+          <!-- 右边 -->
+          <div class="cour-right">
+            <div class="cr-text line-clamp2">{{dl.post_title}}</div>
+            <div class="cr-money d-flex justify-content-between">
+              <div class="renew">已更新109期</div>
+              <div v-if="dl.free" class="cr-free">免费</div>
+              <div v-else>
+                <span class="money0">￥{{dl.price}}</span>
+                <span class="money1">
+                  <span>￥&nbsp;</span>
+                  <span class="money2">{{dl.money[0]}}</span>
+                  <span>.{{dl.money[1]}}</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-              
-          </div>
       </div>
     </div>
     <!-- 横排章节 -->
@@ -69,12 +68,12 @@
           <div class="money-box">
             <span v-if="dl.free" class="cr-free">免费</span>
             <div v-else>
-              <span v-if="dl.onzk" class="money0">￥&nbsp;{{dl.price}}</span>
               <span class="money1">
-                ￥&nbsp;
+                <span>￥&nbsp;</span>
                 <span class="money2">{{dl.money[0]}}</span>
                 <span>.{{dl.money[1]}}</span>
               </span>
+              <span class="money0">￥{{dl.price}}</span>
             </div>
           </div>
         </div>
@@ -130,6 +129,7 @@ article {
   color: #919191;
   font-size: 15px;
   text-decoration: line-through;
+  padding: 0 $pardon/3;
 }
 .money1 {
   color: $money;
@@ -145,7 +145,7 @@ article {
   background-color: #fff;
   border-radius: 10px;
   .course-title {
-    padding:$pardon/2;
+    padding: $pardon/2;
     border-bottom: 2px solid #f6f6f6;
     .title {
       font-size: 34px;
@@ -164,7 +164,7 @@ article {
     border-bottom: none;
   }
   .course-body {
-    padding:0 $pardon/2;
+    padding: 0 $pardon/2;
     .cour-left {
       width: 212px;
       height: 162px;
@@ -197,13 +197,14 @@ article {
       .cr-money {
         margin-top: 50px;
         .renew {
+          font-size: 22px;
           color: #999999;
         }
       }
     }
   }
-  .course-body2{
-    padding:$pardon/2 0;
+  .course-body2 {
+    padding: $pardon/2 0;
     border-bottom: 2px solid #f6f6f6;
   }
   .cr-text {
@@ -215,7 +216,7 @@ article {
 
 .course-box2 {
   .course-title {
-      padding: $pardon/2 0;
+    padding: $pardon/2 0;
     .title {
       font-size: 34px;
       color: #000;

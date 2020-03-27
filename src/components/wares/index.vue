@@ -269,8 +269,7 @@ export default {
   }
 }
 .regrays {
-  padding: 27px 0 0;
-  background-color: #f0f0f0;
+  padding: $pardon 0 0;
 }
 .top-body {
   background-color: #fefefe;
@@ -362,25 +361,26 @@ export default {
   }
 }
 .coupon {
-        right: 27px;
-        bottom: 18px;
-    span{
-        padding: 6px;
-        border: 1px solid #e94e24;
-        background-color: #ec6541;
-        border-radius: 6px;
-        color: #fff;
-        font-size: 16px;
-    }
-    .aa{
-        border-right: 0;
-    }
-    .bb{
-        border-left: 0;
-    }
+  right: 27px;
+  bottom: 18px;
+  span {
+    padding: 6px;
+    border: 1px solid #e94e24;
+    background-color: #ec6541;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+  }
+  .aa {
+    border-right: 0;
+  }
+  .bb {
+    border-left: 0;
+  }
 }
 .desc-box {
   padding: 27px;
+  background-color: #fff;
   .txt0 {
     font-size: 32px;
     line-height: 1.31;
@@ -475,8 +475,11 @@ export default {
     .user-img {
       width: 64px;
       height: 64px;
-      border-radius: 32px;
       border: 1px solid #fff;
+      margin-right: $pardon/2;
+      img {
+        border-radius: 32px;
+      }
     }
     .db2-content {
       margin-top: 27px;

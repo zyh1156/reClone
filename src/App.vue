@@ -22,4 +22,8 @@ export default {
   font: 26px/1 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
     "WenQuanYi Micro Hei", sans-serif;
 }
+section{
+    background-color: #f8f8f8;
+    min-height: 100vh;
+}
 </style>

@@ -146,9 +146,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-section {
-  background-color: #f8f8f8;
-}
 .title {
   font-size: 40px;
   padding: 37px 30px 16px;

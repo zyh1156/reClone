@@ -1,15 +1,6 @@
 <template>
   <section>
-    <!-- 搜索框 -->
-    <div class="search-box">
-      <a href="/#/search" class="search-body d-flex align-items-center justify-content-center">
-        <span>
-          <img src="../../assets/search-ico.png" alt />
-        </span>
-        <span>搜索课程/专栏/直播间</span>
-      </a>
-    </div>
-
+    <search></search>
     <div class="swiper-box">
       <!-- 轮播图 -->
       <div class="swiper-container">
@@ -40,21 +31,15 @@
         <div class="swiper-pagination"></div>
       </div>
     </div>
-
+    <menulist></menulist>
     <div class="en-list">
-      <div class="en-title d-flex justify-content-between">
-        <div
-          :class="{'active':menuInx==inx}"
-          class="en-menu text-center position-relative"
-          v-for="(ml,inx) in menuList"
-          v-bind:key="inx"
-        >{{ml}}</div>
-      </div>
       <div v-for="i in 10" class="en-li d-flex">
         <div class="en-img overflow-hidden">
           <img src="../../assets/menu.jpg" alt />
         </div>
-        <div class="en-con align-items-center d-flex align-items-center flex-wrap">
+        <div
+          class="en-con align-items-center align-content-around d-flex align-items-center flex-wrap"
+        >
           <div class="txt0 font-weight-bold w-100">语文学习技巧公开课</div>
           <div class="txt1 w-100">免费技工技术文档</div>
           <div class="txt2 d-flex w-100 justify-content-between">
@@ -80,6 +65,8 @@
   </section>
 </template>
 <script>
+import search from "../cube/search";
+import menulist from "../cube/menulist";
 import foot from "../cube/footer";
 import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
@@ -91,6 +78,8 @@ export default {
     };
   },
   components: {
+    search,
+    menulist,
     foot
   },
   methods: {
@@ -110,24 +99,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// 搜索框
-.search-box {
-  padding: 18px $pardon 0;
-  .search-body {
-    color: #c4c4c4;
-    font-size: 24px;
-    background-color: #f8f8f8;
-    height: 58px;
-    padding: 16px 0;
-    border-radius: 29px;
-    img {
-      height: 26px;
-      margin-right: 18px;
-    }
-  }
-}
 .swiper-box {
-  padding: $pardon;
+  padding: $pardon/2 $pardon;
+    background-color: #fff;
 }
 // 轮播图
 .swiper-container {
@@ -136,34 +110,40 @@ export default {
   border-radius: 13px;
 }
 
-.en-list {
-  padding: 0 $pardon $pardon;
-  .en-title {
-    .en-menu {
-      color: #626262;
-      width: 140px;
-      height: 50px;
-    }
-    .active {
-      color: #4d4d4d;
-      font-weight: 700;
-    }
-    .active::after {
-      content: "";
-      width: 68px;
-      height: 4px;
-      position: absolute;
-      bottom: 0;
-      left: 36px;
-      background-color: $theme-bor;
-      border-radius: 4px 4px 0 0;
-    }
+.en-title {
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: $pardon/2 $pardon;
+  .en-menu {
+    color: #626262;
+    width: 140px;
+    height: 36.5px;
   }
-  .en-li:last-child{
-      border-bottom: none;
+  .active {
+    color: #4d4d4d;
+    font-weight: 700;
+  }
+  .active::after {
+    content: "";
+    width: 68px;
+    height: 4px;
+    position: absolute;
+    bottom: -$pardon/4;
+    left: 36px;
+    background-color: $theme-bor;
+    border-radius: 4px 4px 0 0;
+  }
+}
+.en-list {
+  padding: $pardon/2 $pardon;
+    background-color: #fff;
+  .en-li:last-child {
+    border-bottom: none;
   }
   .en-li {
-    padding: 17px 0;
+    padding: $pardon/2 0;
     border-bottom: 1px solid #e2e2e2;
     .en-img {
       width: 218px;

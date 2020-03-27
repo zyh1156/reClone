@@ -177,6 +177,7 @@ export default {
 }
 .money-pean {
   padding: 35px 27px;
+  background-color: #fff;
   .tit {
     font-size: 32px;
   }
@@ -233,6 +234,7 @@ export default {
 }
 .en-share {
   padding: 27px 27px 0;
+  background-color: #fff;
   .tit {
     font-size: 22px;
   }
@@ -288,7 +290,6 @@ export default {
 }
 .en-visi {
   padding: 18px 0;
-  background-color: #f4f4f4;
   .ev-body {
     padding: 0 27px;
     background-color: #fff;
@@ -343,6 +344,7 @@ export default {
   }
 }
 .en-panel {
+    background-color: #fff;
   .title {
     padding: 27px 0;
     border-bottom: 1px solid #e2e2e2;

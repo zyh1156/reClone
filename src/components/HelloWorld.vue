@@ -23,7 +23,8 @@
         </div>
       </div>
     </div>
-    <header2></header2>
+    <search></search>
+    <menulist></menulist>
     <div class="swiper-box">
       <!-- 轮播图 -->
       <div class="swiper-container">
@@ -79,13 +80,13 @@
     <showcase :datas="hotCourse"></showcase>
     <!-- 免费课程 -->
     <showcase :datas="freeCourse"></showcase>
-    <div class="hello-shadow"></div>
     <!-- 底脚 -->
     <footer2></footer2>
   </section>
 </template>
 <script>
-import header2 from "./cube/header";
+import search from "./cube/search";
+import menulist from "./cube/menulist";
 import footer2 from "./cube/footer";
 import showcase from "./cube/showcase";
 import Swiper from "swiper";
@@ -142,7 +143,8 @@ export default {
   },
   components: {
     footer2,
-    header2,
+    search,
+    menulist,
     showcase
   },
   mounted() {
@@ -263,10 +265,6 @@ export default {
   .m5-box:nth-child(5) .m5-ico {
     background-image: url(../assets/icon/5.png);
   }
-}
-.hello-shadow {
-  background-color: #f7f7f7;
-  height: 90px;
 }
 // 动画
 @keyframes iconKF {

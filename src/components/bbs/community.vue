@@ -127,9 +127,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-section {
-  background-color: #f8f8f8;
-}
 .bigbac {
   background: url(../../assets/swiper/00.png);
   background-size: 100% auto;

@@ -1,5 +1,5 @@
 <template>
-  <section class="col-f8">
+  <section>
     <!-- 资料页 -->
     <div class="user-data position-relative">
       <div class="d-flex align-items-center">
@@ -171,9 +171,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.col-f8 {
-  background-color: #f8f8f8;
-}
 .user-data {
   padding-top: 36px;
   .user-img {
