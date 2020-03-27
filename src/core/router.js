@@ -59,12 +59,33 @@ const router = new VueRouter({
         path: "/live",
         component: reprint,
         children: [{
+            path: ":zoneid",
+            component: reprint,
+            children: [{
+                path: "channel",
+                component: reRouter("live/channel"),
+                name: "channel"
+            }, {
+                path: "",
+                component: reRouter("live/zone")
+            }]
+        }, {
             path: "",
             component: reRouter("live/index")
         }]
     }, {
         path: "/search",
         component: reRouter("search/index")
+    }, {
+        path: "/shop",
+        component: reprint,
+        children: [{
+            path: ":shopid",
+            component: reRouter("shop/index")
+        }, {
+            path: "",
+            redirect: "/"
+        }]
     }, {
         path: "/study",
         component: reRouter("study/index"),
@@ -93,11 +114,11 @@ const router = new VueRouter({
         path: "/wares",
         component: reprint,
         children: [{
-            path: "",
-            redirect: "/search"
-        }, {
             path: ":waresid",
             component: reRouter("wares/index")
+        }, {
+            path: "",
+            redirect: "/search"
         }]
     }, {
         path: "*",

@@ -67,6 +67,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+section{
+    background-color: #fff;
+}
 .search-box {
   padding: 18px 27px;
 }

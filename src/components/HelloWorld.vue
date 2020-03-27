@@ -24,7 +24,7 @@
       </div>
     </div>
     <search></search>
-    <menulist></menulist>
+    <menulist :mlist="menuLists" :menuInx="menuInx" @tapset="setMenu"></menulist>
     <div class="swiper-box">
       <!-- 轮播图 -->
       <div class="swiper-container">
@@ -55,8 +55,8 @@
         <div class="swiper-pagination"></div>
       </div>
       <!-- 课程列表 -->
-      <div class="menu-5 d-flex">
-        <a :href="m5.url" class="m5-box text-center" v-for="(m5,inx) in menu5" v-bind:key="inx">
+      <div class="menu-5 d-flex justify-content-around">
+        <a :href="m5.url" class="m5-box text-center flex-grow-1" v-for="(m5,inx) in menu5" v-bind:key="inx">
           <div class="d-inline-block m5-ico"></div>
           <div class="m5-txt">{{m5.title}}</div>
         </a>
@@ -112,7 +112,9 @@ export default {
         list: [],
         type: 0
       },
-      menu5: []
+      menu5: [],
+      menuLists: [{text:"首页"},{text:"首页"},{ text: "首页", children: ["古法养生", "东方红"] }],
+      menuInx: [0, 0]
     };
   },
   methods: {
@@ -139,6 +141,9 @@ export default {
           that.$set(that.freeCourse, "list", res.data.data.mf_goods);
         }
       });
+    },
+    setMenu(val){
+        console.log(val);
     }
   },
   components: {
@@ -182,9 +187,9 @@ export default {
   margin-left: 12px;
   width: 20px;
 }
-.swiper-box{
-    padding: $pardon $pardon 0;
-    background-color: #f7f7f7;
+.swiper-box {
+  padding: $pardon $pardon 0;
+  background-color: #f7f7f7;
 }
 // 轮播图
 .swiper-container {
@@ -219,23 +224,21 @@ export default {
     height: 192px;
     overflow: hidden;
     border-radius: 10px;
-    .ico-play{
-        right: 10px;
-        bottom: 10px;
-        color: #fff;
-        font-size: 66px;
+    .ico-play {
+      right: 10px;
+      bottom: 10px;
+      color: #fff;
+      font-size: 66px;
     }
   }
 }
 .menu-5 {
-  margin-top: 16px;
+    margin-top: $pardon;
   .m5-box:hover {
     background-color: #d0d0d0;
     border-radius: 16px;
   }
   .m5-box {
-    padding: 16px;
-    width: 20%;
     text-decoration: none;
     .m5-ico {
       border-radius: 22px;

@@ -33,7 +33,7 @@
     </div>
     <menulist></menulist>
     <div class="en-list">
-      <div v-for="i in 10" class="en-li d-flex">
+      <div v-for="i in 10" v-bind:key="i" class="en-li d-flex">
         <div class="en-img overflow-hidden">
           <img src="../../assets/menu.jpg" alt />
         </div>

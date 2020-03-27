@@ -1,20 +1,27 @@
 <template>
   <!-- 菜单栏 -->
-  <article class="menu-box">
-    <div class="en-title overflow-auto d-flex justify-content-between">
-      <div
-        :class="{'active':menuInx==inx}"
-        class="en-menu flex-shrink-0 text-center position-relative"
-        v-for="(ml,inx) in menuList"
-        v-bind:key="inx"
-        @click="menuInx=inx"
-      >
-        <div class="em-body text-truncate">{{ml}}</div>
+  <article>
+    <div class="menu-box">
+      <div class="en-title overflow-auto d-flex">
+        <div
+          :class="{'active':menuSet[0]==inx}"
+          class="en-menu flex-grow-1 flex-shrink-0 text-center position-relative"
+          v-for="(ml,inx) in mlist"
+          v-bind:key="inx"
+          @click="tapMenu(inx,0)"
+        >{{ml.text}}</div>
       </div>
-    </div>
-    <div class="en-title2 overflow-auto d-flex">
-      <div v-for="i in 10" class="en-menu flex-shrink-0">
-        <div class="em-body active">骨发扬生</div>
+      <div v-for="(ml,inx) in mlist" v-bind:key="inx">
+        <div v-if="menuSet[0]==inx" class="en-title2 overflow-auto d-flex">
+          <div
+            v-for="(ml2,inx2) in ml.children"
+            @click="tapMenu(inx2,1)"
+            v-bind:key="inx2"
+            class="en-menu flex-shrink-0"
+          >
+            <div class="em-body" :class="{'active':menuSet[1]==inx2}">{{ml2}}</div>
+          </div>
+        </div>
       </div>
     </div>
   </article>
@@ -24,20 +31,13 @@ import $ from "jquery";
 export default {
   data() {
     return {
-      menuList: [
-        "热门活动",
-        "培训机构",
-        "线上教程",
-        "热门活动",
-        "培训机构",
-        "线上教程"
-      ],
-      menuInx: 0
+      menuSet: this.menuinx || [0, 0]
     };
   },
   mounted() {
     this.toTop();
   },
+  props: ["mlist", "menuinx"],
   methods: {
     toTop() {
       let t = $(".menu-box").offset().top,
@@ -50,11 +50,25 @@ export default {
           $(".menu-box").css("position", "relative");
         }
       });
+    },
+    tapMenu(x, y) {
+      if (y) {
+        this.$set(this.menuSet, 1, x);
+      } else {
+        this.menuSet = [x, 0];
+      }
+      this.$emit("tapset", this.menuSet);
     }
+  },
+  mounted() {
+    this.toTop();
   }
 };
 </script>
 <style lang="scss" scoped>
+article{
+    min-height: 64px;
+}
 // 菜单
 .menu-box {
   left: 0;
@@ -62,13 +76,15 @@ export default {
   width: 100%;
   z-index: 100;
   background-color: #fff;
+  box-shadow: 0 10px 10px #f2f2f2;
+  position: relative;
 }
 .en-title {
   padding: $pardon/2;
   .en-menu {
     color: #626262;
-    width: 144.6px;
-    height: 36.5px;
+    line-height: 1.4;
+    padding:0 40px;
     white-space: nowrap;
   }
   .active {
@@ -87,9 +103,11 @@ export default {
   }
 }
 .en-title2 {
-  padding: $pardon/2;
+  .en-menu:first-child {
+    padding-left: $pardon;
+  }
   .en-menu {
-    padding: 0 $pardon/2;
+    padding: $pardon/2;
     .em-body {
       border-radius: 25px;
       padding: 12px 30px;
