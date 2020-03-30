@@ -391,3 +391,16 @@ img {
     -webkit-transform: translateY(0);
     transform: translateY(0);
 }
+.weui-half-screen-dialog{
+    width: 696px;
+    left: 27px;
+    bottom: 27px;
+    border-radius: 40px;
+    padding: 0;
+}
+.weui-half-screen-dialog__bd{
+    padding: 0;
+}
+.weui-half-screen-dialog__ft{
+    padding: 0;
+}

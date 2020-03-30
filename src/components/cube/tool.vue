@@ -8,8 +8,9 @@
       <div class="js_dialog" id="iosDialog2" style="display: none;">
         <div class="weui-mask"></div>
         <div id="js_dialog_2" class="weui-half-screen-dialog">
-          <div class="weui-half-screen-dialog__hd">
-            <div class="d-none weui-half-screen-dialog__hd__side">
+          <!-- 头部 -->
+          <div class="d-none weui-half-screen-dialog__hd">
+            <div class="weui-half-screen-dialog__hd__side">
               <button style="display: none;" class="weui-icon-btn">
                 返回
                 <i class="weui-icon-back-arrow-thin"></i>
@@ -23,20 +24,30 @@
               <strong class="weui-half-screen-dialog__title">标题</strong>
               <span class="weui-half-screen-dialog__subtitle">标题</span>
             </div>
-            <div class="d-none weui-half-screen-dialog__hd__side">
+            <div class="weui-half-screen-dialog__hd__side">
               <button class="weui-icon-btn">
                 更多
                 <i class="weui-icon-more"></i>
               </button>
             </div>
           </div>
+          <!-- 主体 -->
           <div class="weui-half-screen-dialog__bd">
-            <p class="weui-half-screen-dialog__desc">辅助描述内容，可根据实际需要安排</p>
-            <p class="weui-half-screen-dialog__tips">辅助提示内容，可根据实际需要安排</p>
+            <div class="d-flex justify-content-between flex-wrap t-box">
+              <a
+                :href="ml.url"
+                v-for="(ml,inx) in menuList"
+                v-bind:key="inx"
+                class="t-con text-center"
+              >
+                <div class="t-ico iconfont" :class="ml.classObj"></div>
+                <div class="t-txt">{{ml.text}}</div>
+              </a>
+            </div>
           </div>
+          <!-- 底部 -->
           <div class="weui-half-screen-dialog__ft">
-            <a href="javascript:" class="weui-btn weui-btn_default">辅助操作</a>
-            <a href="javascript:" class="weui-btn weui-btn_primary">主操作</a>
+            <div class="close">关闭</div>
           </div>
         </div>
       </div>
@@ -47,7 +58,44 @@
 import $ from "jquery";
 export default {
   data() {
-    return {};
+    return {
+      menuList: [
+        {
+          classObj: "icon-shouye",
+          text: "首页",
+          url: "/#/"
+        },
+
+        {
+          classObj: "icon-icon_service",
+          text: "咨询"
+        },
+        {
+          classObj: "icon-shoucang",
+          text: "收藏"
+        },
+        {
+          classObj: "icon-fenxiang",
+          text: "邀请卡"
+        },
+        {
+          classObj: "icon-tanhao",
+          text: "投诉"
+        },
+        {
+          classObj: "icon-lipinka",
+          text: "赠好友"
+        },
+        {
+          classObj: "icon-shouye",
+          text: "邀请卡"
+        },
+        {
+          classObj: "icon-shouye",
+          text: "邀请卡"
+        }
+      ]
+    };
   },
   mounted() {
     var $dialog1 = $("#js_dialog_1"),
@@ -65,11 +113,15 @@ export default {
       $dialog1.removeClass("weui-half-screen-dialog_show");
       $dialog2.removeClass("weui-half-screen-dialog_show");
     });
+    $(".close").on("click", function() {
+      $(".weui-mask").click();
+    });
   }
 };
 </script>
 <style lang="scss" scoped>
 .tool-btn {
+    cursor: pointer;
   color: #999;
   width: 98px;
   height: 98px;
@@ -77,7 +129,7 @@ export default {
   right: $pardon;
   bottom: $pardon * 5;
   background-color: #fff;
-  box-shadow: 0 0 10px $theme;
+  box-shadow: 0 0 10px #ededed;
   .txt0 {
     margin-top: 17px;
     font-size: 37px;
@@ -86,5 +138,62 @@ export default {
     margin-top: 7px;
     font-size: 20px;
   }
+}
+.t-box {
+  padding: 20px 25px;
+  .t-con {
+    margin: 10px 12.5px;
+    padding: 10px 12.5px;
+    .t-txt {
+      color: #636363;
+      font-size: 22px;
+      margin-top: 16px;
+    }
+    .t-ico {
+      width: 108px;
+      height: 108px;
+      border-radius: 12px;
+      font-size: 55px;
+      color: #fff;
+      line-height: 108px;
+    }
+  }
+  .t-con:hover {
+    cursor: pointer;
+    border-radius: 6px;
+    background-color: #eee;
+    text-decoration: none;
+  }
+  .t-con:nth-child(1) .t-ico {
+    background-color: #eb5658;
+  }
+  .t-con:nth-child(2) .t-ico {
+    background-color: #82d272;
+  }
+  .t-con:nth-child(3) .t-ico {
+    background-color: #e1e1e1;
+  }
+  .t-con:nth-child(4) .t-ico {
+    background-color: #eb5658;
+  }
+  .t-con:nth-child(5) .t-ico {
+    background-color: #82b2f8;
+  }
+  .t-con:nth-child(6) .t-ico {
+    background-color: #f4bd49;
+  }
+  .t-con:nth-child(7) .t-ico {
+    background-color: #eb5658;
+  }
+  .t-con:nth-child(8) .t-ico {
+    background-color: #eb5658;
+  }
+}
+.close {
+  cursor: pointer;
+  border-top: 1px solid #f4f4f4;
+  color: #484848;
+  font-size: 30px;
+  padding: 34px 0;
 }
 </style>

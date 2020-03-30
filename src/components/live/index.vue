@@ -2,7 +2,7 @@
   <section>
     <menulist :mlist="mlist"></menulist>
     <div class="live-list">
-        <div class="live-li d-flex" v-for="i in 10">
+        <div class="live-li d-flex" v-bind:key="i" v-for="i in 10">
             <div class="li-img overflow-hidden position-relative">
                 <div class="position-absolute status">回放</div>
                 <div class="position-absolute user">临川网校</div>

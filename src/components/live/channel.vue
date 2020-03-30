@@ -1,12 +1,12 @@
 <template>
   <section>
     <!-- 视频框 -->
-    <div class="lc-video overflow-hidden">
+    <div class="lc-video position-relative overflow-hidden">
       <img src="../../assets/swiper/00.png" alt />
     </div>
     <!-- 聊天框 -->
     <div class="lc-chat overflow-auto">
-      <div v-for="i in 10" class="d-flex chat-box">
+      <div v-for="i in 10" v-bind:key="i" class="d-flex chat-box">
         <!-- 头像 -->
         <div class="img">
           <img src="../../assets/menu.jpg" alt />
@@ -26,12 +26,17 @@
     <div class="lc-input position-fixed w-100">
       <input type="text" placeholder="来说点什么吧..." />
     </div>
+    <tool></tool>
   </section>
 </template>
 <script>
+import tool from "../cube/tool";
 export default {
   data() {
     return {};
+  },
+  components: {
+    tool
   }
 };
 </script>
@@ -39,11 +44,12 @@ export default {
 .lc-video {
   height: 320px;
   border-bottom: 2px solid #dbdde1;
+  box-shadow: 0 6px 6px #dedede;
 }
 .lc-chat {
   height: calc(100vh - 320px);
   background-color: #f5f6f6;
-  padding: 9px 18px 90px;
+  padding: 18px 18px 118px;
   .chat-box {
     padding: 9px 0;
     .img {
@@ -83,6 +89,7 @@ export default {
   left: 0;
   padding: $pardon/2;
   background-color: #fff;
+  box-shadow: 0 -6px 6px #dedede;
   input {
     width: 100%;
     border: 2px solid #e2e2e2;
