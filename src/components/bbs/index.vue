@@ -1,34 +1,6 @@
 <template>
   <section>
-    <!-- 标题栏 -->
-    <div class="title font-weight-bold">我的社区</div>
-    <!-- 社区列表 -->
-    <div class="my-list d-flex flex-wrap">
-      <a :href="ml.url" class="ml-box text-center" v-for="(ml,inx) in myList" v-bind:key="inx">
-        <div class="ml-img">
-          <img v-lazy="ml.img" alt />
-        </div>
-        <div class="ml-name text-truncate">{{ml.txt}}</div>
-      </a>
-    </div>
-    <!-- 广告位 -->
-    <div class="advert">
-      <div class="advert-box d-flex justify-content-between align-items-center">
-        <!-- logo -->
-        <div class="logo">
-          <img src="../../assets/menu.jpg" alt />
-        </div>
-        <!-- 内容 -->
-        <div class="content">
-          <div class="tit">轻小云</div>
-          <div class="con">回复数字“0”，扫码关注公众号</div>
-        </div>
-        <!-- 关注 -->
-        <div class="follow text-center">关注</div>
-      </div>
-    </div>
-    <!-- 标题栏 -->
-    <div class="title font-weight-bold">推荐社区</div>
+    <search></search>
     <!-- 列表部分 -->
     <div class="list-content" v-for="(l,inx) in list" v-bind:key="inx">
       <div class="panpel">
@@ -61,6 +33,7 @@
   </section>
 </template>
 <script>
+import search from "../cube/search"
 import footer2 from "../cube/footer";
 export default {
   data() {
@@ -141,71 +114,12 @@ export default {
     };
   },
   components: {
-    footer2
+    footer2,
+    search
   }
 };
 </script>
 <style lang="scss" scoped>
-.title {
-  font-size: 40px;
-  padding: 37px 30px 16px;
-}
-.my-list {
-  padding:0 35px;
-  .ml-box{
-      width: 136px;
-      padding:6px 0;
-  }
-  .ml-img {
-    img {
-      width: 113px;
-      height: 113px;
-      border-radius: 50%;
-    }
-  }
-  .ml-name {
-    margin-top: 24px;
-    font-size: 22px;
-    color: #080808;
-  }
-}
-.advert {
-  padding: 27px 30px 10px;
-  .advert-box {
-    background-color: #fefefe;
-    padding: 0 19px;
-    height: 140px;
-    border-radius: 70px;
-  }
-  .logo {
-    img {
-      width: 114px;
-      height: 114px;
-      border-radius: 57px;
-    }
-  }
-  .content {
-    padding: 0 7px;
-    width: 390px;
-    .tit {
-      color: black;
-    }
-    .con {
-      font-size: 22px;
-      margin-top: 22px;
-      color: #9f9f9f;
-    }
-  }
-  .follow {
-    width: 146px;
-    height: 60px;
-    font-size: 30px;
-    line-height: 60px;
-    border-radius: 30px;
-    border: 1px solid #f3c93a;
-    background-color: #f4d054;
-  }
-}
 .list-content {
   padding: 20px 27px;
   .panpel {

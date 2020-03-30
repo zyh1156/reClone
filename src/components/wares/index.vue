@@ -157,12 +157,15 @@
     <div class="money-box w-100 position-fixed">
       <div class="nowshop text-center">
         <span class="aa">券后价：￥69.00</span>
+        &nbsp;&nbsp;
         <span class="bb">￥99.00</span>
       </div>
     </div>
+    <tool></tool>
   </section>
 </template>
 <script>
+import tool from "../cube/tool"
 export default {
   data() {
     return {
@@ -243,6 +246,9 @@ export default {
   },
   mounted() {
     this.getData();
+  },
+  components:{
+      tool
   }
 };
 </script>
@@ -511,8 +517,8 @@ export default {
   bottom: 0;
   left: 0;
   background-color: #fefefe;
-  border-top: 2px solid #f9f9f9;
-  box-shadow: 10px -10px 10px #f9f9f9;
+  border-top: 2px solid #f2f2f2;
+  box-shadow:0 -10px 10px #f2f2f2;
   .nowshop {
     color: #fff;
     height: 84px;
