@@ -69,13 +69,7 @@
     <div class="regrays">
       <!-- 标题 -->
       <div class="d-flex top-body">
-        <div
-          :class="{'active':inx==menuInx}"
-          class="nav text-center"
-          v-for="(ml,inx) in menuList"
-          v-bind:key="inx"
-          @click="menuChange(inx)"
-        >{{ml}}</div>
+        <menul :mlist="menuList" @tapset="setMenu"></menul>
       </div>
       <!-- 内容 -->
       <div class="desc-body">
@@ -152,6 +146,9 @@
         </div>
       </div>
     </div>
+    <div class="shop-mt">
+      <shopt></shopt>
+    </div>
     <!-- 价格部分 -->
     <div class="money-boxs"></div>
     <div class="money-box w-100 position-fixed">
@@ -165,12 +162,18 @@
   </section>
 </template>
 <script>
-import tool from "../cube/tool"
+import menul from "../cube/menulist";
+import shopt from "../cube/shoptitle";
+import tool from "../cube/tool";
 export default {
   data() {
     return {
-      menuList: ["课程介绍", "听课列表", "学员心得"],
-      menuInx: 2,
+      menuList: [
+        { text: "课程介绍" },
+        { text: "听课列表" },
+        { text: "学员心得" }
+      ],
+      menuInx: 0,
       wares: {
         //   介绍列表
         introduce: [
@@ -240,15 +243,17 @@ export default {
     getData() {
       let id = this.$route.params.waresid;
     },
-    menuChange(inx) {
-      this.menuInx = inx;
+    setMenu(val){
+      this.menuInx = val[0];
     }
   },
   mounted() {
     this.getData();
   },
-  components:{
-      tool
+  components: {
+    shopt,
+    tool,
+    menul
   }
 };
 </script>
@@ -280,30 +285,6 @@ export default {
 .top-body {
   background-color: #fefefe;
   border-bottom: 1px solid #f7f7f7;
-  .nav {
-    color: #959595;
-    width: 250px;
-    font-size: 24px;
-    height: 84px;
-    line-height: 84px;
-  }
-  .nav.active {
-    color: #272727;
-    font-weight: bold;
-    font-size: 28px;
-    position: relative;
-  }
-  .nav.active::after {
-    position: absolute;
-    content: "";
-    left: 121px;
-    bottom: 3px;
-    width: 36px;
-    height: 8px;
-    border: 1px solid #e95026;
-    background-color: #ec6541;
-    border-radius: 4px;
-  }
 }
 .discount {
   height: 90px;
@@ -509,8 +490,11 @@ export default {
     }
   }
 }
+.shop-mt {
+  margin-top: $pardon;
+}
 .money-boxs {
-  height: 96px;
+  height: 260px;
 }
 .money-box {
   padding: 6px 27px;
@@ -518,7 +502,7 @@ export default {
   left: 0;
   background-color: #fefefe;
   border-top: 2px solid #f2f2f2;
-  box-shadow:0 -10px 10px #f2f2f2;
+  box-shadow: 0 -10px 10px #f2f2f2;
   .nowshop {
     color: #fff;
     height: 84px;

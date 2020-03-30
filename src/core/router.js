@@ -11,6 +11,7 @@ function reRouter(to) {
 }
 
 const router = new VueRouter({
+    savedPosition: true,
     routes: [{
         path: "/",
         component: HelloWorld,
@@ -43,13 +44,14 @@ const router = new VueRouter({
             }]
         }]
     }, {
-        path: "/enroll",
+        path: '/enroll',
         component: reprint,
         children: [{
-            path: ":enrollId",
-            component: reRouter("enroll/enroll-page")
+            path: ':enrollid',
+            component: reRouter("enroll/enrollpage"),
+            name:'enroll'
         }, {
-            path: "",
+            path: '',
             component: reRouter("enroll/index")
         }]
     }, {
@@ -81,7 +83,8 @@ const router = new VueRouter({
         component: reprint,
         children: [{
             path: ":shopid",
-            component: reRouter("shop/index")
+            component: reRouter("shop/index"),
+            name: 'shop'
         }, {
             path: "",
             redirect: "/"
@@ -115,7 +118,8 @@ const router = new VueRouter({
         component: reprint,
         children: [{
             path: ":waresid",
-            component: reRouter("wares/index")
+            component: reRouter("wares/index"),
+            name: 'wares'
         }, {
             path: "",
             redirect: "/search"
@@ -123,7 +127,14 @@ const router = new VueRouter({
     }, {
         path: "*",
         component: err404
-    }]
+    }],
+    scrollBehavior(to, from, savedPosition) {
+        // 滚动条置顶
+        return {
+            x: 0,
+            y: 0
+        }
+    }
 })
 
 router.beforeEach((to, from, next) => {

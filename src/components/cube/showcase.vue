@@ -1,3 +1,16 @@
+<!-- 
+datas:{
+    name:"",
+    list:{
+        id:"",
+        thumbnail:"",//配图
+        post_title:"",//标题
+        price:"",//原价
+        money:"",//现价
+    },
+    type:0
+}
+ -->
 <template>
   <article>
     <!-- 竖排章节 -->
@@ -11,11 +24,16 @@
         <div class="remore">查看更多</div>
       </div>
       <!-- 课程部分 -->
-      <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body">
+      <router-link
+        :to="{name:'wares',params:{waresid:123}}"
+        v-for="(dl,inx) in datas.list"
+        v-bind:key="inx"
+        class="course-body d-block"
+      >
         <div class="course-body2 d-flex">
           <!-- 左边 -->
           <div class="cour-left overflow-hidden position-relative text-center">
-            <div class="cl-img">
+            <div class="cl-img overflow-hidden">
               <img v-lazy="dl.thumbnail" alt />
             </div>
             <div class="w-100 position-absolute cl-men">
@@ -40,7 +58,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
     <!-- 横排章节 -->
     <div v-if="datas.type==1" class="course-box2">
@@ -54,7 +72,13 @@
       </div>
       <!-- 课程部分 -->
       <div class="d-flex flex-wrap justify-content-between">
-        <div v-for="(dl,inx) in datas.list" v-bind:key="inx" class="course-body2">
+        <!-- begin -->
+        <router-link
+          :to="{name:'wares',params:{waresid:123}}"
+          v-for="(dl,inx) in datas.list"
+          v-bind:key="inx"
+          class="course-body2 d-block"
+        >
           <div class="position-relative">
             <div class="cr-img">
               <img v-lazy="dl.thumbnail" alt />
@@ -76,7 +100,8 @@
               <span class="money0">￥{{dl.price}}</span>
             </div>
           </div>
-        </div>
+        </router-link>
+        <!-- end -->
       </div>
     </div>
   </article>
@@ -93,9 +118,10 @@ export default {
       for (i = 0; i < data.length; i++) {
         data[i].price = parseFloat(data[i].price);
         data[i].money = parseFloat(data[i].money);
+        data[i].free = false;
+        data[i].money = "免费";
         if (data[i].money == 0 || isNaN(data[i].money)) {
           data[i].free = true;
-          data[i].money = "免费";
         } else {
           data[i].onzk = data[i].price > data[i].price;
           data[i].price = data[i].price.toFixed(2);
@@ -140,7 +166,6 @@ article {
   }
 }
 .course-box {
-  margin: $pardon/2 0;
   padding: $pardon/2;
   background-color: #fff;
   border-radius: 10px;
@@ -158,6 +183,7 @@ article {
     }
   }
   .course-body:hover {
+    text-decoration: none;
     background-color: #f8f8f8;
   }
   .course-body:last-child .course-body2 {
@@ -192,6 +218,7 @@ article {
       width: 430px;
       padding: 0 0 0 20px;
       .cr-text {
+        color: #343434;
         height: 78px;
       }
       .cr-money {
@@ -208,6 +235,7 @@ article {
     border-bottom: 2px solid #f6f6f6;
   }
   .cr-text {
+    color: #343434;
     font-size: 28px;
     line-height: 1.43;
     font-weight: bold;
@@ -250,6 +278,7 @@ article {
       }
     }
     .cr-text {
+      color: #343434;
       padding: 17px 18px 0 18px;
       height: 93px;
     }
@@ -259,6 +288,7 @@ article {
     }
   }
   .cr-text {
+    color: #343434;
     font-size: 28px;
     line-height: 1.43;
     font-weight: bold;

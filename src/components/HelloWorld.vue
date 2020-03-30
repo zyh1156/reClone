@@ -56,7 +56,12 @@
       </div>
       <!-- 课程列表 -->
       <div class="menu-5 d-flex justify-content-around">
-        <a :href="m5.url" class="m5-box text-center flex-grow-1" v-for="(m5,inx) in menu5" v-bind:key="inx">
+        <a
+          :href="m5.url"
+          class="m5-box text-center flex-grow-1"
+          v-for="(m5,inx) in menu5"
+          v-bind:key="inx"
+        >
           <div class="d-inline-block m5-ico"></div>
           <div class="m5-txt">{{m5.title}}</div>
         </a>
@@ -113,7 +118,7 @@ export default {
         type: 0
       },
       menu5: [],
-      menuLists: [{text:"首页"},{text:"首页"},{ text: "首页", children: ["古法养生", "东方红"] }],
+      menuLists: [],
       menuInx: [0, 0]
     };
   },
@@ -129,21 +134,78 @@ export default {
     },
     getData() {
       let loading = this.weui.loading("获取中"),
-        that = this;
+        that = this,
+        data;
+    //   this.axios
+    //     .post("http://192.168.1.92/api/user/public/login", {
+    //       username: "15387871422",
+    //       password: "123456",
+    //       device_type: "mobile",
+    //       headers: {
+    //         "XX-Token": "",
+    //         "XX-Device-Type": "mobile",
+    //         "XX-Api-Version": "1.0.0"
+    //       }
+    //     })
+    //     .then(res => {
+    //       console.log(res);
+    //     });
+    this.axios2.post("http://192.168.1.92/api/user/public/login",{},res=>{
+        console.log(res);
+    });
+    let b=this.axios2;
+    console.log(b);
+    return;
+      this.axios
+        .post(
+          "http://192.168.1.92/api/user/index/index",
+          {
+            username: "15387871422",
+            password: "123456",
+            device_type: "mobile"
+          },
+          {
+            headers: {
+              "XX-Token":
+                "80b225ce8cd0942a0b05125d404c788076fe03014803ad0e1e6ffcad88c65aed",
+              "XX-Device-Type": "mobile",
+              "XX-Api-Version": "1.0.0"
+            }
+          }
+        )
+        .then(res => {
+          console.log(res);
+        });
       this.axios("http://192.168.1.92/api/").then(res => {
         if (res.status == 200) {
+          data = res.data.data;
+          that.getMenu(data.catelist);
           loading.hide();
           //分类
-          that.$set(that, "menu5", res.data.data.f_c);
+          that.$set(that, "menu5", data.f_c);
           //课程
-          that.$set(that.tjCourse, "list", res.data.data.tj_goods);
-          that.$set(that.hotCourse, "list", res.data.data.hot_goods);
-          that.$set(that.freeCourse, "list", res.data.data.mf_goods);
+          that.$set(that.tjCourse, "list", data.tj_goods);
+          that.$set(that.hotCourse, "list", data.hot_goods);
+          that.$set(that.freeCourse, "list", data.mf_goods);
         }
       });
     },
-    setMenu(val){
-        console.log(val);
+    setMenu(val) {
+      console.log(val);
+    },
+    getMenu(val) {
+      if (this.$store.state.indexmenu.length == 0) {
+        let list = [{ text: "首页" }];
+        val.forEach(ele => {
+          list.push({
+            text: ele.name
+          });
+        });
+        this.$store.state.indexmenu = list;
+        this.menuLists = list;
+      } else {
+        this.menuLists = this.$store.state.indexmenu;
+      }
     }
   },
   components: {
@@ -233,7 +295,7 @@ export default {
   }
 }
 .menu-5 {
-    margin-top: $pardon;
+  margin-top: $pardon;
   .m5-box:hover {
     background-color: #d0d0d0;
     border-radius: 16px;

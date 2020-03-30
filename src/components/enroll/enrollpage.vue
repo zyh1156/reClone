@@ -53,16 +53,22 @@
           </div>
           <div class="ens-li position-relative text-center ens-more">...</div>
         </div>
-        <div class="ens-btn">分享</div>
+        <div class="ens-btn">
+            <span class="iconfont icon-fenxiang"></span>
+            <span>分享</span>
+        </div>
       </div>
     </div>
     <!-- 名片 -->
     <div class="en-visi">
       <div class="ev-body">
-        <div class="tit d-flex justify-content-between">
+        <router-link
+          :to="{name:'shop',params:{shopid:123}}"
+          class="tit d-flex justify-content-between"
+        >
           <div class="txt0">名片</div>
           <div class="txt1">更多</div>
-        </div>
+        </router-link>
         <div class="con d-flex align-items-center justify-content-between">
           <div class="d-flex">
             <div class="user">
@@ -80,16 +86,9 @@
         </div>
       </div>
     </div>
+    <menus :mlist="menu"></menus>
     <!-- 内容介绍 -->
     <div class="en-panel">
-      <div class="title align-items-center d-flex justify-content-center">
-        <div class="active">
-          <span>内容介绍</span>
-        </div>
-        <div>
-          <span>购买须知</span>
-        </div>
-      </div>
       <div class="content">
         <div>新冠肺炎疫情近日在西班牙迅速蔓延，24日上午该国统计的死亡人数超过2000人，相比3天前的1002人死亡增加了一倍多。由于死亡人数的不断增加，西班牙首都马德里的一处溜冰场也变为了一个临时停尸房。</div>
         <div>综合CNN、路透社24日报道，马德里自治区主席办公室对媒体表示，西班牙紧急军事部队正把新冠肺炎死者的遗体运往马德里欧达列萨区(Hortaleza)一处名为“冰宫”的溜冰场。当地政府表示，这是一项“临时和非常的措施”，旨在减轻死者家属的痛苦以及马德里医院的负担。</div>
@@ -114,9 +113,15 @@
   </section>
 </template>
 <script>
+import menus from "../cube/menulist";
 export default {
   data() {
-    return {};
+    return {
+      menu: [{ text: "内容介绍" }, { text: "购买须知" }]
+    };
+  },
+  components: {
+    menus
   }
 };
 </script>
@@ -151,7 +156,7 @@ export default {
     bottom: 0;
     left: 0;
     z-index: 10;
-    background-image: linear-gradient(to right, $theme,$theme-bor);
+    background-image: linear-gradient(to right, $theme, $theme-bor);
   }
   .bt0::after {
     content: "";
@@ -279,12 +284,16 @@ export default {
       }
     }
     .ens-btn {
-        color: #fff;
       font-size: 20px;
-      padding: 18px 36px;
+      color: #fff;
+      padding: 18px 27px;
       border-radius: 29px;
       background-color: $theme;
       border: 1px solid $theme-bor;
+      .iconfont{
+          margin-right: 6px;
+          font-size: 26px;
+      }
     }
   }
 }
@@ -297,11 +306,14 @@ export default {
       padding: 24px 0;
       font-size: 20px;
       border-bottom: 1px solid #e2e2e2;
+      .txt0{
+          color: #333;
+      }
       .txt1 {
         padding-right: 24px;
         color: #969696;
         background: url(../../assets/right-ico2.png) no-repeat 50px center;
-        background-size: 20px 20px;
+        background-size: auto 20px;
       }
     }
     .con {
@@ -344,7 +356,7 @@ export default {
   }
 }
 .en-panel {
-    background-color: #fff;
+  background-color: #fff;
   .title {
     padding: 27px 0;
     border-bottom: 1px solid #e2e2e2;
@@ -399,7 +411,7 @@ export default {
     margin: 4px 0 10px;
   }
   .bm {
-      color: #fff;
+    color: #fff;
     width: 470px;
     background-color: $theme;
     font-size: 28px;

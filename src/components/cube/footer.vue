@@ -23,21 +23,28 @@ export default {
     return {
       menulist: [
         {
-          text: "发现",
+          text: "首页",
           url: "/#/",
           classObject: {
             "icon-icon_discovery": true
           }
         },
         {
-          text: "开始学习",
-          url: "/#/study",
+          text: "课程",
+          url: "/#/entry",
           classObject: {
             "icon-icon_new_recruit": true
           }
         },
         {
-          text: "个人中心",
+          text: "活动",
+          url: "/#/enroll",
+          classObject: {
+            "icon-icon_task": true
+          }
+        },
+        {
+          text: "我的",
           url: "/#/user",
           classObject: {
             "icon-icon_boss": true

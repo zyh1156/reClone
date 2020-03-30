@@ -1,6 +1,11 @@
-<template>
+
   <!-- 菜单栏 -->
-  <article>
+  <!-- mlist:{
+      text:"",
+      children:[""]
+  } -->
+<template>
+  <article class="w-100">
     <div class="menu-box">
       <div class="en-title overflow-auto d-flex">
         <div
@@ -66,8 +71,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-article{
-    min-height: 64px;
+article {
+  min-height: 64px;
 }
 // 菜单
 .menu-box {
@@ -84,7 +89,7 @@ article{
   .en-menu {
     color: #626262;
     line-height: 1.4;
-    padding:0 40px;
+    padding: 0 40px;
     white-space: nowrap;
   }
   .active {
