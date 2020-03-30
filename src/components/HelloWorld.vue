@@ -96,6 +96,7 @@ import footer2 from "./cube/footer";
 import showcase from "./cube/showcase";
 import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
+import axios2 from "../core/axios"
 export default {
   data() {
     return {
@@ -131,6 +132,10 @@ export default {
           el: ".swiper-pagination"
         }
       });
+    },
+    getData2:async function(){
+        let dd=await axios2.post("http://192.168.1.92/api/user/public/login",{});
+        console.log(dd);
     },
     getData() {
       let loading = this.weui.loading("获取中"),
