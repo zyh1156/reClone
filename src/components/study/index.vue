@@ -13,7 +13,7 @@
             <span class="txt1 d-inline-block position-relative">LV.2</span>
           </div>
         </div>
-        <a class="position-absolute sign d-flex align-items-center" href="/#/user/signin">
+        <a class="position-absolute sign d-flex align-items-center" href="/user/signin">
           <span class="iconfont icon-icon_calendar"></span>
           <span>学习日历</span>
           <span class="position-absolute lfl">领福利</span>

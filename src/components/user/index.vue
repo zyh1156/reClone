@@ -16,7 +16,7 @@
           <div class="describe">一句话形容美丽的自己</div>
         </div>
       </div>
-      <a href="/#/user/signin" class="active sign position-absolute d-flex align-items-center">
+      <a href="/user/signin" class="active sign position-absolute d-flex align-items-center">
         <div class="ico text-center d-flex justify-content-center align-items-center">
           <span class="iconfont icon-tuipiao"></span>
         </div>
@@ -125,7 +125,7 @@ export default {
           classObj: {
             "icon-icon_coinpurse_line": true
           },
-          url: "/#/user/wallet/"
+          url: "/user/wallet/"
         },
         {
           text: "分销记录",

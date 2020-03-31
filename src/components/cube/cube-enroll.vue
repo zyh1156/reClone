@@ -28,7 +28,7 @@
               <span>距离1087.7km</span>
             </div>
           </div>
-          <a href="/#/enroll/123" class="btn0 text-center">立即报名</a>
+          <a href="/enroll/123" class="btn0 text-center">立即报名</a>
         </div>
       </div>
     </router-link>

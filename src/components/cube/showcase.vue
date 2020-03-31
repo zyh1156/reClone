@@ -25,7 +25,7 @@ datas:{
       </div>
       <!-- 课程部分 -->
       <router-link
-        :to="{name:'wares',params:{waresid:123}}"
+        :to="{name:'wares',params:{waresid:dl.id}}"
         v-for="(dl,inx) in datas.list"
         v-bind:key="inx"
         class="course-body d-block"
@@ -74,7 +74,7 @@ datas:{
       <div class="d-flex flex-wrap justify-content-between">
         <!-- begin -->
         <router-link
-          :to="{name:'wares',params:{waresid:123}}"
+          :to="{name:'wares',params:{waresid:dl.id}}"
           v-for="(dl,inx) in datas.list"
           v-bind:key="inx"
           class="course-body2 d-block"
@@ -104,6 +104,10 @@ datas:{
         <!-- end -->
       </div>
     </div>
+    <div v-if="datas.list.length==0" class="no-content text-center">
+      <div class="txt0 iconfont icon--lumingpai"></div>
+      <div class="txt1">找不到页面</div>
+    </div>
   </article>
 </template>
 <script>
@@ -121,7 +125,7 @@ export default {
         data[i].free = false;
         if (data[i].money == 0 || isNaN(data[i].money)) {
           data[i].free = true;
-        data[i].money = "免费";
+          data[i].money = "免费";
         } else {
           data[i].onzk = data[i].price > data[i].price;
           data[i].price = data[i].price.toFixed(2);
@@ -196,7 +200,7 @@ article {
       height: 162px;
       border-radius: 5px;
       .cl-img {
-        height: 122px;
+        height: 127.2px;
         img {
           width: 100%;
         }
@@ -238,7 +242,6 @@ article {
     color: #343434;
     font-size: 28px;
     line-height: 1.43;
-    font-weight: bold;
   }
 }
 
@@ -291,7 +294,20 @@ article {
     color: #343434;
     font-size: 28px;
     line-height: 1.43;
-    font-weight: bold;
+  }
+}
+.no-content {
+//   filter: opacity(0);
+  padding: $pardon/2;
+  background-color: #fff;
+  border-radius: 10px;
+  height: calc(100vh - 300px);
+  color: #9f9f9f;
+  .txt0{
+      font-size: 300px;
+  }
+  .txt1{
+      font-size: 40px;
   }
 }
 </style>

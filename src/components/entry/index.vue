@@ -1,7 +1,7 @@
 <template>
   <section>
     <search></search>
-    <menulist :mlist="navlist"></menulist>
+    <menulist :mlist="navlist" :menuinx="menuInx" @tapset="setMenu"></menulist>
     <showCase :datas="caseData"></showCase>
     <foot></foot>
   </section>
@@ -16,11 +16,12 @@ export default {
     return {
       navlist: [],
       caseData: {
-        name: "精选课程",
+        name: "",
         url: "",
         list: [],
         type: 0
-      }
+      },
+      menuInx: [0, 0]
     };
   },
   components: {
@@ -30,40 +31,40 @@ export default {
     foot
   },
   methods: {
-    getData() {
-      let loading = this.weui.loading("获取中"),
-        that = this,
-        data;
-      this.axios("http://192.168.1.92/api/").then(res => {
-        if (res.status == 200) {
-          loading.hide();
-          data = res.data.data;
-          that.getMenu(data.catelist);
-          that.$set(that.caseData, "list", data.tj_goods);
-        }
-      });
+    getData: async function() {
+      let inx = this.$route.query.entryid;
+      let res = await this.axios.post(
+        "http://192.168.1.92/api/home/goods/index.html",
+        { category: inx }
+      );
+      this.$set(this.caseData, "list", res.data.data.data);
     },
-    getMenu(val) {
-      if (val) {
-        let list = [{ text: "首页" }];
-        val.forEach(ele => {
-          list.push({
-            text: ele.name
-          });
-        });
-        console.log(list);
-        this.$store.state.indexmenu = list;
-        this.navlist = list;
-      } else if (this.$store.state.indexmenu.length == 0) {
-        this.getData();
+    setMenu(val) {
+      // 菜单跳转
+      let inx = this.navlist[val[0]].id + 1;
+      if (inx) {
+        if (inx != this.$route.query.entryid) {
+          this.$router.push({ path: "/entry", query: { entryid: inx } });
+          this.getData();
+        }
       } else {
-        this.navlist = this.$store.state.indexmenu;
+        this.$router.push("/");
       }
     }
   },
   mounted() {
-    //   this.getMenu();
     this.getData();
+  },
+  watch: {
+    "caseData.list"() {
+      this.navlist = this.$store.state.indexmenu;
+      for (let i = 0; i < this.navlist.length; i++) {
+        if (this.$route.query.entryid == this.navlist[i].id) {
+          this.$set(this.menuInx, 0, i);
+          break;
+        }
+      }
+    }
   }
 };
 </script>

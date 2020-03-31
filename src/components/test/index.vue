@@ -10,7 +10,6 @@ export default {
     methods:{
         getData:async function(){
             let bb= await axios.post("http://192.168.1.92/api/",{});
-            console.log(bb);
         }
     },
     mounted(){

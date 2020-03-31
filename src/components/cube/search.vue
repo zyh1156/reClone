@@ -1,7 +1,7 @@
 <template>
   <!-- 搜索框 -->
   <article class="search-box">
-    <a href="/#/search" class="search-body d-flex align-items-center justify-content-center">
+    <a href="/search" class="search-body d-flex align-items-center justify-content-center">
       <span>
         <img src="../../assets/search-ico.png" alt />
       </span>

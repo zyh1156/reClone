@@ -24,31 +24,13 @@
       </div>
     </div>
     <search></search>
-    <menulist :mlist="menuLists" :menuInx="menuInx" @tapset="setMenu"></menulist>
+    <menulist :mlist="menuLists" @tapset="setMenu"></menulist>
     <div class="swiper-box">
       <!-- 轮播图 -->
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img src="../assets/swiper/00.png" alt />
-          </div>
-          <div class="swiper-slide">
-            <img src="../assets/swiper/01.png" alt />
-          </div>
-          <div class="swiper-slide">
-            <img src="../assets/swiper/02.png" alt />
-          </div>
-          <div class="swiper-slide">
-            <img src="../assets/swiper/03.png" alt />
-          </div>
-          <div class="swiper-slide">
-            <img src="../assets/swiper/04.png" alt />
-          </div>
-          <div class="swiper-slide">
-            <img src="../assets/swiper/05.png" alt />
-          </div>
-          <div class="swiper-slide">
-            <img src="../assets/swiper/06.png" alt />
+          <div class="swiper-slide" v-for="(s,inx) in hwdata.top_ads" v-bind:key="inx">
+            <img :src="s.image" alt />
           </div>
         </div>
         <!-- 如果需要分页器 -->
@@ -59,30 +41,43 @@
         <a
           :href="m5.url"
           class="m5-box text-center flex-grow-1"
-          v-for="(m5,inx) in menu5"
+          v-for="(m5,inx) in hwdata.f_c"
           v-bind:key="inx"
         >
-          <div class="d-inline-block m5-ico"></div>
+          <div class="d-inline-block m5-ico">
+            <img :src="m5.url" alt />
+          </div>
           <div class="m5-txt">{{m5.title}}</div>
         </a>
       </div>
       <!-- 精选课 -->
-      <div class="choice d-flex justify-content-between">
+      <router-link
+        :to="{name:'zone',params:{zoneid:hwdata.tv.id}}"
+        class="choice d-flex justify-content-between"
+      >
         <div class="ch0">
           <div class="txt0 font-weight-bold">大V直播</div>
-          <div class="txt1">最强大脑记忆法</div>
-          <div class="txt2">17堂最强大脑记忆法，带你干掉烂尾记性。</div>
+          <div class="txt1">{{hwdata.tv.post_title}}</div>
+          <div class="txt2 line-clamp2">{{hwdata.tv.post_excerpt}}</div>
         </div>
-        <div class="ch1 position-relative">
-          <img src="../assets/menu.jpg" alt />
+        <div class="ch1 overflow-hidden position-relative">
+          <img :src="hwdata.tv.thumbnail" alt />
           <div class="ico-play iconfont icon-timeout position-absolute"></div>
         </div>
-      </div>
+      </router-link>
     </div>
     <!-- 推荐课程 -->
     <showcase :datas="tjCourse"></showcase>
+    <!-- 广告1 -->
+    <div class="ads overflow-hidden">
+      <img v-lazy="hwdata.one_ads[0].image" alt />
+    </div>
     <!-- 热门课程 -->
     <showcase :datas="hotCourse"></showcase>
+    <!-- 广告2 -->
+    <div class="ads overflow-hidden">
+      <img v-lazy="hwdata.two_ads[0].image" alt />
+    </div>
     <!-- 免费课程 -->
     <showcase :datas="freeCourse"></showcase>
     <!-- 底脚 -->
@@ -100,6 +95,23 @@ import axios2 from "../core/axios";
 export default {
   data() {
     return {
+      hwdata: {
+        top_ads: [],
+        one_ads: [
+          {
+            image: ""
+          }
+        ],
+        two_ads: [
+          {
+            image: ""
+          }
+        ],
+        tv: {
+          id: "0"
+        }
+      },
+      swiper: [],
       hotCourse: {
         name: "热门课程",
         link: "",
@@ -118,9 +130,7 @@ export default {
         list: [],
         type: 0
       },
-      menu5: [],
-      menuLists: [],
-      menuInx: [0, 0]
+      menuLists: []
     };
   },
   methods: {
@@ -134,35 +144,24 @@ export default {
       });
     },
     getData: async function() {
-      console.log(this);
       let res = await this.axios.post("http://192.168.1.92/api/", {}),
         data;
       if (res.status == 200) {
         data = res.data.data;
-        this.getMenu(data.catelist);
-        //分类
-        this.$set(this, "menu5", data.f_c);
         //课程
         this.$set(this.tjCourse, "list", data.tj_goods);
         this.$set(this.hotCourse, "list", data.hot_goods);
         this.$set(this.freeCourse, "list", data.mf_goods);
+        this.hwdata = data;
+        this.menuLists = this.$store.state.indexmenu;
       }
     },
     setMenu(val) {
-      console.log(val);
-    },
-    getMenu(val) {
-      if (this.$store.state.indexmenu.length == 0) {
-        let list = [{ text: "首页" }];
-        val.forEach(ele => {
-          list.push({
-            text: ele.name
-          });
-        });
-        this.$store.state.indexmenu = list;
-        this.menuLists = list;
+      // 菜单跳转
+      if (val[0] == 0) {
       } else {
-        this.menuLists = this.$store.state.indexmenu;
+        let inx = this.hwdata.catelist[val[0] - 1].id;
+        this.$router.push({ path: "/entry", query: { entryid: inx } });
       }
     }
   },
@@ -173,10 +172,15 @@ export default {
     showcase
   },
   mounted() {
-    //   启动轮播
-    this.toSwiper();
     // 获取数据
     this.getData();
+  },
+  updated() {
+    //   启动轮播
+    this.toSwiper();
+  },
+  watch: {
+    $store() {}
   }
 };
 </script>
@@ -186,6 +190,10 @@ export default {
   height: 74px;
   padding: 24px 0 0 70px;
   background-image: linear-gradient(270deg, #dac888 1%, #efdca4 100%);
+}
+.ads {
+  padding: 0 $pardon;
+  max-height: 235px;
 }
 .icon {
   top: 17px;
@@ -217,6 +225,9 @@ export default {
   border: 2px solid #fff;
   border-radius: 8px;
 }
+.choice:hover {
+  text-decoration: none;
+}
 .choice {
   padding: $pardon;
   margin-top: 27px;
@@ -229,21 +240,23 @@ export default {
       color: #bb986a;
     }
     .txt1 {
-      margin-top: 25px;
+      margin-top: 16px;
       font-size: 27px;
     }
     .txt2 {
       color: #949494;
-      margin-top: 32px;
+      margin-top: 20px;
       font-size: 24px;
       line-height: 1.5;
     }
   }
   .ch1 {
-    width: 251.26px;
-    height: 192px;
-    overflow: hidden;
+    width: 251px;
+    max-height: 192px;
     border-radius: 10px;
+    img {
+      height: 100%;
+    }
     .ico-play {
       right: 10px;
       bottom: 10px;
@@ -271,22 +284,6 @@ export default {
       margin-top: 14px;
       font-size: 22px;
     }
-  }
-
-  .m5-box:nth-child(1) .m5-ico {
-    background-image: url(../assets/icon/1.png);
-  }
-  .m5-box:nth-child(2) .m5-ico {
-    background-image: url(../assets/icon/2.png);
-  }
-  .m5-box:nth-child(3) .m5-ico {
-    background-image: url(../assets/icon/3.png);
-  }
-  .m5-box:nth-child(4) .m5-ico {
-    background-image: url(../assets/icon/4.png);
-  }
-  .m5-box:nth-child(5) .m5-ico {
-    background-image: url(../assets/icon/5.png);
   }
 }
 // 动画

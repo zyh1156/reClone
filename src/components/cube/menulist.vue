@@ -19,12 +19,12 @@
       <div v-for="(ml,inx) in mlist" v-bind:key="inx">
         <div v-if="menuSet[0]==inx" class="en-title2 overflow-auto d-flex">
           <div
-            v-for="(ml2,inx2) in ml.children"
+            v-for="(ml2,inx2) in ml.zlist"
             @click="tapMenu(inx2,1)"
             v-bind:key="inx2"
             class="en-menu flex-shrink-0"
           >
-            <div class="em-body" :class="{'active':menuSet[1]==inx2}">{{ml2}}</div>
+            <div class="em-body" :class="{'active':menuSet[1]==inx2}">{{ml2.name}}</div>
           </div>
         </div>
       </div>

@@ -47,10 +47,8 @@ export default {
   },
   methods: {
     clickDay(data) {
-      //   console.log(data);
     },
     changeDate(data) {
-      console.log(data);
     },
     getDate() {
       let arr = [],

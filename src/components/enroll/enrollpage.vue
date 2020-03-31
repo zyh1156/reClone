@@ -98,12 +98,12 @@
     <!-- 报名 -->
     <div class="d-flex text-center now-btn position-fixed">
       <!-- 首页 -->
-      <a href="/#/" class="inx">
+      <a href="/" class="inx">
         <div class="iconfont icon-shouye"></div>
         <div>首页</div>
       </a>
       <!-- 我的 -->
-      <a href="/#/user" class="me">
+      <a href="/user" class="me">
         <div class="iconfont icon-icon_boss"></div>
         <div>我的</div>
       </a>

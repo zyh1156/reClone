@@ -4,7 +4,7 @@ module.exports = {
     },
     lintOnSave: false,
     runtimeCompiler: true,
-    publicPath: "./", //打包路径
+    publicPath: "/", //打包路径
     css: {
         loaderOptions: {
             postcss: {

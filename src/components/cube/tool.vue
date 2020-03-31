@@ -63,7 +63,7 @@ export default {
         {
           classObj: "icon-shouye",
           text: "首页",
-          url: "/#/"
+          url: "/"
         },
 
         {

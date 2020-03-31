@@ -56,7 +56,7 @@
       <!-- 主播名字 -->
       <div class="d-flex meto align-items-center">
         <div class="me-img overflow-hidden">
-            <img src="../../assets/menu.jpg" alt="">
+          <img src="../../assets/menu.jpg" alt />
         </div>
         <div>
           <span>临川网校</span>
@@ -146,20 +146,20 @@ export default {
           color: #2575f5;
         }
       }
-      .renew{
-          margin-top: 20px;
-          color: #9d9d9d;
+      .renew {
+        margin-top: 20px;
+        color: #9d9d9d;
       }
     }
   }
-  .meto{
-      padding: $pardon 0;
-      .me-img{
-          width: $pardon*2;
-          height: $pardon*2;
-          border-radius: $pardon;
-          margin-right: $pardon/2;
-      }
+  .meto {
+    padding: $pardon 0;
+    .me-img {
+      width: $pardon * 2;
+      height: $pardon * 2;
+      border-radius: $pardon;
+      margin-right: $pardon/2;
+    }
   }
 }
 .btns {

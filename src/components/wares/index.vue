@@ -25,12 +25,12 @@
           <!-- 现价 -->
           <div class="dm00">
             <span class="aa">￥</span>
-            <span class="bb">99</span>
-            <span>.00</span>
+            <span class="bb">{{wd.money[0]}}</span>
+            <span>.{{wd.money[1]}}</span>
           </div>
           <!-- 原价 -->
           <div class="dm01">
-            <div class="aa">￥299.00</div>
+            <div class="aa">￥{{wd.price}}</div>
             <div class="bb d-inline-block">限时特价</div>
           </div>
         </div>
@@ -51,11 +51,9 @@
       <!-- 描述 -->
       <div class="desc-box">
         <!-- 题目 -->
-        <div class="txt0 font-weight-bold">韩国罕见新冠病例 美国国会议员确诊 比利时全国封城 影院复映首批片单</div>
+        <div class="txt0 font-weight-bold">{{wd.post_title}}</div>
         <!-- 描述 -->
-        <div
-          class="txt1"
-        >韩国罕见新冠病例 美国国会议员确诊 比利时全国封城 影院复映首批片单 机场水门迎医疗队 欧盟主席感谢中国 德国确诊病例破万 林书豪返回中国 美国新增近4000例 微博数据疑泄露 斗鱼Q4营收20.6亿 美股第五次熔断 曝杜兰特感染新冠</div>
+        <div class="txt1">{{wd.post_excerpt}}</div>
         <!-- 课程 -->
         <div class="txt2">已更新24节/共24节</div>
       </div>
@@ -168,6 +166,7 @@ import tool from "../cube/tool";
 export default {
   data() {
     return {
+      wd: {},
       menuList: [
         { text: "课程介绍" },
         { text: "听课列表" },
@@ -240,10 +239,17 @@ export default {
     };
   },
   methods: {
-    getData() {
+    getData: async function() {
       let id = this.$route.params.waresid;
+      let res = await this.axios.post(
+        "http://192.168.1.92/api/home/goods/show.html",
+        { id: id }
+      );
+      res = res.data.data.data;
+      res.money=parseFloat(res.money).toFixed(2).split(".");
+      this.wd = res;
     },
-    setMenu(val){
+    setMenu(val) {
       this.menuInx = val[0];
     }
   },

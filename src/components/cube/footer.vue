@@ -1,5 +1,6 @@
 <template>
   <footer>
+    <ss></ss>
     <div class="trace"></div>
     <div class="trace2 fixed-bottom">
       <div class="d-flex justify-content-center menu-list">
@@ -18,34 +19,35 @@
   </footer>
 </template>
 <script>
+import ss from "../cube/stepstone"
 export default {
   data() {
     return {
       menulist: [
         {
           text: "首页",
-          url: "/#/",
+          url: "/",
           classObject: {
             "icon-icon_discovery": true
           }
         },
         {
           text: "课程",
-          url: "/#/entry",
+          url: "/entry",
           classObject: {
             "icon-icon_new_recruit": true
           }
         },
         {
           text: "活动",
-          url: "/#/enroll",
+          url: "/enroll",
           classObject: {
             "icon-icon_task": true
           }
         },
         {
           text: "我的",
-          url: "/#/user",
+          url: "/user",
           classObject: {
             "icon-icon_boss": true
           }
@@ -70,6 +72,9 @@ export default {
       });
       this.menulist = menulist;
     }
+  },
+  components:{
+      ss
   }
 };
 </script>
