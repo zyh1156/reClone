@@ -1,13 +1,6 @@
 module.exports = {
     devServer: {
-        port: 80, // 端口
-        proxy: {
-            '/rotk': {
-                target: 'http://192.168.1.92/',
-                ws: true,
-                changeOrigin: true
-            }
-        }
+        port: 80
     },
     lintOnSave: false,
     runtimeCompiler: true,

@@ -49,7 +49,7 @@ const router = new VueRouter({
         children: [{
             path: ':enrollid',
             component: reRouter("enroll/enrollpage"),
-            name:'enroll'
+            name: 'enroll'
         }, {
             path: '',
             component: reRouter("enroll/index")
@@ -96,6 +96,9 @@ const router = new VueRouter({
             title: "开始学习"
         }
     }, {
+        path: "/test",
+        component: reRouter("test/index")
+    }, {
         path: "/user",
         component: reprint,
         children: [{
@@ -129,7 +132,7 @@ const router = new VueRouter({
         component: err404
     }],
     scrollBehavior(to, from, savedPosition) {
-        // 滚动条置顶
+        // 跳转后滚动条置顶
         return {
             x: 0,
             y: 0
@@ -137,9 +140,9 @@ const router = new VueRouter({
     }
 })
 
-router.beforeEach((to, from, next) => {
-    let title = to.meta.title ? to.meta.title : "张永铧的个人主页";
-    document.title = title + " &raquo; 为什么坚持，想一想当初";
-    next();
-})
+// router.beforeEach((to, from, next) => {
+//     let title = to.meta.title ? to.meta.title : "张永铧的个人主页";
+//     document.title = title + " &raquo; 为什么坚持，想一想当初";
+//     next();
+// })
 export default router

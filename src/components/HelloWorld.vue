@@ -69,7 +69,7 @@
       <!-- 精选课 -->
       <div class="choice d-flex justify-content-between">
         <div class="ch0">
-          <div class="txt0 font-weight-bold">本周精选课</div>
+          <div class="txt0 font-weight-bold">大V直播</div>
           <div class="txt1">最强大脑记忆法</div>
           <div class="txt2">17堂最强大脑记忆法，带你干掉烂尾记性。</div>
         </div>
@@ -96,7 +96,7 @@ import footer2 from "./cube/footer";
 import showcase from "./cube/showcase";
 import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
-import axios2 from "../core/axios"
+import axios2 from "../core/axios";
 export default {
   data() {
     return {
@@ -133,67 +133,20 @@ export default {
         }
       });
     },
-    getData2:async function(){
-        let dd=await axios2.post("http://192.168.1.92/api/user/public/login",{});
-        console.log(dd);
-    },
-    getData() {
-      let loading = this.weui.loading("获取中"),
-        that = this,
+    getData: async function() {
+      console.log(this);
+      let res = await this.axios.post("http://192.168.1.92/api/", {}),
         data;
-    //   this.axios
-    //     .post("http://192.168.1.92/api/user/public/login", {
-    //       username: "15387871422",
-    //       password: "123456",
-    //       device_type: "mobile",
-    //       headers: {
-    //         "XX-Token": "",
-    //         "XX-Device-Type": "mobile",
-    //         "XX-Api-Version": "1.0.0"
-    //       }
-    //     })
-    //     .then(res => {
-    //       console.log(res);
-    //     });
-    this.axios2.post("http://192.168.1.92/api/user/public/login",{},res=>{
-        console.log(res);
-    });
-    let b=this.axios2;
-    console.log(b);
-    return;
-      this.axios
-        .post(
-          "http://192.168.1.92/api/user/index/index",
-          {
-            username: "15387871422",
-            password: "123456",
-            device_type: "mobile"
-          },
-          {
-            headers: {
-              "XX-Token":
-                "80b225ce8cd0942a0b05125d404c788076fe03014803ad0e1e6ffcad88c65aed",
-              "XX-Device-Type": "mobile",
-              "XX-Api-Version": "1.0.0"
-            }
-          }
-        )
-        .then(res => {
-          console.log(res);
-        });
-      this.axios("http://192.168.1.92/api/").then(res => {
-        if (res.status == 200) {
-          data = res.data.data;
-          that.getMenu(data.catelist);
-          loading.hide();
-          //分类
-          that.$set(that, "menu5", data.f_c);
-          //课程
-          that.$set(that.tjCourse, "list", data.tj_goods);
-          that.$set(that.hotCourse, "list", data.hot_goods);
-          that.$set(that.freeCourse, "list", data.mf_goods);
-        }
-      });
+      if (res.status == 200) {
+        data = res.data.data;
+        this.getMenu(data.catelist);
+        //分类
+        this.$set(this, "menu5", data.f_c);
+        //课程
+        this.$set(this.tjCourse, "list", data.tj_goods);
+        this.$set(this.hotCourse, "list", data.hot_goods);
+        this.$set(this.freeCourse, "list", data.mf_goods);
+      }
     },
     setMenu(val) {
       console.log(val);

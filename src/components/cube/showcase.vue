@@ -38,7 +38,7 @@ datas:{
             </div>
             <div class="w-100 position-absolute cl-men">
               <span class="iconfont icon-remen"></span>
-              <span>2355人</span>
+              <span>{{dl.post_hits}}人</span>
             </div>
           </div>
           <!-- 右边 -->
@@ -48,7 +48,7 @@ datas:{
               <div class="renew">已更新109期</div>
               <div v-if="dl.free" class="cr-free">免费</div>
               <div v-else>
-                <span class="money0">￥{{dl.price}}</span>
+                <span v-if="dl.zk_endtime>0" class="money0">￥{{dl.price}}</span>
                 <span class="money1">
                   <span>￥&nbsp;</span>
                   <span class="money2">{{dl.money[0]}}</span>
@@ -85,7 +85,7 @@ datas:{
             </div>
             <div class="position-absolute play-num">
               <span class="iconfont icon-play-circle"></span>
-              <span>386次</span>
+              <span>{{dl.post_hits}}次</span>
             </div>
           </div>
           <div class="cr-text line-clamp2">{{dl.post_title}}</div>
@@ -97,7 +97,7 @@ datas:{
                 <span class="money2">{{dl.money[0]}}</span>
                 <span>.{{dl.money[1]}}</span>
               </span>
-              <span class="money0">￥{{dl.price}}</span>
+              <span v-if="dl.zk_endtime>0" class="money0">￥{{dl.price}}</span>
             </div>
           </div>
         </router-link>
@@ -119,9 +119,9 @@ export default {
         data[i].price = parseFloat(data[i].price);
         data[i].money = parseFloat(data[i].money);
         data[i].free = false;
-        data[i].money = "免费";
         if (data[i].money == 0 || isNaN(data[i].money)) {
           data[i].free = true;
+        data[i].money = "免费";
         } else {
           data[i].onzk = data[i].price > data[i].price;
           data[i].price = data[i].price.toFixed(2);
