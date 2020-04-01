@@ -25,8 +25,8 @@
           <!-- 现价 -->
           <div class="dm00">
             <span class="aa">￥</span>
-            <span class="bb">{{wd.money[0]}}</span>
-            <span>.{{wd.money[1]}}</span>
+            <span class="bb">{{wd.money2[0]}}</span>
+            <span>.{{wd.money2[1]}}</span>
           </div>
           <!-- 原价 -->
           <div class="dm01">
@@ -38,13 +38,13 @@
         <div class="money1">
           <div class="aa text-center">距离特价结束仅剩</div>
           <div class="bb text-center">
-            <span>22</span>
+            <span>{{cd.d}}</span>
             <span>天</span>
-            <span class="bbox">22</span>
+            <span class="bbox">{{cd.h}}</span>
             <span>:</span>
-            <span class="bbox">22</span>
+            <span class="bbox">{{cd.m}}</span>
             <span>:</span>
-            <span class="bbox">22</span>
+            <span class="bbox">{{cd.s}}</span>
           </div>
         </div>
       </div>
@@ -166,13 +166,21 @@ import tool from "../cube/tool";
 export default {
   data() {
     return {
-      wd: {},
+      wd: {
+        money2: [0, 0]
+      },
+      cd: {
+        d: 0,
+        h: 0,
+        m: 0,
+        s: 0
+      },
       menuList: [
         { text: "课程介绍" },
         { text: "听课列表" },
         { text: "学员心得" }
       ],
-      menuInx: 0,
+      menuInx: [0],
       wares: {
         //   介绍列表
         introduce: [
@@ -240,17 +248,45 @@ export default {
   },
   methods: {
     getData: async function() {
-      let id = this.$route.params.waresid;
-      let res = await this.axios.post(
-        "http://192.168.1.92/api/home/goods/show.html",
-        { id: id }
-      );
-      res = res.data.data.data;
-      res.money=parseFloat(res.money).toFixed(2).split(".");
-      this.wd = res;
+      let id = this.$route.params.waresid,
+        res = await this.axios.post(
+          "http://192.168.1.92/api/home/goods/show.html",
+          { id: id }
+        );
+      res = res.data.data;
+      //价格
+      console.log(res);
+      res.data.money2 = parseFloat(res.data.money)
+        .toFixed(2)
+        .split(".");
+      this.wd = res.data;
+      //   优惠倒计时
+      this.cdtime(res.data.zk_endtime);
     },
     setMenu(val) {
       this.menuInx = val[0];
+    },
+    cdtime(time) {
+      time = time;
+      let now = new Date().getTime() / 1000,
+        obj = {},
+        that = this;
+      function totime() {
+        now--;
+        obj.d = parseInt((time - now) / 86400);
+        obj.h = parseInt((time - now - obj.d * 86400) / 3600);
+        obj.m = parseInt((time - now - obj.d * 86400 - obj.h * 3600) / 60);
+        obj.s = parseInt(
+          time - now - obj.d * 86400 - obj.h * 3600 - obj.m * 60
+        );
+        that.cd = obj;
+        goto();
+      }
+      function goto() {
+        if (now < time) {
+          setTimeout(totime, 1000);
+        }
+      }
     }
   },
   mounted() {
@@ -297,7 +333,7 @@ export default {
   .money0 {
     color: #fff;
     width: 510px;
-    background-image: linear-gradient(to right, #e9335e, #e34349);
+    background-image: linear-gradient(to right, $theme, $theme-bor);
     .dm00 {
       padding-left: 24px;
       line-height: 90px;
@@ -447,8 +483,7 @@ export default {
       left: 18px;
       height: 30px;
       width: 8px;
-      border: 1px solid #e95026;
-      background-color: #ec6541;
+      background-image:linear-gradient(to right,$theme,$theme-bor);
       content: "";
       top: 25.5px;
       border-radius: 4px;
@@ -513,8 +548,8 @@ export default {
     color: #fff;
     height: 84px;
     line-height: 84px;
-    background-color: #ec6541;
-    border: 1px solid #e95228;
+    background-image:linear-gradient(to right, $theme, $theme-bor);
+    border: 1px solid $theme-bor;
     border-radius: 42px;
     .aa {
       font-size: 30px;

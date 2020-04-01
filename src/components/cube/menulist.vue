@@ -5,7 +5,7 @@
       children:[""]
   } -->
 <template>
-  <article class="w-100">
+  <article class="menu-x w-100">
     <div class="menu-box">
       <div class="en-title overflow-auto d-flex">
         <div
@@ -46,11 +46,13 @@ export default {
   methods: {
     toTop() {
       let t = $(".menu-box").offset().top,
-        t2;
+        t2,boxh;
       $(document).scroll(() => {
         t2 = $(document).scrollTop();
+        // boxh=$(".menu-box").height();
         if (t2 > t) {
           $(".menu-box").css("position", "fixed");
+          $(".menu-x").height(boxh=$(".menu-box").height());
         } else {
           $(".menu-box").css("position", "relative");
         }
@@ -71,8 +73,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-article {
-  min-height: 64px;
+.menu-x{
+    min-height: 63px;
 }
 // 菜单
 .menu-box {
@@ -120,8 +122,8 @@ article {
       background-color: #f4f4f4;
     }
     .active {
-      color: #eb5d36;
-      background-color: #fceeea;
+      color: $money;
+      background-color: $theme-bac;
     }
   }
 }

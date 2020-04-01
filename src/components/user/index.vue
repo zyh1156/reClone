@@ -237,8 +237,8 @@ export default {
   .copbtn {
     margin-top: 27px;
     color: #fff;
-    background-color: #ec6541;
-    box-shadow: 0 4px 16px 0 rgba(255, 90, 49, 0.4);
+    background-image: linear-gradient(to right,$theme,$theme-bor);
+    box-shadow: 0 4px 16px 0 $theme;
     font-size: 32px;
     height: 90px;
     line-height: 90px;
@@ -251,7 +251,7 @@ export default {
 .copbox {
   width: 25%;
   .copico {
-    color: #e94f25;
+    color: $theme;
     font-size: 52px;
   }
   .coptxt {

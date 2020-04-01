@@ -106,7 +106,7 @@ datas:{
     </div>
     <div v-if="datas.list.length==0" class="no-content text-center">
       <div class="txt0 iconfont icon--lumingpai"></div>
-      <div class="txt1">找不到页面</div>
+      <div class="txt1">找不到更多数据</div>
     </div>
   </article>
 </template>
@@ -307,6 +307,7 @@ article {
       font-size: 300px;
   }
   .txt1{
+      margin-top: 40px;
       font-size: 40px;
   }
 }

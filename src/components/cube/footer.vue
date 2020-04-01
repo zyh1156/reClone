@@ -33,7 +33,7 @@ export default {
         },
         {
           text: "课程",
-          url: "/entry",
+          url: "/entry?entryid=1",
           classObject: {
             "icon-icon_new_recruit": true
           }

@@ -41,7 +41,7 @@ export default {
     },
     setMenu(val) {
       // 菜单跳转
-      let inx = this.navlist[val[0]].id + 1;
+      let inx = this.navlist[val[0]].id;
       if (inx) {
         if (inx != this.$route.query.entryid) {
           this.$router.push({ path: "/entry", query: { entryid: inx } });

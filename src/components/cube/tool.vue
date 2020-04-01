@@ -129,7 +129,7 @@ export default {
   right: $pardon;
   bottom: $pardon * 5;
   background-color: #fff;
-  box-shadow: 0 0 10px #ededed;
+  box-shadow: 0 0 10px $theme;
   .txt0 {
     margin-top: 17px;
     font-size: 37px;
