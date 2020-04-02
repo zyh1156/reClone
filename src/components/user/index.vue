@@ -26,7 +26,7 @@
     <!-- 功能背景 -->
     <div class="dpgo">
       <!-- 功能页 -->
-      <div class="d-flex copgo">
+      <div class="d-flex copgo justify-content-around">
         <div class="copbox text-center" v-for="(co,inx) in oplist" v-bind:key="inx">
           <div class="copico iconfont" :class="co.classObj"></div>
           <div class="coptxt">{{co.text}}</div>
@@ -38,7 +38,7 @@
         <span class="iconfont icon-icon_circle_line"></span>
       </div>
       <!-- 功能页 -->
-      <div class="d-flex copgo">
+      <div class="d-flex copgo  justify-content-around">
         <div class="copbox text-center" v-for="(co,inx) in oplist1" v-bind:key="inx">
           <div class="copico iconfont" :class="co.classObj"></div>
           <div class="coptxt">{{co.text}}</div>
@@ -249,7 +249,8 @@ export default {
   }
 }
 .copbox {
-  width: 25%;
+  width: 20%;
+  cursor: pointer;
   .copico {
     color: $theme;
     font-size: 52px;

@@ -410,3 +410,6 @@ a,
 a:hover {
   text-decoration: none;
 }
+#iosDialog2{
+    z-index: 1000;
+}

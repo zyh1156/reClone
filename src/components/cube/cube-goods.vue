@@ -180,7 +180,7 @@ export default {
     getCommet: async function() {
       if (this.feel.length == 0) {
         let data = await this.axios.post(
-          "/api/user/comments/getComments.html",
+          "/api/user/commentss/getComments.html",
           { object_id: this.wd.kc_id, table_name: "goods_post", url: "hrpp" }
         );
         console.log(data);
@@ -211,7 +211,7 @@ export default {
         this.weui.alert("内容不为空。");
       } else {
         let res = await this.axios.post(
-          "/api/user/Comments/setComments.html",
+          "/api/user/commentss/setComments.html",
           data
         );
         //   评论成功
@@ -229,13 +229,14 @@ export default {
         $dialog2 = $(".t1 #js_dialog_2"),
         $iosDialog2 = $(".t1 #iosDialog2");
       $(".t1 #showIOSDialog2").on("click", function() {
-        $iosDialog2.fadeIn(200);
+        // $iosDialog2.fadeIn(200);
+        $iosDialog2.show();
         $dialog2.addClass("weui-half-screen-dialog_show");
       });
       $(".t1 #dialogs").on("click", ".weui-mask", function() {
         $(this)
           .parents(".js_dialog")
-          .fadeOut(200);
+          .hide();
         $dialog1.removeClass("weui-half-screen-dialog_show");
         $dialog2.removeClass("weui-half-screen-dialog_show");
       });

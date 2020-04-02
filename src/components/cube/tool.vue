@@ -84,13 +84,13 @@ export default {
         $dialog2 = $(".t0 #js_dialog_2"),
         $iosDialog2 = $(".t0 #iosDialog2");
       $(".t0 #showIOSDialog2").on("click", function() {
-        $iosDialog2.fadeIn(200);
+        $iosDialog2.show();
         $dialog2.addClass("weui-half-screen-dialog_show");
       });
       $(".t0 #dialogs").on("click", ".weui-mask", function() {
         $(this)
           .parents(".js_dialog")
-          .fadeOut(200);
+          .hide();
         $dialog1.removeClass("weui-half-screen-dialog_show");
         $dialog2.removeClass("weui-half-screen-dialog_show");
       });
