@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="bac">
     <!-- 顶部功能区 -->
     <div>
       <!-- 红包区 -->
@@ -45,7 +45,7 @@
           v-bind:key="inx"
         >
           <div class="d-inline-block m5-ico">
-            <img :src="m5.url" alt />
+            <img :src="m5.image" alt />
           </div>
           <div class="m5-txt">{{m5.title}}</div>
         </a>
@@ -144,7 +144,7 @@ export default {
       });
     },
     getData: async function() {
-      let res = await this.axios.post("http://192.168.1.92/api/", {}),
+      let res = await this.axios.post("/api/", {}),
         data;
       if (res.status == 200) {
         data = res.data.data;
@@ -153,16 +153,17 @@ export default {
         this.$set(this.hotCourse, "list", data.hot_goods);
         this.$set(this.freeCourse, "list", data.mf_goods);
         this.hwdata = data;
-        this.menuLists = this.$store.state.indexmenu;
       }
     },
     setMenu(val) {
       // 菜单跳转
-      if (val[0] == 0) {
-      } else {
-        let inx = this.hwdata.catelist[val[0] - 1].id;
-        this.$router.push({ path: "/entry", query: { entryid: inx } });
-      }
+      let inx = this.$store.state.indexmenu[val[0]].id || "";
+      this.$router.push({ path: "/entry", query: { entryid: inx } });
+    },
+    setgo() {
+      this.menuLists = this.$store.state.indexmenu;
+      //   启动轮播
+      this.toSwiper();
     }
   },
   components: {
@@ -175,12 +176,10 @@ export default {
     // 获取数据
     this.getData();
   },
-  updated() {
-    //   启动轮播
-    this.toSwiper();
-  },
   watch: {
-    $store() {}
+    "$store.state.indexmenu"() {
+      this.setgo();
+    }
   }
 };
 </script>
@@ -224,9 +223,6 @@ export default {
   height: 235px;
   border: 2px solid #fff;
   border-radius: 8px;
-}
-.choice:hover {
-  text-decoration: none;
 }
 .choice {
   padding: $pardon;

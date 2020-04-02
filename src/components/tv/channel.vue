@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section  class="bac">
     <!-- 视频框 -->
     <div class="lc-video position-relative overflow-hidden">
       <img src="../../assets/swiper/00.png" alt />

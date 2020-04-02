@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="bac">
     <search></search>
     <!-- 列表部分 -->
     <cb></cb>

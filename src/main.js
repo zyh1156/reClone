@@ -9,6 +9,10 @@ Vue.use(VueLazyload)
 //新axios
 import axios from "./core/axios"
 Vue.prototype.axios = axios
+// 使用weui
+import "weui"
+import weui from "weui.js"
+Vue.prototype.weui = weui
 //基础样式重置
 import "bootstrap/dist/css/bootstrap-reboot.min.css"
 //提取bootstrap的通用样式

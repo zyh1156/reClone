@@ -1,4 +1,5 @@
 <template>
+<!-- 活动列表 -->
   <aside class="en-list">
     <router-link
       :to="{name:'enroll',params:{enrollid:123}}"
@@ -48,7 +49,6 @@ export default {
     border-bottom: none;
   }
   .en-li:hover {
-    text-decoration: none;
     background-color: #f8f8f8;
   }
   .en-li {

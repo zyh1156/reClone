@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section  class="bac">
     <div class="er-box">
       <!-- 标题部分 -->
       <div class="er-tit position-relative text-center">营销推广&nbsp;&nbsp;吸粉引流</div>

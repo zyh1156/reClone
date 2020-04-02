@@ -7,10 +7,12 @@ export default {
         let loading = weui.loading("获取中");
         return axios.post(url, data, {
             headers: {
-                "XX-Token": "80b225ce8cd0942a0b05125d404c788076fe03014803ad0e1e6ffcad88c65aed",
+                "XX-Token": "f4f8922c7eb0b4db5a82d94036b0822e1f7e36e32407b9f7d2910d5fab1bbc44",
                 "XX-Device-Type": "mobile",
-                "XX-Api-Version": "1.0.0"
-            }
+
+                // "XX-Api-Version": "1.0.0"
+            },
+            timeout:5000
         }).then(res => {
             loading.hide();
             return res

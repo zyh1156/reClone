@@ -19,11 +19,11 @@ const router = new VueRouter({
         name: "index",
         alias: "/index"
     }, {
-        path: "/bbs",
+        path: "/article",
         component: reprint,
         children: [{
             path: "",
-            component: reRouter("bbs/index"),
+            component: reRouter("article/index"),
             meta: {
                 title: "圈子首页"
             }
@@ -32,48 +32,48 @@ const router = new VueRouter({
             component: reprint,
             children: [{
                 path: "",
-                component: reRouter("bbs/community"),
+                component: reRouter("article/community"),
                 meta: {
                     title: "社区详情"
                 }
             }, {
                 path: ":content",
-                component: reRouter("bbs/content"),
+                component: reRouter("article/content"),
                 meta: {
                     title: "帖子详情"
                 }
             }]
         }]
     }, {
-        path: '/enroll',
+        path: '/act',
         component: reprint,
         children: [{
-            path: ':enrollid',
-            component: reRouter("enroll/enrollpage"),
-            name: 'enroll'
+            path: ':actid',
+            component: reRouter("act/enrollpage"),
+            name: 'act'
         }, {
             path: '',
-            component: reRouter("enroll/index")
+            component: reRouter("act/index")
         }]
     }, {
         path: "/entry",
         component: reRouter("entry/index")
     }, {
-        path: '/live',
+        path: '/tv',
         component: reprint,
         children: [{
             path: "",
-            component: reRouter("live/index")
+            component: reRouter("tv/index")
         }, {
             path: ':zoneid',
             component: reprint,
             children: [{
                 path: "",
-                component: reRouter("live/zone"),
-                name:"zone"
+                component: reRouter("tv/zone"),
+                name: "zone"
             }, {
                 path: "channel",
-                component: reRouter("live/channel"),
+                component: reRouter("tv/channel"),
                 name: "channel"
             }]
         }]
@@ -81,22 +81,16 @@ const router = new VueRouter({
         path: "/search",
         component: reRouter("search/index")
     }, {
-        path: "/shop",
+        path: "/room",
         component: reprint,
         children: [{
-            path: ":shopid",
-            component: reRouter("shop/index"),
-            name: 'shop'
+            path: ":roomid",
+            component: reRouter("room/index"),
+            name: 'room'
         }, {
             path: "",
             redirect: "/"
         }]
-    }, {
-        path: "/study",
-        component: reRouter("study/index"),
-        meta: {
-            title: "开始学习"
-        }
     }, {
         path: "/test",
         component: reRouter("test/index")
@@ -106,6 +100,9 @@ const router = new VueRouter({
         children: [{
             path: "",
             component: reRouter("user/index")
+        }, {
+            path: "login",
+            component: reRouter("user/login")
         }, {
             path: "signin",
             component: reRouter("user/signin"),
@@ -119,16 +116,20 @@ const router = new VueRouter({
             }]
         }]
     }, {
-        path: "/wares",
+        path: "/goods",
         component: reprint,
         children: [{
-            path: ":waresid",
-            component: reRouter("wares/index"),
-            name: 'wares'
+            path: ":goodsid",
+            component: reRouter("goods/index"),
+            name: 'goods'
         }, {
             path: "",
             redirect: "/search"
         }]
+    }, {
+        path: "/play",
+        component: reRouter("goods/play"),
+        name: "play"
     }, {
         path: "*",
         component: err404

@@ -1,5 +1,5 @@
 <template>
-  <aside>
+  <aside class="t0">
     <div id="showIOSDialog2" class="position-fixed tool-btn text-center">
       <div class="txt0 iconfont icon-icon_work"></div>
       <div class="txt1">更多</div>
@@ -8,29 +8,6 @@
       <div class="js_dialog" id="iosDialog2" style="display: none;">
         <div class="weui-mask"></div>
         <div id="js_dialog_2" class="weui-half-screen-dialog">
-          <!-- 头部 -->
-          <div class="d-none weui-half-screen-dialog__hd">
-            <div class="weui-half-screen-dialog__hd__side">
-              <button style="display: none;" class="weui-icon-btn">
-                返回
-                <i class="weui-icon-back-arrow-thin"></i>
-              </button>
-              <button class="weui-icon-btn">
-                关闭
-                <i class="weui-icon-close-thin"></i>
-              </button>
-            </div>
-            <div class="weui-half-screen-dialog__hd__main">
-              <strong class="weui-half-screen-dialog__title">标题</strong>
-              <span class="weui-half-screen-dialog__subtitle">标题</span>
-            </div>
-            <div class="weui-half-screen-dialog__hd__side">
-              <button class="weui-icon-btn">
-                更多
-                <i class="weui-icon-more"></i>
-              </button>
-            </div>
-          </div>
           <!-- 主体 -->
           <div class="weui-half-screen-dialog__bd">
             <div class="d-flex justify-content-between flex-wrap t-box">
@@ -98,30 +75,35 @@ export default {
     };
   },
   mounted() {
-    var $dialog1 = $("#js_dialog_1"),
-      $dialog2 = $("#js_dialog_2"),
-      $iosDialog1 = $("#iosDialog1"),
-      $iosDialog2 = $("#iosDialog2");
-    $("#showIOSDialog2").on("click", function() {
-      $iosDialog2.fadeIn(200);
-      $dialog2.addClass("weui-half-screen-dialog_show");
-    });
-    $("#dialogs").on("click", ".weui-mask", function() {
-      $(this)
-        .parents(".js_dialog")
-        .fadeOut(200);
-      $dialog1.removeClass("weui-half-screen-dialog_show");
-      $dialog2.removeClass("weui-half-screen-dialog_show");
-    });
-    $(".close").on("click", function() {
-      $(".weui-mask").click();
-    });
+    this.addcon();
+  },
+  methods: {
+    addcon() {
+      // WeUI弹窗
+      var $dialog1 = $(".t0 #js_dialog_1"),
+        $dialog2 = $(".t0 #js_dialog_2"),
+        $iosDialog2 = $(".t0 #iosDialog2");
+      $(".t0 #showIOSDialog2").on("click", function() {
+        $iosDialog2.fadeIn(200);
+        $dialog2.addClass("weui-half-screen-dialog_show");
+      });
+      $(".t0 #dialogs").on("click", ".weui-mask", function() {
+        $(this)
+          .parents(".js_dialog")
+          .fadeOut(200);
+        $dialog1.removeClass("weui-half-screen-dialog_show");
+        $dialog2.removeClass("weui-half-screen-dialog_show");
+      });
+      $(".t0 .close").on("click", function() {
+        $(".weui-mask").click();
+      });
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
 .tool-btn {
-    cursor: pointer;
+  cursor: pointer;
   color: #999;
   width: 98px;
   height: 98px;
@@ -162,7 +144,6 @@ export default {
     cursor: pointer;
     border-radius: 6px;
     background-color: #eee;
-    text-decoration: none;
   }
   .t-con:nth-child(1) .t-ico {
     background-color: #eb5658;

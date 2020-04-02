@@ -1,5 +1,5 @@
 <template>
-  <section class="position-relative">
+  <section class="bac position-relative">
     <!-- 背景层 -->
     <div class="bigbac position-absolute"></div>
     <!-- 内容层 -->

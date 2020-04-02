@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section  class="bac">
     <div class="wallet-box">
       <div class="wallet-body">
         <div>查看明细</div>

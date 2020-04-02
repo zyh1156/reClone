@@ -1,4 +1,5 @@
 <template>
+<!-- 圈子列表 -->
   <aside>
     <div class="list-content" v-for="(l,inx) in list" v-bind:key="inx">
       <div class="panpel">

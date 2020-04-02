@@ -1,5 +1,5 @@
 <template>
-  <section class="search-box">
+  <section class="bac search-box">
     <!-- 搜索框 -->
     <div class="d-flex align-items-center justify-content-between">
       <label class="search-body">

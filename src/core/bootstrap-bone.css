@@ -405,3 +405,8 @@ img {
     width: 21px;
 }
 
+
+a,
+a:hover {
+  text-decoration: none;
+}

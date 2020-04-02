@@ -1,10 +1,10 @@
 <template>
-  <section>
+  <section  class="bac">
     <!-- banner -->
     <div class="banner overflow-hidden">
       <img src="../../assets/swiper/00.png" alt />
     </div>
-    <shopt></shopt>
+    <!-- <shopt></shopt> -->
     <menul :mlist="nav" @tapset="tapMenu"></menul>
     <sc v-show="navInx==0" :datas="dt"></sc>
     <cb v-show="navInx==1"></cb>

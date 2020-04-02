@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section  class="bac">
     <!-- 资料 -->
     <div class="user-data">
       <div class="user-top position-relative d-flex align-items-center">

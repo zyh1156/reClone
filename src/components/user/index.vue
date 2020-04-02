@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section  class="bac">
     <!-- 资料页 -->
     <div class="user-data position-relative">
       <div class="d-flex align-items-center">
@@ -199,18 +199,18 @@ export default {
     }
   }
   .sign {
-    color: #ec6641;
+    color: $theme;
     height: 72px;
     width: 220px;
     border-radius: 36px 0 0 36px;
     font-size: 25px;
-    background-color: #f4e1db;
+    background-color: $theme-bac;
     padding: 0 16px 0 10px;
     top: 40px;
     right: -34px;
     transition: right 0.8s;
     .ico {
-      background-color: #ec6541;
+      background-color: $theme-bor;
       height: 50px;
       width: 50px;
       border-radius: 25px;

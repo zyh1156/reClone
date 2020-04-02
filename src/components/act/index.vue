@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="bac">
     <search></search>
     <div class="swiper-box">
       <!-- 轮播图 -->

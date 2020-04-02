@@ -25,7 +25,7 @@ datas:{
       </div>
       <!-- 课程部分 -->
       <router-link
-        :to="{name:'wares',params:{waresid:dl.id}}"
+        :to="{name:'goods',params:{goodsid:dl.id}}"
         v-for="(dl,inx) in datas.list"
         v-bind:key="inx"
         class="course-body d-block"
@@ -74,7 +74,7 @@ datas:{
       <div class="d-flex flex-wrap justify-content-between">
         <!-- begin -->
         <router-link
-          :to="{name:'wares',params:{waresid:dl.id}}"
+          :to="{name:'goods',params:{goodsid:dl.id}}"
           v-for="(dl,inx) in datas.list"
           v-bind:key="inx"
           class="course-body2 d-block"
@@ -104,7 +104,8 @@ datas:{
         <!-- end -->
       </div>
     </div>
-    <div v-if="datas.list.length==0" class="no-content text-center">
+    <!-- 无效页 -->
+    <div v-if="datas.nodata" class="no-content text-center">
       <div class="txt0 iconfont icon--lumingpai"></div>
       <div class="txt1">找不到更多数据</div>
     </div>
@@ -136,11 +137,8 @@ export default {
   },
   props: ["datas"],
   watch: {
-    "datas.list": {
-      immediate: true,
-      handler: function(newV, oldV) {
-        this.ChangeDate();
-      }
+    "datas.list"() {
+      this.ChangeDate();
     }
   }
 };
@@ -157,16 +155,16 @@ article {
 
 .money0 {
   color: #919191;
-  font-size: 15px;
+  font-size: 20.8px;
   text-decoration: line-through;
   padding: 0 $pardon/3;
 }
 .money1 {
   color: $money;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 20.8px;
+  font-weight: 700;
   .money2 {
-    font-size: 20px;
+    font-size: 26px;
   }
 }
 .course-box {
@@ -187,7 +185,6 @@ article {
     }
   }
   .course-body:hover {
-    text-decoration: none;
     background-color: #f8f8f8;
   }
   .course-body:last-child .course-body2 {
@@ -296,19 +293,19 @@ article {
     line-height: 1.43;
   }
 }
+
 .no-content {
-//   filter: opacity(0);
   padding: $pardon/2;
   background-color: #fff;
   border-radius: 10px;
-  height: calc(100vh - 300px);
+  height: calc(100vh - 500px);
   color: #9f9f9f;
-  .txt0{
-      font-size: 300px;
+  .txt0 {
+    font-size: 300px;
   }
-  .txt1{
-      margin-top: 40px;
-      font-size: 40px;
+  .txt1 {
+    margin-top: 40px;
+    font-size: 40px;
   }
 }
 </style>

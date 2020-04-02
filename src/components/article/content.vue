@@ -1,5 +1,5 @@
 <template>
-  <section></section>
+  <section class="bac"></section>
 </template>
 <script>
 // 帖子页面

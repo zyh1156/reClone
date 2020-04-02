@@ -1,14 +1,14 @@
 <template>
   <router-link
-    :to="{name:'shop',params:{shopid:1}}"
+    :to="{name:'room',params:{roomid:1}}"
     class="d-flex title-box align-items-center justify-content-between"
   >
     <div class="img overflow-hidden">
-      <img src="../../assets/menu.jpg" alt />
+      <img v-lazy="teach.thumbnail" alt />
     </div>
     <div class="name">
-      <div class="txt0 font-weight-bold">松果学院</div>
-      <div class="txt1">3042人关注 27.9万人气</div>
+      <div class="txt0 font-weight-bold">{{teach.post_title}}</div>
+      <div class="txt1">{{teach.post_favorites}}人关注&nbsp;&nbsp;{{teach.post_hits}}人气</div>
     </div>
     <div class="fllow text-center">+关注</div>
   </router-link>
@@ -17,13 +17,11 @@
 export default {
   data() {
     return {};
-  }
+  },
+  props:["teach"]
 };
 </script>
 <style lang="scss" scoped>
-.title-box:hover{
-    text-decoration: none;
-}
 .title-box {
   background-color: #fff;
   height: 114px;

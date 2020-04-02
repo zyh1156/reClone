@@ -1,4 +1,5 @@
 <template>
+<!-- 直播列表 -->
   <aside class="live-list">
     <div class="live-li d-flex" v-bind:key="i" v-for="i in 10">
       <div class="li-img overflow-hidden position-relative">

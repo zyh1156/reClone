@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="bac">
     <!-- 标题部分 -->
     <div class="box0 overflow-hidden position-relative">
       <img src="../../assets/swiper/00.png" alt />

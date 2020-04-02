@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section  class="bac">
     <!-- banner图 -->
     <div class="banner overflow-hidden">
       <img src="../../assets/swiper/00.png" alt />

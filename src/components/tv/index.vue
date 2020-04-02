@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section  class="bac">
     <search></search>
     <menulist :mlist="mlist"></menulist>
     <cl></cl>

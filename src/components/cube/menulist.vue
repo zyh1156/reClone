@@ -45,14 +45,13 @@ export default {
   props: ["mlist", "menuinx"],
   methods: {
     toTop() {
-      let t = $(".menu-box").offset().top,
-        t2,boxh;
+      let t, t2;
       $(document).scroll(() => {
+        t = $(".menu-x").offset().top;
         t2 = $(document).scrollTop();
-        // boxh=$(".menu-box").height();
         if (t2 > t) {
           $(".menu-box").css("position", "fixed");
-          $(".menu-x").height(boxh=$(".menu-box").height());
+          $(".menu-x").height($(".menu-box").height());
         } else {
           $(".menu-box").css("position", "relative");
         }
@@ -73,8 +72,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.menu-x{
-    min-height: 63px;
+.menu-x {
+  min-height: 63px;
 }
 // 菜单
 .menu-box {
@@ -93,6 +92,7 @@ export default {
     line-height: 1.4;
     padding: 0 40px;
     white-space: nowrap;
+    cursor: pointer;
   }
   .active {
     color: #4d4d4d;

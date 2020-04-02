@@ -1,6 +1,16 @@
 module.exports = {
     devServer: {
-        port: 80
+        port: 80,
+        proxy: {
+            // detail: https://cli.vuejs.org/config/#devserver-proxy
+            '/api': {
+                target: `http://192.168.1.92/api/`,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+        }
     },
     lintOnSave: false,
     runtimeCompiler: true,
