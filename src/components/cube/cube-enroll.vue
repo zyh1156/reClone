@@ -1,5 +1,5 @@
 <template>
-<!-- 活动列表 -->
+  <!-- 活动列表 -->
   <aside class="en-list">
     <router-link
       :to="{name:'enroll',params:{enrollid:123}}"
@@ -76,16 +76,17 @@ export default {
       .money {
         color: $money;
         margin-right: 13px;
+        font-weight: 700;
         .t1 {
-          font-size: 16px;
+          font-size: 20.8px;
         }
         .t2 {
-          font-size: 21px;
+          font-size: 26px;
         }
       }
       .old-money {
-          color: #989898;
-        font-size: 16px;
+        color: #919191;
+        font-size: 20.8px;
         text-decoration: line-through;
       }
       .address {
@@ -99,7 +100,7 @@ export default {
     }
     .btn0 {
       color: #fff;
-      font-size: 19px;
+      font-size: 20px;
       width: 116px;
       height: 48px;
       line-height: 48px;
