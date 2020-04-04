@@ -52,7 +52,7 @@
       <cg :wd="wd" :mlinx="menuInx" @tojv="jumpv"></cg>
       <shopt :teach="teach"></shopt>
       <ss></ss>
-      <tool></tool>
+      <tool :options="tooloptions"></tool>
       <cpay :limitTime="limitTime" :wd="wd"></cpay>
     </div>
   </section>
@@ -63,7 +63,11 @@ import cpay from "../cube/cube-pay";
 import shopt from "../cube/shoptitle";
 import ss from "../cube/stepstone";
 import $ from "jquery";
-import tool from "../cube/tool"
+import tool from "../cube/tool";
+import dayjs from "dayjs";
+let clock = 0,
+  startTime,
+  endTime;
 export default {
   data() {
     return {
@@ -81,7 +85,10 @@ export default {
         m1: "00",
         s1: "00"
       },
-      menuInx: [1]
+      menuInx: [1],
+      tooloptions: {
+        follow: false
+      }
     };
   },
   components: {
@@ -125,17 +132,32 @@ export default {
           showControls: true
         }
       });
+      let data = {
+        id: play.id,
+        end_play_time: player.currentTime,
+        look_time: clock,
+        is_player_rate: parseInt(player.currentTime / player.totalTime),
+        create_time: dayjs().format("YYYY-MM-DD")
+      };
       //   播放控件展示方式
       player.on("play", function() {
+        startTime = new Date();
+        endTime = undefined;
         this.config.defaultViewConfig.showControls = false;
       });
       player.on("pause", function() {
+        endTime = parseInt(new Date() - startTime);
+        clock += endTime;
+        startTime = undefined;
         this.config.defaultViewConfig.showControls = true;
       });
-      window.onbeforeunload = function(e) {
-        // var e = window.event || e;
-        // e.returnValue = "当前播放时间："+player.currentTime;
-      };
+      setInterval(() => {
+        if (endTime) {
+        } else {
+          endTime = parseInt(new Date() - startTime);
+          clock += endTime;
+        }
+      }, 3000);
     },
     toaudio(audio) {
       let music = document.querySelector("audio"),
@@ -161,21 +183,45 @@ export default {
       //    播放
       $(".f1.c2").on("click", function() {
         music.play();
+        startTime = new Date();
+        endTime = undefined;
         that.mp3.play = true;
       });
       //    暂停
       $(".f1.c1").on("click", function() {
         music.pause();
+        endTime = parseInt(new Date() - startTime);
+        clock += endTime;
+        startTime = undefined;
         that.mp3.play = false;
       });
       //   强迫症
       function addzero(x) {
         return x < 10 ? "0" + x : x;
       }
+      let data;
+      setInterval(() => {
+        if (endTime) {
+        } else {
+          endTime = parseInt(new Date() - startTime);
+          clock += endTime;
+        }
+        data = {
+          id: audio.id,
+          end_play_time: music.currentTime || 0,
+          look_time: clock,
+          is_player_rate: parseInt(music.currentTime / music.duration),
+          create_time: dayjs().format("YYYY-MM-DD")
+        };
+      }, 3000);
     },
     getGood: function(gid) {
       this.axios.post("/api/home/goods/show.html", { id: gid }, res => {
         this.wd = res.data.data.data;
+        this.$set(this.tooloptions, "follow", res.data.data.data.is_fav == 1);
+        this.$set(this.tooloptions, "followid", res.data.id);
+        // 赋值讲师
+        this.$set(this.tooloptions, "teach", res.teach);
         this.teach = res.data.data.teach;
         if (res.data.data.data.zk_endtime < new Date().getTime() / 1000) {
           this.limitTime = false;
@@ -192,7 +238,8 @@ export default {
       if (vid != 0) {
         this.jumpv(vid);
       }
-    }
+    },
+    lastbw(data) {}
   },
   mounted() {
     //获取播放器信息
@@ -210,8 +257,8 @@ export default {
   background-color: #fff;
   .thumbnail {
     border-radius: 7px 7px 0 0;
-    img{
-        width: 100%;
+    img {
+      width: 100%;
     }
   }
   .time-box {

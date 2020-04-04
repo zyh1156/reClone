@@ -2,7 +2,7 @@
   <!-- 活动列表 -->
   <aside class="en-list">
     <router-link
-      :to="{name:'enroll',params:{enrollid:123}}"
+      :to="{name:'act',params:{actid:123}}"
       v-for="i in 10"
       v-bind:key="i"
       class="en-li d-flex"

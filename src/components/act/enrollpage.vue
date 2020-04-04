@@ -402,6 +402,7 @@ export default {
   height: 82px;
   background-color: #fff;
   box-shadow: 0 -10px 10px #f2f2f2;
+  z-index: 100;
   a {
     color: #2f2f2f;
     width: 140px;

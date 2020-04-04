@@ -6,11 +6,12 @@ import {
     getCookie
 } from "./cookie"
 export default {
-    post(url, data, call) {
-        let loading = weui.loading("获取中"),
-            token;
-        token = getCookie("token");
-        return axios.post(url, data, {
+    post(url, data, call, nolo) {
+        let loading, token = getCookie("token");
+        if (nolo) {} else {
+            loading = weui.loading("获取中");
+        }
+        axios.post(url, data, {
             headers: {
                 "XX-Token": token,
                 "XX-Device-Type": "mobile",
@@ -18,11 +19,15 @@ export default {
             },
             timeout: 5000
         }).then(res => {
-            loading.hide();
+            if (nolo) {} else {
+                loading.hide();
+            }
             if (res.data.code == 1) {
                 call(res);
+            } else if (res.data.code == 10001) {
+                location.href = "/user/login";
             } else {
-                weui.alert(res.data.msg);
+                location.href = "/error404";
             }
         }, res => {
             loading.hide();

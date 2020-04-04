@@ -64,11 +64,15 @@
           <span class="bb d-inline-block">￥{{wd.red_price}}</span>
         </div>
         <!-- 分享按钮 -->
-        <div class="position-absolute toshare" :class="{'active':wd.rate_goods_money.length>0}">
+        <router-link
+          :to="{name:'share',query:{kc_id:wd.kc_id}}"
+          class="position-absolute toshare"
+          :class="{'active':wd.rate_goods_money.length>0}"
+        >
           <span class="iconfont icon-qiandai"></span>
           <span>{{wd.rate_goods_money}}</span>
           <span>&nbsp;元</span>
-        </div>
+        </router-link>
       </div>
       <!-- 内容部分 -->
       <cg :wd="wd" @tojv="jumpv"></cg>
@@ -77,7 +81,7 @@
       </div>
       <ss></ss>
       <cpay :limitTime="limitTime" :wd="wd"></cpay>
-      <tool></tool>
+      <tool :options="tooloptions"></tool>
     </div>
   </section>
 </template>
@@ -101,6 +105,10 @@ export default {
         h: 0,
         m: 0,
         s: 0
+      },
+      tooloptions: {
+        follow: false,
+        teach: {}
       }
     };
   },
@@ -114,6 +122,11 @@ export default {
           .toFixed(2)
           .split(".");
         this.wd = res.data;
+        // 赋值关注
+        this.$set(this.tooloptions, "follow", res.data.is_fav == 1);
+        this.$set(this.tooloptions, "followid", res.data.id);
+        // 赋值讲师
+        this.$set(this.tooloptions, "teach", res.teach);
         //   修改title
         document.title = res.data.post_title;
         this.teach = res.teach;
@@ -258,8 +271,8 @@ export default {
     color: #fff;
     font-size: 26px;
     border-radius: 8px;
-  border: 1px solid #e94e24;
-  background-color: #ec6541;
+    border: 1px solid #e94e24;
+    background-color: #ec6541;
   }
   .aa {
     border-right: 0;

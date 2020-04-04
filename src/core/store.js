@@ -3,7 +3,6 @@
   Vue.use(Vuex)
   export default new Vuex.Store({
       state: {
-          indexmenu: [], //首页菜单
-          userid: ""
+          userid: "" //用户ID
       }
   })

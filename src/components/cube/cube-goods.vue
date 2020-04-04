@@ -48,13 +48,21 @@
       </div>
       <!-- 学员心得 -->
       <div v-show="menuInx==2" class="t1 db-box2">
-        <div class="db2-tit font-weight-bold position-relative">
+        <!-- 有人评论 -->
+        <div v-show="feelStatus||feel.length>0" class="db2-tit font-weight-bold position-relative">
           <div>学生评论</div>
           <div id="showIOSDialog2" class="position-absolute user-edit">
             <span class="iconfont icon-chuangzuo"></span>
             <span>我要评论</span>
           </div>
         </div>
+        <!-- 无人评论 -->
+        <div class="nobb text-center" v-show="feelStatus&&feel.length==0">
+          <div class="iconfont icon-edit"></div>
+          <div class="txt0">暂时没人评论，快来</div>
+          <div @click="nobb" class="txt1">发表评论</div>
+        </div>
+        <!-- 评论列表 -->
         <div class="db2-body">
           <div class="db2-con" v-for="(wf,inx) in feel" v-bind:key="inx">
             <!-- 头部 -->
@@ -89,6 +97,12 @@
                 <span>回复</span>
               </div>
             </div>
+          </div>
+          <div v-if="zing" class="zloading d-flex justify-content-center align-items-center">
+            <div class="icon">
+              <img src="../../assets/gif/psb.gif" alt />
+            </div>
+            <div>加载中</div>
           </div>
         </div>
       </div>
@@ -127,6 +141,8 @@
 import menul from "./menulist";
 import ss from "./stepstone";
 import $ from "jquery";
+import axios from "axios";
+import { getCookie } from "../../core/cookie";
 export default {
   data() {
     return {
@@ -138,14 +154,23 @@ export default {
       menuList: [
         { text: "课程介绍" },
         { text: "听课列表" },
-        { text: "学员心得" }
+        { text: "学生评论" }
       ],
       menuInx: [0],
       //   评论
       convey: "",
       //   评论类型
       feelType: false,
-      feelData: {}
+      //    评论数据
+      feelData: {},
+      //    评论获取状态
+      feelStatus: false,
+      //   页面
+      feelPage: {
+        nowpage: 0,
+        maxpage: 0
+      },
+      zing: false
     };
   },
   methods: {
@@ -164,14 +189,31 @@ export default {
       }
     },
     // 获取评论
-    getCommet: function() {
-      if (this.feel.length == 0) {
+    getCommet: function(page) {
+      this.feelPage.nowpage = page;
+      let that = this;
+      if (!this.feelStatus) {
+        this.zing = true;
         this.axios.post(
           "/api/user/commentss/getComments.html",
-          { object_id: this.wd.kc_id, table_name: "goods_post", url: "hrpp" },
+          {
+            object_id: this.wd.kc_id,
+            table_name: "goods_post",
+            page: page
+          },
           res => {
-            this.feel = res.data.data.data;
-          }
+            this.zing = false;
+            // 合并数组
+            this.feel = this.feel.concat(res.data.data.data);
+            this.feelPage.maxpage = res.data.data.last_page;
+            // 监听是否加载完
+            if (page < this.feelPage.maxpage) {
+              this.feelStatus = false;
+            } else {
+              this.feelStatus = true;
+            }
+          },
+          true
         );
       }
     },
@@ -179,7 +221,7 @@ export default {
       if (val[0] == 1) {
         this.getitem();
       } else if (val[0] == 2) {
-        this.getCommet();
+        this.getCommet(1);
       }
       this.menuInx = val[0];
     },
@@ -218,12 +260,16 @@ export default {
             $(".weui-mask").click();
             this.convey = "";
             this.weui.toast(res.data.msg, 1500);
-            this.getCommet();
+            this.feelStatus = false;
+            this.getCommet(1);
           } else {
             this.weui.alert(res.data.msg);
           }
         });
       }
+    },
+    nobb() {
+      $(".t1 #showIOSDialog2").click();
     },
     addcon() {
       // WeUI弹窗
@@ -246,6 +292,26 @@ export default {
       $(".t1 .close").on("click", function() {
         $(".weui-mask").click();
       });
+    },
+    scrollLoad() {
+      let scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight; //document的滚动高度
+      let nowScotop =
+        document.documentElement.clientHeight || document.body.clientHeight; //可视区高度
+      let wheight =
+        document.documentElement.scrollTop || document.body.scrollTop; //已滚动高度
+      //   读取评论列表
+      if (this.menuInx == 2) {
+        //   是否快滚到底
+        if (nowScotop >= scrollHeight - wheight * 1.1) {
+          // 页数是否拉满
+          if (this.feelPage.nowpage < this.feelPage.maxpage) {
+            let inx = this.feelPage.nowpage + 1;
+            //获取数据
+            this.getCommet(inx);
+          }
+        }
+      }
     }
   },
   components: {
@@ -255,6 +321,8 @@ export default {
   props: ["wd", "mlinx"],
   mounted() {
     this.addcon();
+    // 添加滚动监听
+    document.addEventListener("scroll", this.scrollLoad);
   }
 };
 </script>
@@ -274,12 +342,12 @@ export default {
   width: 8px;
   background-image: linear-gradient(to right, $theme, $theme-bor);
   content: "";
-  top:24px;
+  top: 25%;
   border-radius: 4px;
 }
 .db2-tit {
   color: #121212;
-  padding: $pardon 35px $pardon/2;
+  padding: $pardon 35px;
   position: relative;
   line-height: 1;
 }
@@ -357,13 +425,13 @@ export default {
       }
     }
     .db2-body {
-      padding: $pardon/2 $pardon;
+      padding: 0 $pardon $pardon;
     }
     .db2-con {
       background-color: #f8f8f8;
-      padding: 27px;
+      padding: $pardon;
       border-radius: 12px;
-      margin: $pardon/2 0;
+      margin: 0 0 $pardon/2;
     }
     .user .iconfont {
       margin-right: 8px;
@@ -435,6 +503,32 @@ export default {
     line-height: 1.4;
     resize: none;
     padding: 10px;
+  }
+}
+.nobb {
+  padding: $pardon 0;
+  line-height: 1.4;
+  .iconfont {
+    font-size: 200px;
+    color: $theme-bac;
+  }
+  .txt1 {
+    color: #fff;
+    margin-top: $pardon;
+    border-radius: 10px;
+    display: inline-block;
+    padding: $pardon/2 $pardon * 1.5;
+    background-image: linear-gradient(to right, $theme, $theme-bor);
+  }
+}
+.zloading {
+  color: #989898;
+  padding: $pardon;
+  .icon {
+    margin-right: $pardon/2;
+    img {
+      width: 28px;
+    }
   }
 }
 </style>

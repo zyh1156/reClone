@@ -14,6 +14,7 @@ export default {
   methods: {
     // 获取用户信息
     getUser() {
+        // id
       this.$store.state.userid = getCookie("userid");
     }
   },

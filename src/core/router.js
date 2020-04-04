@@ -119,6 +119,10 @@ const router = new VueRouter({
         path: "/goods",
         component: reprint,
         children: [{
+            path: "share",
+            component: reRouter("goods/share"),
+            name: 'share'
+        }, {
             path: ":goodsid",
             component: reRouter("goods/index"),
             name: 'goods'

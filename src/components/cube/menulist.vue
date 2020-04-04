@@ -75,7 +75,6 @@ export default {
     let left = $(".en-title").scrollLeft() + dom.offset().left,
       width = dom.outerWidth(),
       devW = window.innerWidth;
-    console.log(left);
     devW = left - devW / 2 + width / 2;
     // console.log(devW);
     $(".en-title").animate(

@@ -220,6 +220,9 @@ export default {
 .swiper-box {
   padding: $pardon $pardon 0;
   background-color: #f7f7f7;
+  img{
+      width: 100%;
+  }
 }
 // 轮播图
 .swiper-container {

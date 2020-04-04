@@ -1,4 +1,10 @@
 <template>
+  <!-- 
+    options:{
+        follow:是否关注
+    }
+  -->
+
   <aside class="t0">
     <div id="showIOSDialog2" class="position-fixed tool-btn text-center">
       <div class="txt0 iconfont icon-icon_work"></div>
@@ -7,19 +13,37 @@
     <div id="dialogs">
       <div class="js_dialog" id="iosDialog2" style="display: none;">
         <div class="weui-mask"></div>
+        <!-- 教师二维码：功能二 -->
+        <div v-if="toteach" class="weixinImg">
+          <div class="wxbox">
+            <div class="d-flex">
+              <div class="user-img">
+                <img :src="options.teach.thumbnail" alt />
+              </div>
+              <div>
+                <div class="t-name">{{options.teach.post_title}}</div>
+                <div class="u-name">{{options.teach.wx_name}}</div>
+              </div>
+            </div>
+            <div class="wx-img">
+              <img :src="options.teach.wx_wxm" alt />
+            </div>
+          </div>
+        </div>
+
         <div id="js_dialog_2" class="weui-half-screen-dialog">
           <!-- 主体 -->
           <div class="weui-half-screen-dialog__bd">
             <div class="d-flex justify-content-between flex-wrap t-box">
-              <a
-                :href="ml.url"
+              <div
+                @click="tapTool(inx,ml)"
                 v-for="(ml,inx) in menuList"
                 v-bind:key="inx"
                 class="t-con text-center"
               >
                 <div class="t-ico iconfont" :class="ml.classObj"></div>
                 <div class="t-txt">{{ml.text}}</div>
-              </a>
+              </div>
             </div>
           </div>
           <!-- 底部 -->
@@ -36,6 +60,7 @@ import $ from "jquery";
 export default {
   data() {
     return {
+      toteach: false,
       menuList: [
         {
           classObj: "icon-shouye",
@@ -48,7 +73,7 @@ export default {
           text: "咨询"
         },
         {
-          classObj: "icon-shoucang",
+          classObj: { "icon-shoucang": true, follow: false },
           text: "收藏"
         },
         {
@@ -77,13 +102,57 @@ export default {
   mounted() {
     this.addcon();
   },
+  watch: {
+    "options.follow"() {
+      if (this.options.follow) {
+        this.menuList[2].classObj.follow = true;
+        this.menuList[2].text = "已收藏";
+      }
+    },
+    toteach() {}
+  },
+  updated() {
+    $(".weixinImg").on("click", function() {
+      $(".weui-mask").click();
+    });
+    $(".wxbox").on("click",function(evt){
+        evt.stopPropagation()
+    })
+  },
+  props: ["options"],
   methods: {
+    tapTool(x, y) {
+      // 默认始终关闭
+      this.toteach = false;
+      if (x == 0) {
+        // 返回首页
+        this.$router.push("/");
+      } else if (x == 1) {
+        this.toteach = true;
+        $(".t0 #js_dialog_2").removeClass("weui-half-screen-dialog_show");
+      } else if (x == 2) {
+        let id = this.options.followid,
+          flag = this.menuList[2].classObj.follow;
+        this.axios.post(
+          "/api/user/Favorites/setFavorites.html",
+          { object_id: id, table_name: "goods_post" },
+          res => {
+            //   切换文字
+            this.menuList[2].text = flag ? "收藏" : "已收藏";
+            //   切换样式
+            this.menuList[2].classObj.follow = !flag;
+          }
+        );
+      }
+    },
     addcon() {
       // WeUI弹窗
       var $dialog1 = $(".t0 #js_dialog_1"),
         $dialog2 = $(".t0 #js_dialog_2"),
-        $iosDialog2 = $(".t0 #iosDialog2");
+        $iosDialog2 = $(".t0 #iosDialog2"),
+        that = this;
       $(".t0 #showIOSDialog2").on("click", function() {
+        that.toteach = false;
         $iosDialog2.show();
         $dialog2.addClass("weui-half-screen-dialog_show");
       });
@@ -92,7 +161,7 @@ export default {
           .parents(".js_dialog")
           .hide();
         $dialog1.removeClass("weui-half-screen-dialog_show");
-        $dialog2.removeClass("weui-half-screen-dialog_show");
+        $(".t0 #js_dialog_2").removeClass("weui-half-screen-dialog_show");
       });
       $(".t0 .close").on("click", function() {
         $(".weui-mask").click();
@@ -103,14 +172,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tool-btn {
-    z-index: 125;
+  z-index: 125;
   cursor: pointer;
   color: #999;
   width: 98px;
   height: 98px;
   border-radius: 49px;
   right: $pardon;
-  bottom:115px;
+  bottom: 115px;
   background-color: #fff;
   box-shadow: 0 0 10px $theme;
   .txt0 {
@@ -152,8 +221,11 @@ export default {
   .t-con:nth-child(2) .t-ico {
     background-color: #82d272;
   }
-  .t-con:nth-child(3) .t-ico {
+  .icon-shoucang {
     background-color: #e1e1e1;
+  }
+  .icon-shoucang.follow {
+    background-color: #ee7800;
   }
   .t-con:nth-child(4) .t-ico {
     background-color: #eb5658;
@@ -177,5 +249,44 @@ export default {
   color: #484848;
   font-size: 30px;
   padding: 34px 0;
+}
+// 微信二维码
+.weixinImg {
+  position: fixed;
+  z-index: 1025;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .wxbox {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+  }
+  .user-img {
+    width: 116px;
+    margin-right: 20px;
+    img {
+      border-radius: 9px;
+    }
+  }
+  .t-name {
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .u-name {
+    margin-top: 24px;
+    color: #727272;
+    font-size: 24px;
+  }
+  .wx-img {
+    img {
+      width: 520px;
+    }
+  }
 }
 </style>

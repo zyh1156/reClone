@@ -185,7 +185,7 @@ export default {
     padding-left: 18px;
     .user-vip {
       color: #a56224;
-      width: 78px;
+      padding: 0 10px;
       height: 34px;
       line-height: 34px;
       background-color: #eac88e;
