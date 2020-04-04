@@ -79,7 +79,7 @@
       <img v-lazy="hwdata.two_ads[0].image" alt />
     </div>
     <!-- 免费课程 -->
-    <showcase :datas="freeCourse"></showcase>
+    <showcase :toplay="true" :datas="freeCourse"></showcase>
     <!-- 底脚 -->
     <footer2></footer2>
   </section>
@@ -91,7 +91,6 @@ import footer2 from "./cube/footer";
 import showcase from "./cube/showcase";
 import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
-import axios2 from "../core/axios";
 export default {
   data() {
     return {
@@ -143,27 +142,30 @@ export default {
         }
       });
     },
-    getData: async function() {
-      let res = await this.axios.post("/api/", {}),
-        data;
-      if (res.status == 200) {
-        data = res.data.data;
+    getData: function() {
+      this.axios.post("/api/", {}, res => {
+        let data = res.data.data;
         //课程
         this.$set(this.tjCourse, "list", data.tj_goods);
         this.$set(this.hotCourse, "list", data.hot_goods);
         this.$set(this.freeCourse, "list", data.mf_goods);
         this.hwdata = data;
-      }
+      });
     },
     setMenu(val) {
       // 菜单跳转
-      let inx = this.$store.state.indexmenu[val[0]].id || "";
+      let inx = this.menuLists[val[0]].id || "";
       this.$router.push({ path: "/entry", query: { entryid: inx } });
     },
-    setgo() {
-      this.menuLists = this.$store.state.indexmenu;
-      //   启动轮播
-      this.toSwiper();
+    getMenu: function() {
+      this.axios.post("/api/home/goods/getcate.html", {}, res => {
+        let arr = [{ text: "全部", id: "" }];
+        res.data.data.forEach(ele => {
+          ele.text = ele.name;
+          arr.push(ele);
+        });
+        this.menuLists = arr;
+      });
     }
   },
   components: {
@@ -175,10 +177,11 @@ export default {
   mounted() {
     // 获取数据
     this.getData();
+    this.getMenu();
   },
   watch: {
-    "$store.state.indexmenu"() {
-      this.setgo();
+    "hwdata.top_ads"() {
+      this.toSwiper();
     }
   }
 };
@@ -191,7 +194,7 @@ export default {
   background-image: linear-gradient(270deg, #dac888 1%, #efdca4 100%);
 }
 .ads {
-  padding: 0 $pardon;
+  padding: $pardon/2 $pardon;
   max-height: 235px;
 }
 .icon {
@@ -278,7 +281,7 @@ export default {
     .m5-txt {
       color: #797979;
       margin-top: 14px;
-      font-size: 22px;
+      font-size: 24px;
     }
   }
 }

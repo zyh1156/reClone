@@ -1,7 +1,7 @@
 <template>
   <section class="bac">
     <search></search>
-    <menulist :mlist="navlist" :menuinx="menuInx" @tapset="setMenu"></menulist>
+    <menulist :mlist="menuLists" :menuinx="menuInx" @tapid="setMenu"></menulist>
     <showCase :datas="caseData"></showCase>
     <foot></foot>
   </section>
@@ -14,7 +14,7 @@ import foot from "../cube/footer";
 export default {
   data() {
     return {
-      navlist: [],
+      menuLists: [],
       caseData: {
         name: "",
         url: "",
@@ -22,7 +22,7 @@ export default {
         type: 0,
         nodata: false
       },
-      menuInx: [0, 0]
+      menuInx: [0, -1]
     };
   },
   components: {
@@ -32,41 +32,56 @@ export default {
     foot
   },
   methods: {
-    getData: async function() {
+    getData: function() {
       let inx = this.$route.query.entryid;
-      let res = await this.axios.post("/api/home/goods/index.html", {
-        category: inx
-      });
-      this.$set(this.caseData, "list", res.data.data.data);
-      if (res.data.data.data.length == 0) {
-        this.$set(this.caseData, "nodata", true);
-      } else {
-        this.$set(this.caseData, "nodata", false);
-      }
+      this.axios.post(
+        "/api/home/goods/index.html",
+        {
+          category: inx
+        },
+        res => {
+          this.$set(this.caseData, "list", res.data.data.data);
+          if (res.data.data.data.length == 0) {
+            this.$set(this.caseData, "nodata", true);
+          } else {
+            this.$set(this.caseData, "nodata", false);
+          }
+        }
+      );
     },
     setMenu(val) {
-      // 菜单跳转
-      let inx = this.navlist[val[0]].id;
-      this.$router.push({ path: "/entry", query: { entryid: inx } });
-      this.getData();
-    },
-    setgo() {
-      this.navlist = this.$store.state.indexmenu;
-      for (let i = 0; i < this.navlist.length; i++) {
-        if (this.$route.query.entryid == this.navlist[i].id) {
-          this.$set(this.menuInx, 0, i);
-          break;
-        }
+      if (this.$route.query.entryid != val) {
+        this.$router.push({ path: "/entry", query: { entryid: val } });
+        this.getData();
       }
+    },
+    getMenu: function() {
+      this.axios.post("/api/home/goods/getcate.html", {}, res => {
+        let arr = [{ text: "全部", id: "" }];
+        res.data.data.forEach(ele => {
+          ele.text = ele.name;
+          arr.push(ele);
+        });
+        this.menuLists = arr;
+      });
     }
   },
   mounted() {
     this.getData();
-    this.setgo();
+    this.getMenu();
   },
   watch: {
-    "$store.state.indexmenu"() {
-      this.setgo();
+    menuLists() {
+      let id = this.$route.query.entryid || "",
+        i;
+      for (i = 0; i < this.menuLists.length; i++) {
+        if (this.menuLists[i].id == id) {
+          // 重置菜单栏
+          this.$set(this.menuInx, 0, i);
+          this.$set(this.menuInx, 1, -1);
+          break;
+        }
+      }
     }
   }
 };

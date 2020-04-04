@@ -25,7 +25,7 @@ datas:{
       </div>
       <!-- 课程部分 -->
       <router-link
-        :to="{name:'goods',params:{goodsid:dl.id}}"
+        :to="{name:totype2,params:{goodsid:dl.id}}"
         v-for="(dl,inx) in datas.list"
         v-bind:key="inx"
         class="course-body d-block"
@@ -36,7 +36,7 @@ datas:{
             <div class="cl-img overflow-hidden">
               <img v-lazy="dl.thumbnail" alt />
             </div>
-            <div class="w-100 position-absolute cl-men">
+            <div class="w-100 position-absolute play-num cl-men">
               <span class="iconfont icon-remen"></span>
               <span>{{dl.post_hits}}人</span>
             </div>
@@ -45,7 +45,7 @@ datas:{
           <div class="cour-right">
             <div class="cr-text line-clamp2">{{dl.post_title}}</div>
             <div class="cr-money d-flex justify-content-between">
-              <div class="renew">已更新109期</div>
+              <div v-if="dl.item_num" class="renew">已更新{{dl.item_num}}期</div>
               <div v-if="dl.free" class="cr-free">免费</div>
               <div v-else>
                 <span v-if="dl.zk_endtime>0" class="money0">￥{{dl.price}}</span>
@@ -74,7 +74,7 @@ datas:{
       <div class="d-flex flex-wrap justify-content-between">
         <!-- begin -->
         <router-link
-          :to="{name:'goods',params:{goodsid:dl.id}}"
+          :to="{name:totype2,params:{goodsid:dl.id},query: { id: dl.id }}"
           v-for="(dl,inx) in datas.list"
           v-bind:key="inx"
           class="course-body2 d-block"
@@ -89,6 +89,7 @@ datas:{
             </div>
           </div>
           <div class="cr-text line-clamp2">{{dl.post_title}}</div>
+          <div v-if="dl.item_num" class="renew">已更新{{dl.item_num}}期</div>
           <div class="money-box">
             <span v-if="dl.free" class="cr-free">免费</span>
             <div v-else>
@@ -114,7 +115,9 @@ datas:{
 <script>
 export default {
   data() {
-    return {};
+    return {
+      totype2: this.toplay ? "play" : "goods"
+    };
   },
   methods: {
     ChangeDate() {
@@ -135,7 +138,7 @@ export default {
       }
     }
   },
-  props: ["datas"],
+  props: ["datas", "toplay"],
   watch: {
     "datas.list"() {
       this.ChangeDate();
@@ -148,24 +151,28 @@ article {
   padding: $pardon/2 $pardon;
   background-color: #f7f7f7;
 }
-.cr-free {
+.cr-free,
+.money2 {
+  font-size: 30px;
   color: $money;
   font-weight: 700;
 }
 
 .money0 {
   color: #919191;
-  font-size: 20.8px;
+  font-size: 22px;
   text-decoration: line-through;
   padding: 0 $pardon/3;
 }
 .money1 {
   color: $money;
-  font-size: 20.8px;
+  font-size: 24px;
   font-weight: 700;
-  .money2 {
-    font-size: 26px;
-  }
+}
+
+.renew {
+  font-size: 24px;
+  color: #999999;
 }
 .course-box {
   padding: $pardon/2;
@@ -174,15 +181,6 @@ article {
   .course-title {
     padding: $pardon/2;
     border-bottom: 2px solid #f6f6f6;
-    .title {
-      font-size: 34px;
-      color: #000;
-      font-weight: bold;
-    }
-    .remore {
-      font-size: 25px;
-      color: #9a9a9a;
-    }
   }
   .course-body:hover {
     background-color: #f8f8f8;
@@ -219,15 +217,10 @@ article {
       width: 430px;
       padding: 0 0 0 20px;
       .cr-text {
-        color: #343434;
         height: 78px;
       }
       .cr-money {
         margin-top: 50px;
-        .renew {
-          font-size: 22px;
-          color: #999999;
-        }
       }
     }
   }
@@ -236,24 +229,22 @@ article {
     border-bottom: 2px solid #f6f6f6;
   }
   .cr-text {
-    color: #343434;
-    font-size: 28px;
     line-height: 1.43;
   }
 }
 
+.title {
+  font-size: 34px;
+  color: #000;
+  font-weight: bold;
+}
+.remore {
+  font-size: 25px;
+  color: #9a9a9a;
+}
 .course-box2 {
   .course-title {
     padding: $pardon/2 0;
-    .title {
-      font-size: 34px;
-      color: #000;
-      font-weight: bold;
-    }
-    .remore {
-      font-size: 25px;
-      color: #9a9a9a;
-    }
   }
   .course-body2 {
     width: 334px;
@@ -272,7 +263,6 @@ article {
       left: 18px;
       bottom: 8px;
       color: #fff;
-      font-size: 22px;
       .iconfont {
         margin-right: 12px;
       }
@@ -282,18 +272,24 @@ article {
       padding: 17px 18px 0 18px;
       height: 93px;
     }
+    .renew {
+      padding: 17px 18px 0 18px;
+    }
 
     .money-box {
       padding: 21px;
     }
   }
-  .cr-text {
-    color: #343434;
-    font-size: 28px;
-    line-height: 1.43;
-  }
 }
-
+.play-num {
+  font-size: 26px;
+}
+.cr-text {
+  line-height: 1.43;
+  font-size: 28px;
+  color: #343434;
+  font-weight: bold;
+}
 .no-content {
   padding: $pardon/2;
   background-color: #fff;

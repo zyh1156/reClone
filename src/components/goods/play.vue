@@ -50,6 +50,9 @@
         </div>
       </div>
       <cg :wd="wd" :mlinx="menuInx" @tojv="jumpv"></cg>
+      <shopt :teach="teach"></shopt>
+      <ss></ss>
+      <tool></tool>
       <cpay :limitTime="limitTime" :wd="wd"></cpay>
     </div>
   </section>
@@ -57,7 +60,10 @@
 <script>
 import cg from "../cube/cube-goods";
 import cpay from "../cube/cube-pay";
+import shopt from "../cube/shoptitle";
+import ss from "../cube/stepstone";
 import $ from "jquery";
+import tool from "../cube/tool"
 export default {
   data() {
     return {
@@ -66,6 +72,7 @@ export default {
         rate_goods_money: "",
         money2: [0, 0]
       },
+      teach: {},
       limitTime: false,
       mp3: {
         play: false,
@@ -79,36 +86,34 @@ export default {
   },
   components: {
     cg,
-    cpay
+    cpay,
+    shopt,
+    ss,
+    tool
   },
   methods: {
-    getData: async function() {
+    getData: function() {
       let id = this.$route.query.id;
       if (id == undefined) {
         this.$router.push("/");
       } else {
-        let bb = await this.axios.post("/api/home/goods/itemshow.html", {
+        this.axios.post(
+          "/api/home/goods/itemshow.html",
+          {
             id: id
-          }),
-          that = this;
-        if (bb.data.code == 1) {
-          let data = bb.data.data.data;
-          document.title = data.post_title;
-          this.pd = data;
-          this.getGood(data.goods_id);
-          if (data.post_type == 1) {
-            this.toplay(data);
-          } else {
-            this.toaudio(data);
+          },
+          res => {
+            let data = res.data.data.data;
+            document.title = data.post_title;
+            this.pd = data;
+            this.getGood(data.goods_id);
+            if (data.post_type == 1) {
+              this.toplay(data);
+            } else {
+              this.toaudio(data);
+            }
           }
-        } else {
-          this.weui.alert(bb.data.msg, function() {
-            that.$router.push({
-              name: "goods",
-              params: { goodsid: bb.data.data }
-            });
-          });
-        }
+        );
       }
     },
     toplay(play) {
@@ -168,18 +173,16 @@ export default {
         return x < 10 ? "0" + x : x;
       }
     },
-    getGood: async function(gid) {
-      let res = await this.axios.post("/api/home/goods/show.html", { id: gid });
-      if (res.data.code == 0) {
-        return;
-      } else {
+    getGood: function(gid) {
+      this.axios.post("/api/home/goods/show.html", { id: gid }, res => {
         this.wd = res.data.data.data;
+        this.teach = res.data.data.teach;
         if (res.data.data.data.zk_endtime < new Date().getTime() / 1000) {
           this.limitTime = false;
         } else {
           this.limitTime = true;
         }
-      }
+      });
     },
     jumpv(vid) {
       this.$router.push({ name: "play", query: { id: vid } });
@@ -207,10 +210,13 @@ export default {
   background-color: #fff;
   .thumbnail {
     border-radius: 7px 7px 0 0;
+    img{
+        width: 100%;
+    }
   }
   .time-box {
     color: #fff;
-    font-size: 18px;
+    font-size: 22px;
     height: 30px;
     width: 160px;
     text-align: center;
@@ -247,13 +253,11 @@ export default {
   .num {
     color: #7b7b7b;
     margin-top: 38px;
-    font-size: 22px;
   }
   .share {
     top: 95px;
     right: 0;
     color: #fff;
-    font-size: 24px;
     padding: $pardon/2 $pardon $pardon/2 $pardon/2;
     background-image: linear-gradient(to right, $theme, $theme-bor);
     border-radius: 25.5px 0 0 25.5px;

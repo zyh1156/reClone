@@ -103,13 +103,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tool-btn {
+    z-index: 125;
   cursor: pointer;
   color: #999;
   width: 98px;
   height: 98px;
   border-radius: 49px;
   right: $pardon;
-  bottom: $pardon * 5;
+  bottom:115px;
   background-color: #fff;
   box-shadow: 0 0 10px $theme;
   .txt0 {
@@ -128,7 +129,7 @@ export default {
     padding: 10px 12.5px;
     .t-txt {
       color: #636363;
-      font-size: 22px;
+      font-size: 26px;
       margin-top: 16px;
     }
     .t-ico {

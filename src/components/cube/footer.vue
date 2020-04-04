@@ -31,7 +31,7 @@ export default {
         },
         {
           text: "课程",
-          url: "/entry?entryid=1",
+          url: "/entry?entryid",
           classObject: {
             "icon-icon_new_recruit": true
           }
@@ -91,7 +91,8 @@ export default {
     }
     .text {
       margin-top: 8px;
-      font-size: 18px;
+      font-size: 24px;
+      font-weight: bold;
     }
   }
   .active {

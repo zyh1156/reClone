@@ -13,14 +13,14 @@
           class="en-menu flex-grow-1 flex-shrink-0 text-center position-relative"
           v-for="(ml,inx) in mlist"
           v-bind:key="inx"
-          @click="tapMenu(inx,0)"
+          @click="tapMenu(inx,0,ml.id)"
         >{{ml.text}}</div>
       </div>
       <div v-for="(ml,inx) in mlist" v-bind:key="inx">
         <div v-if="menuSet[0]==inx" class="en-title2 overflow-auto d-flex">
           <div
             v-for="(ml2,inx2) in ml.zlist"
-            @click="tapMenu(inx2,1)"
+            @click="tapMenu(inx2,1,ml2.id)"
             v-bind:key="inx2"
             class="en-menu flex-shrink-0"
           >
@@ -57,17 +57,33 @@ export default {
         }
       });
     },
-    tapMenu(x, y) {
+    tapMenu(x, y, id) {
       if (y) {
         this.$set(this.menuSet, 1, x);
       } else {
-        this.menuSet = [x, 0];
+        this.menuSet = [x, -1];
       }
       this.$emit("tapset", this.menuSet);
+      this.$emit("tapid", id);
     }
   },
   mounted() {
     this.toTop();
+  },
+  updated() {
+    let dom = $(".en-menu").eq(this.menuSet[0]);
+    let left = $(".en-title").scrollLeft() + dom.offset().left,
+      width = dom.outerWidth(),
+      devW = window.innerWidth;
+    console.log(left);
+    devW = left - devW / 2 + width / 2;
+    // console.log(devW);
+    $(".en-title").animate(
+      {
+        scrollLeft: devW
+      },
+      1000
+    );
   }
 };
 </script>
@@ -91,6 +107,7 @@ export default {
     color: #626262;
     line-height: 1.4;
     padding: 0 40px;
+    font-size: 30px;
     white-space: nowrap;
     cursor: pointer;
   }

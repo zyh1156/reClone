@@ -23,7 +23,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .money-boxs {
-  height: 125px;
+  height: 100px;
 }
 .money-box {
   padding: 6px 27px;

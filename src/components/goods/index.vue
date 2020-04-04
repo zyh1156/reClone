@@ -75,6 +75,7 @@
       <div class="shop-mt">
         <shopt :teach="teach"></shopt>
       </div>
+      <ss></ss>
       <cpay :limitTime="limitTime" :wd="wd"></cpay>
       <tool></tool>
     </div>
@@ -85,6 +86,7 @@ import shopt from "../cube/shoptitle";
 import tool from "../cube/tool";
 import cg from "../cube/cube-goods";
 import cpay from "../cube/cube-pay";
+import ss from "../cube/stepstone";
 export default {
   data() {
     return {
@@ -103,28 +105,26 @@ export default {
     };
   },
   methods: {
-    getData: async function() {
-      let id = this.$route.params.goodsid,
-        res = await this.axios.post("/api/home/goods/show.html", { id: id });
-      if (res.data.code == 0) {
-        return;
-      }
-      res = res.data.data;
-      //价格
-      res.data.money2 = parseFloat(res.data.money)
-        .toFixed(2)
-        .split(".");
-      this.wd = res.data;
-      //   修改title
-      document.title = res.data.post_title;
-      this.teach = res.teach;
-      if (res.data.zk_endtime < new Date().getTime() / 1000) {
-        this.limitTime = false;
-      } else {
-        this.limitTime = true;
-        //   优惠倒计时
-        this.cdtime(res.data.zk_endtime);
-      }
+    getData: function() {
+      let id = this.$route.params.goodsid;
+      this.axios.post("/api/home/goods/show.html", { id: id }, res => {
+        res = res.data.data;
+        //价格
+        res.data.money2 = parseFloat(res.data.money)
+          .toFixed(2)
+          .split(".");
+        this.wd = res.data;
+        //   修改title
+        document.title = res.data.post_title;
+        this.teach = res.teach;
+        if (res.data.zk_endtime < new Date().getTime() / 1000) {
+          this.limitTime = false;
+        } else {
+          this.limitTime = true;
+          //   优惠倒计时
+          this.cdtime(res.data.zk_endtime);
+        }
+      });
     },
     cdtime(time) {
       let now = new Date().getTime() / 1000,
@@ -158,6 +158,7 @@ export default {
     shopt,
     tool,
     cg,
+    ss,
     cpay
   }
 };
@@ -166,6 +167,9 @@ export default {
 .top-box {
   height: 430px;
   overflow: hidden;
+  img {
+    width: 100%;
+  }
   .volume {
     width: 100%;
     left: 0;
@@ -205,7 +209,7 @@ export default {
       padding-left: 18px;
       .aa {
         margin-top: 15px;
-        font-size: 16px;
+        font-size: 20px;
         color: rgba(255, 255, 255, 0.5);
         text-decoration: line-through;
       }
@@ -222,12 +226,12 @@ export default {
     width: 240px;
     .aa {
       margin-top: 12px;
-      font-size: 18px;
+      font-size: 22px;
       color: #dc4f5d;
     }
     .bb {
       margin-top: 8px;
-      font-size: 16px;
+      font-size: 18px;
       color: #7f512b;
       span {
         margin: 0 3px;
@@ -249,13 +253,13 @@ export default {
 .coupon {
   right: 27px;
   bottom: 18px;
-  border: 1px solid #e94e24;
-  background-color: #ec6541;
-  border-radius: 6px;
   span {
     padding: 6px;
     color: #fff;
-    font-size: 20px;
+    font-size: 26px;
+    border-radius: 8px;
+  border: 1px solid #e94e24;
+  background-color: #ec6541;
   }
   .aa {
     border-right: 0;
@@ -292,13 +296,11 @@ export default {
   }
   .txt1 {
     color: #a5a5a5;
-    font-size: 22px;
     line-height: 1.36;
     margin-top: 16px;
   }
   .txt2 {
     color: #a5a5a5;
-    font-size: 22px;
     margin-top: 16px;
   }
 }

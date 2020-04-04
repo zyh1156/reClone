@@ -49,44 +49,44 @@
       <!-- 学员心得 -->
       <div v-show="menuInx==2" class="t1 db-box2">
         <div class="db2-tit font-weight-bold position-relative">
-          <div>精选学生心得</div>
+          <div>学生评论</div>
           <div id="showIOSDialog2" class="position-absolute user-edit">
             <span class="iconfont icon-chuangzuo"></span>
-            <span>记录我的心得</span>
+            <span>我要评论</span>
           </div>
         </div>
         <div class="db2-body">
-          <div class="db2-con" v-for="(wf,inx) in wares.feel" v-bind:key="inx">
+          <div class="db2-con" v-for="(wf,inx) in feel" v-bind:key="inx">
             <!-- 头部 -->
             <div class="user d-flex align-items-center justify-content-between">
               <!-- 昵称 -->
               <div class="d-flex align-items-center">
                 <div class="user-img">
-                  <img v-lazy="wf.img" alt />
+                  <img v-lazy="wf.avatar" alt />
                 </div>
-                <div class="db2-niko font-weight-bold">{{wf.niko}}</div>
+                <div class="db2-niko font-weight-bold">{{wf.full_name}}</div>
               </div>
               <!-- 点赞 -->
-              <div>
+              <div class="d-none">
                 <span class="iconfont icon-dianzan"></span>
-                <span>{{wf.agrees}}</span>
+                <span>{{wf.like_count}}</span>
               </div>
             </div>
             <!-- 内容 -->
             <div class="db2-content">{{wf.content}}</div>
             <!-- 课程 -->
-            <div class="db2-schedule">
-              <span class="iconfont icon-dingdan"></span>
-              <span>{{wf.schedule}}</span>
+            <div v-if="wf.t_full_name" class="db2-schedule">
+              <span class="txt0">[讲师回复]：</span>
+              <span class="txt1">{{wf.c_content}}</span>
             </div>
             <!-- 日期 -->
             <div class="db2-date d-flex justify-content-between">
               <!-- 日程 -->
-              <div>{{wf.date}}</div>
-              <!-- 转发 -->
-              <div>
-                <span class="iconfont icon-fenxiang"></span>
-                <span>分享</span>
+              <div>{{wf.create_time}}</div>
+              <!-- 回复 -->
+              <div v-if="wd.is_teach==1&&!wf.t_full_name" @click="toreply(wf)" class="reply">
+                <span class="iconfont icon-icon_sms"></span>
+                <span>回复</span>
               </div>
             </div>
           </div>
@@ -103,13 +103,13 @@
             <div class="d-flex justify-content-between align-items-center content-tit">
               <!-- 标题 -->
               <div class="db2-tit">
-                <span>记录心得</span>
+                <span>写下评论</span>
                 <span class="znum">({{convey.length}}/200)</span>
               </div>
               <!-- 功能按钮 -->
               <div class="d-flex align-items-center">
                 <div class="btn0 close">取消</div>
-                <div class="btn1" @click="toComment">提交</div>
+                <div class="btn1" @click="sendComment">提交</div>
               </div>
             </div>
             <div class="content-box">
@@ -131,7 +131,9 @@ export default {
   data() {
     return {
       mlinx2: this.mlinx,
+      //课程
       schedule: [],
+      //评论列表
       feel: [],
       menuList: [
         { text: "课程介绍" },
@@ -139,51 +141,38 @@ export default {
         { text: "学员心得" }
       ],
       menuInx: [0],
+      //   评论
       convey: "",
-      wares: {
-        //   介绍列表
-        feel: [
-          {
-            niko: "鸿雁",
-            img: require("../../assets/menu.jpg"),
-            agrees: 2,
-            content:
-              "美国新增近4000例 韩国罕见新冠病例 欧盟主席感谢中国 留学生硬闯小区 安徽解除封闭管理 法国新增1404例 古巨基儿子正面照 北京新增报告2例 香奈儿宣布停产 德国确诊病例破万 美股第五次熔断 国际油价逼近20$ 道指重回20000点 纽约监狱员工确诊",
-            schedule: "数据录入：身份证号，日期是乱码？原因在这里",
-            date: "2020年3月20日 15点48分"
-          },
-          {
-            niko: "鸿雁",
-            img: require("../../assets/menu.jpg"),
-            agrees: 2,
-            content:
-              "美国新增近4000例 韩国罕见新冠病例 欧盟主席感谢中国 留学生硬闯小区 安徽解除封闭管理 法国新增1404例 古巨基儿子正面照 北京新增报告2例 香奈儿宣布停产 德国确诊病例破万 美股第五次熔断 国际油价逼近20$ 道指重回20000点 纽约监狱员工确诊",
-            schedule: "数据录入：身份证号，日期是乱码？原因在这里",
-            date: "2020年3月20日 15点48分"
-          }
-        ]
-      }
+      //   评论类型
+      feelType: false,
+      feelData: {}
     };
   },
   methods: {
-    getitem: async function() {
+    getitem: function() {
       if (this.schedule.length == 0) {
         //获取听课列表
-        let data = await this.axios.post("/api/home/goods/getitem.html", {
-          kc_id: this.wd.kc_id
-        });
-        if (data.data.code == 1) {
-          this.schedule = data.data.data;
-        }
+        this.axios.post(
+          "/api/home/goods/getitem.html",
+          {
+            kc_id: this.wd.kc_id
+          },
+          res => {
+            this.schedule = res.data.data;
+          }
+        );
       }
     },
-    getCommet: async function() {
+    // 获取评论
+    getCommet: function() {
       if (this.feel.length == 0) {
-        let data = await this.axios.post(
+        this.axios.post(
           "/api/user/commentss/getComments.html",
-          { object_id: this.wd.kc_id, table_name: "goods_post", url: "hrpp" }
+          { object_id: this.wd.kc_id, table_name: "goods_post", url: "hrpp" },
+          res => {
+            this.feel = res.data.data.data;
+          }
         );
-        console.log(data);
       }
     },
     setMenu(val) {
@@ -197,34 +186,48 @@ export default {
     jumpv(vid) {
       this.$emit("tojv", vid);
     },
-    toComment: async function() {
-      let that = this,
-        data = {
-          object_id: this.wd.kc_id,
-          table_name: "goods_post",
-          content: this.convey,
-          url: location.pathname + location.search,
-          parent_id: "",
-          user_id: this.wd.user_id
-        };
+    // 去回复
+    toreply(wf) {
+      this.feelType = true;
+      $(".t1 #showIOSDialog2").click();
+      this.feelData = {
+        parent_id: wf.id, //回复者ID
+        to_user_id: wf.user_id //发给谁
+      };
+    },
+    //发送评论
+    sendComment: function() {
+      let data = {
+        object_id: this.wd.kc_id,
+        table_name: "goods_post",
+        content: this.convey,
+        url: location.pathname + location.search,
+        parent_id: "",
+        to_user_id: this.wd.user_id
+      };
+      if (this.feelType) {
+        data.parent_id = this.feelData.parent_id; //发给谁
+        data.to_user_id = this.feelData.to_user_id; //发给谁
+      }
       if (this.convey.length == 0) {
-        this.weui.alert("内容不为空。");
+        this.weui.alert("内容不能为空。");
       } else {
-        let res = await this.axios.post(
-          "/api/user/commentss/setComments.html",
-          data
-        );
-        //   评论成功
-        if (res.data.code == 1) {
-          $(".weui-mask").click();
-          this.weui.toast(res.data.msg, 3000);
-        } else {
-          this.weui.alert(res.data.msg);
-        }
+        this.axios.post("/api/user/commentss/setComments.html", data, res => {
+          //   评论成功
+          if (res.data.code == 1) {
+            $(".weui-mask").click();
+            this.convey = "";
+            this.weui.toast(res.data.msg, 1500);
+            this.getCommet();
+          } else {
+            this.weui.alert(res.data.msg);
+          }
+        });
       }
     },
     addcon() {
       // WeUI弹窗
+      this.feelType = false;
       var $dialog1 = $(".t1 #js_dialog_1"),
         $dialog2 = $(".t1 #js_dialog_2"),
         $iosDialog2 = $(".t1 #iosDialog2");
@@ -267,16 +270,16 @@ export default {
 .db2-tit::before {
   position: absolute;
   left: 18px;
-  height: 30px;
+  height: 50%;
   width: 8px;
   background-image: linear-gradient(to right, $theme, $theme-bor);
   content: "";
-  top: 25.5px;
+  top:24px;
   border-radius: 4px;
 }
 .db2-tit {
   color: #121212;
-  padding: $pardon 35px;
+  padding: $pardon 35px $pardon/2;
   position: relative;
   line-height: 1;
 }
@@ -303,13 +306,12 @@ export default {
         }
         .txt0 {
           color: #0a0a0a;
-          font-size: 24px;
-          line-height: 1.33;
+          line-height: 1.4;
         }
         .txt1 {
           color: #808080;
           margin-top: 42px;
-          font-size: 24px;
+          font-size: 26px;
         }
         .islook {
           font-weight: 700;
@@ -347,7 +349,6 @@ export default {
       line-height: 54px;
       border-radius: 27px;
       color: $theme-bor;
-      font-size: 24px;
       background-color: $theme-bac;
       top: $pardon/2;
       right: $pardon;
@@ -356,13 +357,13 @@ export default {
       }
     }
     .db2-body {
-      padding: 0 18px 18px;
+      padding: $pardon/2 $pardon;
     }
     .db2-con {
       background-color: #f8f8f8;
       padding: 27px;
       border-radius: 12px;
-      margin-bottom: 18px;
+      margin: $pardon/2 0;
     }
     .user .iconfont {
       margin-right: 8px;
@@ -370,28 +371,29 @@ export default {
     .user-img {
       width: 64px;
       height: 64px;
-      border: 1px solid #fff;
       margin-right: $pardon/2;
       img {
         border-radius: 32px;
+        border: 1px solid #fff;
       }
     }
     .db2-content {
-      margin-top: 27px;
-      line-height: 1.54;
+      margin-top: $pardon/2;
+      line-height: 1.4;
     }
     .db2-schedule {
       color: #989898;
       margin-top: 20px;
-      font-size: 24px;
-      .iconfont {
-        margin-right: 10px;
+      word-break: break-all;
+      line-height: 1.4;
+      .txt0 {
+        color: $theme-bor;
       }
     }
     .db2-date {
       color: #989898;
-      margin-top: 27px;
-      font-size: 20px;
+      margin-top: $pardon/2;
+      font-size: 24px;
       .iconfont {
         margin-right: 8px;
       }
@@ -399,6 +401,7 @@ export default {
   }
 }
 .content-tit {
+  margin-top: $pardon;
   .znum {
     margin-left: 22px;
     color: #949494;
@@ -418,6 +421,9 @@ export default {
     border-radius: 30px;
     margin: 0 36px 0 20px;
   }
+}
+.reply {
+  cursor: pointer;
 }
 .content-box {
   padding: 0 $pardon $pardon;
