@@ -65,9 +65,8 @@ import ss from "../cube/stepstone";
 import $ from "jquery";
 import tool from "../cube/tool";
 import dayjs from "dayjs";
-let clock = 0,
-  startTime,
-  endTime;
+import { setCookie, getCookie } from "../../core/cookie";
+let clock, startTime;
 export default {
   data() {
     return {
@@ -100,6 +99,7 @@ export default {
   },
   methods: {
     getData: function() {
+      // 获取数据
       let id = this.$route.query.id;
       if (id == undefined) {
         this.$router.push("/");
@@ -124,47 +124,49 @@ export default {
       }
     },
     toplay(play) {
+      // 添加视频播放器
+      let that = this;
       let container = document.getElementById("player");
       let player = new QPlayer({
         url: play.play_url,
         container: container,
         defaultViewConfig: {
+          // 播放器默认展示方式
           showControls: true
-        }
+        },
+        loggerLevel:3
       });
-      let data = {
-        id: play.id,
-        end_play_time: player.currentTime,
-        look_time: clock,
-        is_player_rate: parseInt(player.currentTime / player.totalTime),
-        create_time: dayjs().format("YYYY-MM-DD")
-      };
       //   播放控件展示方式
       player.on("play", function() {
-        startTime = new Date();
-        endTime = undefined;
         this.config.defaultViewConfig.showControls = false;
+        // 记录开始时间
+        startTime = new Date().getTime();
       });
       player.on("pause", function() {
-        endTime = parseInt(new Date() - startTime);
-        clock += endTime;
-        startTime = undefined;
         this.config.defaultViewConfig.showControls = true;
       });
-      setInterval(() => {
-        if (endTime) {
-        } else {
-          endTime = parseInt(new Date() - startTime);
-          clock += endTime;
+      //   获取当前播放时间
+      player.on("timeupdate", function() {
+        //   记录结束时间
+        clock = parseInt((new Date().getTime() - startTime) / 1000);
+        // 写入cookie
+        if (clock > 59) {
+          let data = {
+            id: play.id,
+            end_play_time: parseInt(this.currentTime),
+            look_time: clock,
+            is_player_rate: parseInt((this.currentTime / this.totalTime) * 100),
+            create_time: dayjs().format("YYYY-MM-DD"),
+            toajax: false
+          };
+          setCookie("playtime", JSON.stringify(data));
         }
-      }, 3000);
+      });
     },
     toaudio(audio) {
       let music = document.querySelector("audio"),
         that = this,
-        time,
-        m,
-        s;
+        time;
       // 设置播放地址
       music.src = that.pd.play_url;
       //获取当前时长
@@ -172,6 +174,22 @@ export default {
         time = parseInt(music.currentTime);
         that.mp3.m0 = addzero(parseInt(time / 60));
         that.mp3.s0 = addzero(time % 60);
+        //   记录结束时间
+        clock = parseInt((new Date().getTime() - startTime) / 1000);
+        // 写入cookie
+        if (clock > 59) {
+          let data = {
+            id: audio.id,
+            end_play_time: parseInt(music.currentTime),
+            look_time: clock,
+            is_player_rate: parseInt(
+              (music.currentTime / music.duration) * 100
+            ),
+            create_time: dayjs().format("YYYY-MM-DD"),
+            toajax: false
+          };
+          setCookie("playtime", JSON.stringify(data));
+        }
       });
       //获取总播放时长
       $("audio").on("canplay", function() {
@@ -180,42 +198,26 @@ export default {
         that.mp3.m1 = addzero(parseInt(time / 60));
         that.mp3.s1 = addzero(time % 60);
       });
-      //    播放
+      //    播放按钮
       $(".f1.c2").on("click", function() {
         music.play();
-        startTime = new Date();
-        endTime = undefined;
         that.mp3.play = true;
+        // 记录开始时间
+        startTime = new Date().getTime();
       });
-      //    暂停
+      //    暂停按钮
       $(".f1.c1").on("click", function() {
         music.pause();
-        endTime = parseInt(new Date() - startTime);
-        clock += endTime;
-        startTime = undefined;
         that.mp3.play = false;
       });
+      //   记录播放数据
       //   强迫症
       function addzero(x) {
         return x < 10 ? "0" + x : x;
       }
-      let data;
-      setInterval(() => {
-        if (endTime) {
-        } else {
-          endTime = parseInt(new Date() - startTime);
-          clock += endTime;
-        }
-        data = {
-          id: audio.id,
-          end_play_time: music.currentTime || 0,
-          look_time: clock,
-          is_player_rate: parseInt(music.currentTime / music.duration),
-          create_time: dayjs().format("YYYY-MM-DD")
-        };
-      }, 3000);
     },
     getGood: function(gid) {
+      // 获取商品详情
       this.axios.post("/api/home/goods/show.html", { id: gid }, res => {
         this.wd = res.data.data.data;
         this.$set(this.tooloptions, "follow", res.data.data.data.is_fav == 1);
@@ -238,8 +240,7 @@ export default {
       if (vid != 0) {
         this.jumpv(vid);
       }
-    },
-    lastbw(data) {}
+    }
   },
   mounted() {
     //获取播放器信息

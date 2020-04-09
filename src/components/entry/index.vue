@@ -2,7 +2,7 @@
   <section class="bac">
     <search></search>
     <menulist :mlist="menuLists" :menuinx="menuInx" @tapid="setMenu"></menulist>
-    <showCase :datas="caseData"></showCase>
+    <showCase :datas="caseData" :nodata="page.ojbk"></showCase>
     <foot></foot>
   </section>
 </template>
@@ -19,8 +19,7 @@ export default {
         name: "",
         url: "",
         list: [],
-        type: 0,
-        nodata: false
+        type: 0
       },
       menuInx: [0, -1],
       page: {
@@ -38,7 +37,8 @@ export default {
   },
   methods: {
     getData(page) {
-      let inx = this.$route.query.entryid;
+      let inx = this.$route.query.entryid,
+        arr = [];
       this.page.now = page;
       if (!this.page.ojbk) {
         this.axios.post(
@@ -48,13 +48,8 @@ export default {
             page: page
           },
           res => {
-            this.$set(this.caseData, "list", res.data.data.data);
-            //   是否无数据
-            if (res.data.data.data.length == 0) {
-              this.$set(this.caseData, "nodata", true);
-            } else {
-              this.$set(this.caseData, "nodata", false);
-            }
+            arr = this.caseData.list.concat(res.data.data.data);
+            this.$set(this.caseData, "list", arr);
             //   是否所有页数加载完成
             this.page.max = res.data.data.last_page;
             if (page < this.page.max) {
@@ -68,6 +63,8 @@ export default {
     },
     setMenu(val) {
       if (this.$route.query.entryid != val) {
+        this.page.ojbk = false;
+        this.caseData.list = [];
         this.$router.push({ path: "/entry", query: { entryid: val } });
         this.getData(1);
       }

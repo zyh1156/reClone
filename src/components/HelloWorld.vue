@@ -57,7 +57,7 @@
       >
         <div class="ch0">
           <div class="txt0 font-weight-bold">大V直播</div>
-          <div class="txt1">{{hwdata.tv.post_title}}</div>
+          <div class="txt1 line-clamp2">{{hwdata.tv.post_title}}</div>
           <div class="txt2 line-clamp2">{{hwdata.tv.post_excerpt}}</div>
         </div>
         <div class="ch1 overflow-hidden position-relative">
@@ -91,6 +91,7 @@ import footer2 from "./cube/footer";
 import showcase from "./cube/showcase";
 import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
+let mySwiper;
 export default {
   data() {
     return {
@@ -129,12 +130,16 @@ export default {
         list: [],
         type: 0
       },
-      menuLists: []
+      menuLists: [],
+      addSwiper: true
     };
   },
   methods: {
     toSwiper() {
-      new Swiper(".swiper-container", {
+      if (mySwiper) {
+        mySwiper.destroy(false);
+      }
+      mySwiper = new Swiper(".swiper-container", {
         loop: true, // 循环模式选项
         // 如果需要分页器
         pagination: {
@@ -146,10 +151,11 @@ export default {
       this.axios.post("/api/", {}, res => {
         let data = res.data.data;
         //课程
+        this.hwdata = data;
         this.$set(this.tjCourse, "list", data.tj_goods);
         this.$set(this.hotCourse, "list", data.hot_goods);
         this.$set(this.freeCourse, "list", data.mf_goods);
-        this.hwdata = data;
+        this.$set(this.hwdata, "top_ads", data.top_ads);
       });
     },
     setMenu(val) {
@@ -179,10 +185,8 @@ export default {
     this.getData();
     this.getMenu();
   },
-  watch: {
-    "hwdata.top_ads"() {
-      this.toSwiper();
-    }
+  updated() {
+    this.toSwiper();
   }
 };
 </script>
@@ -220,8 +224,8 @@ export default {
 .swiper-box {
   padding: $pardon $pardon 0;
   background-color: #f7f7f7;
-  img{
-      width: 100%;
+  img {
+    width: 100%;
   }
 }
 // 轮播图
@@ -244,6 +248,7 @@ export default {
     .txt1 {
       margin-top: 16px;
       font-size: 27px;
+      line-height: 1.4;
     }
     .txt2 {
       color: #949494;

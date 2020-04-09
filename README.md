@@ -6,6 +6,8 @@
 ~~把 [vue.config.js][config] 里 css 的配置删掉和原来也没什么区别~~  
 ~~以下是@vue/cli 自带文档 <(^_^)>~~
 
+212:127
+
 ## Project setup
 ```
 npm install

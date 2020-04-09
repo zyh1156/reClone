@@ -2,68 +2,63 @@
   <section class="bac">
     <!-- 标题部分 -->
     <div class="box0 overflow-hidden position-relative">
-      <img src="../../assets/swiper/00.png" alt />
-      <div class="text-center tip position-absolute">热门</div>
-      <div class="bt0 text-center font-weight-bold position-absolute">限时优惠</div>
-      <div class="bt1 position-absolute">距离优惠结束还有多久</div>
+      <img :src="ad.thumbnail" alt />
+      <div v-if="ad.is_top" class="text-center tip position-absolute">热门</div>
+      <div v-if="surTime.show">
+        <div class="bt0 text-center font-weight-bold position-absolute">火热报名</div>
+        <div class="bt1 position-absolute">距离报名结束还有{{this.surTime.string}}</div>
+      </div>
     </div>
     <!-- 价格部分 -->
     <div class="money-pean">
-      <div class="tit">英语进阶版报名</div>
-      <div class="tit2">英语进阶版报名</div>
-      <div class="money-box justify-content-between align-items-end d-flex">
+      <div class="tit">{{ad.post_title}}</div>
+      <div class="tit2">{{ad.post_excerpt}}</div>
+      <div class="money-box justify-content-between align-items-center d-flex">
         <div>
           <span class="txt0">￥</span>
-          <span class="txt1 font-weight-bold">0.01</span>
-          <span class="txt2">689.00</span>
+          <span class="txt1 font-weight-bold">{{ad.rate_act_money}}</span>
+          <span class="txt2 d-none">{{ad.price}}</span>
         </div>
-        <div class="text-center">
+        <div class="text-center adfavs" @click="adfav" :class="{'fav':ad.is_fav==1}">
           <div class="txt3 iconfont icon-shoucang1"></div>
-          <div class="txt4">收藏</div>
+          <div v-if="ad.is_fav==1" class="txt4">已收藏</div>
+          <div v-else class="txt4">收藏</div>
         </div>
       </div>
     </div>
     <!-- 广告 -->
-    <div class="en-ads align-items-center d-flex justify-content-between">
+    <!--
+    <div class="d-none en-ads align-items-center d-flex justify-content-between">
       <div class="pan1 d-flex align-items-center">
         <span class="txt0 iconfont icon-lipinka"></span>
         <span class="txt1">自购省钱，推荐赚钱</span>
       </div>
       <div class="pan2">去加入</div>
     </div>
+    -->
     <!-- 分享 -->
     <div class="en-share">
       <div class="tit">他们都在逛</div>
       <div class="con d-flex align-items-center justify-content-between">
         <div class="ens-user d-flex">
-          <div class="ens-li position-relative">
-            <img src="../../assets/menu.jpg" alt />
-          </div>
-          <div class="ens-li position-relative">
-            <img src="../../assets/menu.jpg" alt />
-          </div>
-          <div class="ens-li position-relative">
-            <img src="../../assets/menu.jpg" alt />
-          </div>
-          <div class="ens-li position-relative">
-            <img src="../../assets/menu.jpg" alt />
-          </div>
-          <div class="ens-li position-relative">
-            <img src="../../assets/menu.jpg" alt />
+          <div v-for="(g,inx) in go" v-bind:key="inx" class="ens-li position-relative">
+            <img :src="g.avatar" alt />
           </div>
           <div class="ens-li position-relative text-center ens-more">...</div>
         </div>
         <div class="ens-btn">
-            <span class="iconfont icon-fenxiang"></span>
-            <span>分享</span>
+          <span class="iconfont icon-fenxiang"></span>
+          <span>分享</span>
         </div>
       </div>
     </div>
     <!-- 名片 -->
     <div class="en-visi">
+      <st :teach="teach"></st>
+      <!--
       <div class="ev-body">
         <router-link
-          :to="{name:'shop',params:{shopid:123}}"
+          :to="{name:'room',params:{roomid:123}}"
           class="tit d-flex justify-content-between"
         >
           <div class="txt0">名片</div>
@@ -85,13 +80,17 @@
           </div>
         </div>
       </div>
+      -->
     </div>
-    <menus :mlist="menu"></menus>
+    <menus :mlist="menu" @tapset="setCli"></menus>
     <!-- 内容介绍 -->
     <div class="en-panel">
-      <div class="content">
-        <div>新冠肺炎疫情近日在西班牙迅速蔓延，24日上午该国统计的死亡人数超过2000人，相比3天前的1002人死亡增加了一倍多。由于死亡人数的不断增加，西班牙首都马德里的一处溜冰场也变为了一个临时停尸房。</div>
-        <div>综合CNN、路透社24日报道，马德里自治区主席办公室对媒体表示，西班牙紧急军事部队正把新冠肺炎死者的遗体运往马德里欧达列萨区(Hortaleza)一处名为“冰宫”的溜冰场。当地政府表示，这是一项“临时和非常的措施”，旨在减轻死者家属的痛苦以及马德里医院的负担。</div>
+      <div v-if="menuInx==0" class="content" v-html="ad.post_content"></div>
+      <div v-else class="content">
+        <p>报名人数：{{ad.pay_num}}/{{ad.max_num}}</p>
+        <p>创建时间：{{ad.create_timeString}}</p>
+        <p>活动时间：{{ad.post_time}}</p>
+        <p>活动地址：{{ad.post_address}}</p>
       </div>
       <div class="en-shadow"></div>
     </div>
@@ -108,20 +107,114 @@
         <div>我的</div>
       </a>
       <!-- 立即报名 -->
-      <div class="bm font-weight-bold text-center">立即报名</div>
+      <div class="bm font-weight-bold text-center" :class="{'out':!surTime.show||ad.is_pay}">
+        <span v-if="ad.is_pay==1">已支付</span>
+        <span v-else-if="surTime.show">立即报名</span>
+        <span v-else>已结束</span>
+      </div>
     </div>
   </section>
 </template>
 <script>
 import menus from "../cube/menulist";
+import st from "../cube/shoptitle";
+import dayjs from "dayjs";
 export default {
   data() {
     return {
-      menu: [{ text: "内容介绍" }, { text: "购买须知" }]
+      menu: [{ text: "活动介绍" }, { text: "活动详情" }],
+      menuInx: 0,
+      ad: {},
+      surTime: {
+        show: false,
+        string: ""
+      },
+      go: [],
+      teach: {}
     };
   },
   components: {
-    menus
+    menus,
+    st
+  },
+  methods: {
+    getData() {
+      // 获取数据
+      let actid = this.$route.params.actid;
+      this.axios.post("/api/home/act/show.html", { id: actid }, res => {
+        this.ad = res.data.data.data;
+        this.go = res.data.data.go.slice(0, 5);
+        this.teach = res.data.data.teach;
+        this.ad.create_timeString = dayjs(
+          res.data.data.data.create_time * 1000
+        ).format("YYYY-MM-DD HH:mm:ss");
+        if (this.ad.endtime < new Date().getTime() / 1000) {
+          this.surTime.show = false;
+        } else {
+          this.surTime.show = true;
+          this.calcuTime(this.ad.endtime);
+        }
+      });
+    },
+    setCli(val) {
+      this.menuInx = val[0];
+    },
+    // 收藏按钮
+    adfav() {
+      if (this.ad.is_fav == 1) {
+        this.weui.confirm("您确定取消关注吗？", () => {
+          this.tofllow();
+        });
+      } else {
+        this.tofllow();
+      }
+    },
+    tofllow() {
+      this.axios.post(
+        "/api/user/Favorites/setFavorites.html",
+        {
+          object_id: this.ad.id,
+          table_name: "act_post",
+          url: "/act/" + this.ad.id
+        },
+        res => {
+          this.weui.toast(res.data.msg, 1500);
+          this.ad.is_fav = this.ad.is_fav == 1 ? 0 : 1;
+        }
+      );
+    },
+    calcuTime(time) {
+      let now = new Date().getTime() / 1000,
+        that = this,
+        clock = setInterval(clockTime, 1000);
+      function clockTime() {
+        now++;
+        if (now > time) {
+          clearInterval(clock);
+          window.location.reload();
+        } else {
+          let d = parseInt((time - now) / 86400),
+            h = parseInt((time - now - d * 86400) / 3600),
+            m = parseInt((time - now - d * 86400 - h * 3600) / 60),
+            s = parseInt((time - now) % 60);
+          that.surTime.string =
+            addzero(d) +
+            "天" +
+            addzero(h) +
+            "时" +
+            addzero(m) +
+            "分" +
+            addzero(s) +
+            "秒";
+        }
+      }
+      function addzero(x) {
+        return x < 10 ? "0" + x : x;
+      }
+    }
+  },
+  mounted() {
+    this.getData();
   }
 };
 </script>
@@ -129,6 +222,9 @@ export default {
 .box0 {
   height: 450px;
   color: #fff;
+  img {
+    width: 100%;
+  }
   .tip {
     width: 38px;
     height: 50px;
@@ -143,7 +239,8 @@ export default {
     z-index: -1;
     content: "";
     left: 0;
-    bottom: -38px;
+    width: 100%;
+    bottom: -36px;
     position: absolute;
     border: 19px solid #4071cd;
     border-bottom-color: transparent;
@@ -152,7 +249,7 @@ export default {
     width: 205px;
     height: 86px;
     font-size: 32px;
-    line-height: 85px;
+    line-height: 86px;
     bottom: 0;
     left: 0;
     z-index: 10;
@@ -161,12 +258,11 @@ export default {
   .bt0::after {
     content: "";
     position: absolute;
-    right: -43px;
-    top: 0;
-    border-top: 43px solid transparent;
-    border-right: 21.5px solid transparent;
-    border-bottom: 43px solid $theme-bor;
-    border-left: 21.5px solid $theme-bor;
+    right: -41px;
+    top: 0px;
+    border-color: transparent transparent $theme-bor $theme-bor;
+    border-style: solid;
+    border-width: 43px 21.5px;
   }
   .bt1 {
     text-align: right;
@@ -176,7 +272,7 @@ export default {
     bottom: 0;
     padding-right: 19px;
     line-height: 72px;
-    font-size: 20px;
+    font-size: 24px;
     background-image: linear-gradient(to right, $theme, $theme-bor);
   }
 }
@@ -189,31 +285,43 @@ export default {
   .tit2 {
     color: #9b9b9b;
     margin-top: 22px;
+    padding-bottom: $pardon;
+    border-bottom: 1px solid #f8f8f8;
   }
   .money-box {
     margin-top: 17px;
     .txt0 {
       color: $money;
-      font-size: 16px;
+      font-size: 24px;
     }
     .txt1 {
       color: $money;
       margin-left: 6px;
-      font-size: 32px;
+      font-size: 36px;
     }
     .txt2 {
       color: #989898;
       margin-left: 12px;
-      font-size: 16px;
+      font-size: 24px;
       text-decoration: line-through;
     }
     .txt3 {
-      color: #ddd;
+      color: $money;
       font-size: 42px;
     }
     .txt4 {
-      color: #a0a0a0;
       margin-top: 16px;
+    }
+    .adfavs {
+      width: 90px;
+    }
+    .fav {
+      .txt3 {
+        color: #ddd;
+      }
+      .txt4 {
+        color: #a0a0a0;
+      }
     }
   }
 }
@@ -233,15 +341,15 @@ export default {
   }
   .pan2 {
     padding: 27px 57px 27px 30px;
-    background: #f2eee5 url(../../assets/right-ico.png) no-repeat 110px center;
-    background-size: 24px;
+    background: #f2eee5 url(../../assets/right-ico.png) no-repeat 120px center;
+    background-size: auto 24px;
   }
 }
 .en-share {
   padding: 27px 27px 0;
   background-color: #fff;
   .tit {
-    font-size: 22px;
+    font-size: 26px;
   }
   .con {
     padding: 27px 0;
@@ -284,15 +392,18 @@ export default {
       }
     }
     .ens-btn {
-      font-size: 20px;
+      font-size: 24px;
       color: #fff;
-      padding: 18px 27px;
+      width: 140px;
+      text-align: center;
+      height: 66px;
+      line-height: 66px;
       border-radius: 29px;
-      background-color: $theme;
+      background-image: linear-gradient(to right, $theme, $theme-bor);
       border: 1px solid $theme-bor;
-      .iconfont{
-          margin-right: 6px;
-          font-size: 26px;
+      .iconfont {
+        margin-right: 6px;
+        font-size: 26px;
       }
     }
   }
@@ -304,15 +415,14 @@ export default {
     background-color: #fff;
     .tit {
       padding: 24px 0;
-      font-size: 20px;
       border-bottom: 1px solid #e2e2e2;
-      .txt0{
-          color: #333;
+      .txt0 {
+        color: #333;
       }
       .txt1 {
         padding-right: 24px;
         color: #969696;
-        background: url(../../assets/right-ico2.png) no-repeat 50px center;
+        background: url(../../assets/right-ico2.png) no-repeat 58px center;
         background-size: auto 20px;
       }
     }
@@ -331,7 +441,7 @@ export default {
         }
         .addr {
           margin-top: 18px;
-          font-size: 20px;
+          font-size: 24px;
           color: #a3a3a3;
         }
       }
@@ -387,12 +497,18 @@ export default {
   }
   .content {
     padding: 27px;
-    font-size: 22px;
+    font-size: 26px;
     line-height: 2;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1;
+    p {
+      margin: 0;
+    }
   }
 }
 .en-shadow {
-  height: 140px;
+  height: 110px;
   background-color: #f8f8f8;
 }
 .now-btn {
@@ -414,9 +530,12 @@ export default {
   .bm {
     color: #fff;
     width: 470px;
-    background-color: $theme;
+    background: linear-gradient(to right, $theme, $theme-bor);
     font-size: 28px;
     padding: 27px 0;
+  }
+  .bm.out {
+    background: #c3c3c3;
   }
 }
 </style>

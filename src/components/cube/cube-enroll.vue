@@ -2,44 +2,56 @@
   <!-- 活动列表 -->
   <aside class="en-list">
     <router-link
-      :to="{name:'act',params:{actid:123}}"
-      v-for="i in 10"
-      v-bind:key="i"
+      :to="{name:'act',params:{actid:e.id}}"
+      v-for="(e,inx) in enlist"
+      v-bind:key="inx"
       class="en-li d-flex"
     >
-      <div class="en-img overflow-hidden">
-        <img src="../../assets/menu.jpg" alt />
+      <div class="en-left overflow-hidden">
+        <div class="en-img overflow-hidden">
+          <img :src="e.thumbnail" alt />
+        </div>
+        <div class="en-time">{{e.endtime}}</div>
       </div>
       <div
-        class="en-con align-items-center align-content-around d-flex align-items-center flex-wrap"
+        class="en-con position-relative align-items-center align-content-around d-flex align-items-center flex-wrap"
       >
-        <div class="txt0 font-weight-bold w-100">语文学习技巧公开课</div>
-        <div class="txt1 w-100">免费技工技术文档</div>
+        <div class="txt0 line-clamp2 font-weight-bold w-100">{{e.post_title}}</div>
+        <div class="txt1 w-100">{{e.name}}</div>
         <div class="txt2 d-flex w-100 justify-content-between">
           <div>
             <div class="d-flex align-items-center">
               <div class="money">
                 <span class="t1">￥</span>
-                <span class="t2">0.01</span>
+                <span class="t2">{{e.price}}</span>
               </div>
-              <div class="old-money">0.01</div>
+              <!-- <div class="old-money">0.01</div> -->
             </div>
-            <div class="address">
+            <!-- <div class="address">
               <span class="iconfont icon-dingwei"></span>
               <span>距离1087.7km</span>
-            </div>
+            </div>-->
           </div>
-          <a href="/enroll/123" class="btn0 text-center">立即报名</a>
         </div>
+        <router-link
+          class="btn0 text-center position-absolute"
+          :to="{name:'act',params:{actid:e.id}}"
+        >立即报名</router-link>
       </div>
     </router-link>
+    <div v-if="nodata&&enlist.length==0" class="nodata text-center">
+      <div class="txt0 iconfont icon-wushuju"></div>
+      <div class="txt1">找不到更多数据</div>
+    </div>
   </aside>
 </template>
 <script>
 export default {
   data() {
     return {};
-  }
+  },
+  props: ["enlist","nodata"],
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
@@ -55,11 +67,23 @@ export default {
     padding: $pardon/2;
     border-bottom: 1px solid #e2e2e2;
     background-color: #fff;
-    .en-img {
-      width: 218px;
-      height: 166.6px;
+    .en-left {
       border-radius: 7px;
+      width: 218px;
       margin-right: 17px;
+      .en-img {
+        height: 130.6px;
+      }
+      .en-time {
+        color: #838383;
+        background-color: #f4f4f4;
+        border-top: 1px solid #f6f6f6;
+        height: 5.333vw;
+        bottom: 0;
+        font-size: 24px;
+        text-align: center;
+        line-height: 5.333vw;
+      }
     }
     .en-con {
       width: 430px;
@@ -67,10 +91,12 @@ export default {
     .txt0 {
       color: #2d2d2d;
       font-size: 28px;
+      line-height: 1.4;
+      height: 76px;
     }
     .txt1 {
       color: #373737;
-      font-size: 21px;
+      font-size: 24px;
     }
     .txt2 {
       .money {
@@ -103,6 +129,8 @@ export default {
       font-size: 20px;
       width: 116px;
       height: 48px;
+      bottom: 0;
+      right: 0;
       line-height: 48px;
       border-radius: 32px;
       border: 1px solid $theme-bor;

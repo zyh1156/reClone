@@ -106,8 +106,8 @@ datas:{
       </div>
     </div>
     <!-- 无效页 -->
-    <div v-if="datas.nodata" class="no-content text-center">
-      <div class="txt0 iconfont icon--lumingpai"></div>
+    <div v-if="nodata&&datas.list.length==0" class="nodata text-center">
+      <div class="txt0 iconfont icon-wushuju"></div>
       <div class="txt1">找不到更多数据</div>
     </div>
   </article>
@@ -138,7 +138,7 @@ export default {
       }
     }
   },
-  props: ["datas", "toplay"],
+  props: ["datas", "toplay", "nodata"],
   watch: {
     "datas.list"() {
       this.ChangeDate();
@@ -195,7 +195,7 @@ article {
       height: 162px;
       border-radius: 5px;
       .cl-img {
-        height: 127.2px;
+        height: 127px;
         img {
           width: 100%;
         }
@@ -289,19 +289,5 @@ article {
   font-size: 28px;
   color: #343434;
   font-weight: bold;
-}
-.no-content {
-  padding: $pardon/2;
-  background-color: #fff;
-  border-radius: 10px;
-  height: calc(100vh - 500px);
-  color: #9f9f9f;
-  .txt0 {
-    font-size: 300px;
-  }
-  .txt1 {
-    margin-top: 40px;
-    font-size: 40px;
-  }
 }
 </style>

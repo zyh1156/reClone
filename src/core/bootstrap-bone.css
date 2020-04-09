@@ -2,15 +2,20 @@
 .text-center {
     text-align: center !important;
 }
+
+.text-right {
+    text-align: right !important;
+}
+
 /* 单行文本省略号 */
 .text-truncate {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
+}
+
 /* 多行文本换行 */
 .line-clamp2 {
-
     word-break: break-all;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -357,32 +362,38 @@
 img {
     max-width: 100%;
 }
+
 /* weui样式补充 */
 .weui-half-screen-dialog {
     -webkit-transition: -webkit-transform .3s;
     transition: -webkit-transform .3s;
     transition: transform .3s;
-    transition: transform .3s,-webkit-transform .3s;
+    transition: transform .3s, -webkit-transform .3s;
     -webkit-transform: translateY(100%);
     transform: translateY(100%);
 }
+
 .weui-half-screen-dialog_show {
     -webkit-transform: translateY(0);
     transform: translateY(0);
 }
-.weui-half-screen-dialog{
+
+.weui-half-screen-dialog {
     width: 696px;
     left: 27px;
-    bottom:0;
+    bottom: 27px;
     border-radius: 40px;
     padding: 0;
 }
-.weui-half-screen-dialog__bd{
+
+.weui-half-screen-dialog__bd {
     padding: 0;
 }
-.weui-half-screen-dialog__ft{
+
+.weui-half-screen-dialog__ft {
     padding: 0;
 }
+
 /* swiper */
 .swiper-container-horizontal>.swiper-pagination-bullets {
     bottom: 0;
@@ -408,8 +419,20 @@ img {
 
 a,
 a:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
-#iosDialog2{
+
+#iosDialog2 {
     z-index: 1000;
+}
+
+.gray {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -webkit-filter: grayscale(1);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+    -webkit-filter: grayscale(1);
 }

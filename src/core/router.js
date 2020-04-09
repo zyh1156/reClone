@@ -106,15 +106,38 @@ const router = new VueRouter({
         }, {
             path: "signin",
             component: reRouter("user/signin"),
-            name: "signin"
+            name: "signin",
+            meta: {
+                title: "签到记录"
+            }
+        }, {
+            path: "retail",
+            component: reprint,
+            children: [{
+                path: "",
+                component: reRouter("user/retail/index")
+            }],
+            meta: {
+                title: "分销记录"
+            }
         }, {
             path: "wallet",
             component: reprint,
             children: [{
+                path: "record",
+                component: reRouter("user/wallet/record")
+            }, {
                 path: "",
                 component: reRouter("user/wallet/index")
-            }]
+            }],
+            meta: {
+                title: "钱包"
+            }
         }]
+    }, {
+        path: "/pay",
+        component: reRouter("pay/index"),
+        name: "pay"
     }, {
         path: "/goods",
         component: reprint,

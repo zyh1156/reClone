@@ -64,15 +64,7 @@
           <span class="bb d-inline-block">￥{{wd.red_price}}</span>
         </div>
         <!-- 分享按钮 -->
-        <router-link
-          :to="{name:'share',query:{kc_id:wd.kc_id}}"
-          class="position-absolute toshare"
-          :class="{'active':wd.rate_goods_money.length>0}"
-        >
-          <span class="iconfont icon-qiandai"></span>
-          <span>{{wd.rate_goods_money}}</span>
-          <span>&nbsp;元</span>
-        </router-link>
+        <cs :wd="wd2"></cs>
       </div>
       <!-- 内容部分 -->
       <cg :wd="wd" @tojv="jumpv"></cg>
@@ -91,12 +83,17 @@ import tool from "../cube/tool";
 import cg from "../cube/cube-goods";
 import cpay from "../cube/cube-pay";
 import ss from "../cube/stepstone";
+import cs from "../cube/cube-share";
 export default {
   data() {
     return {
       wd: {
         rate_goods_money: "",
         money2: [0, 0]
+      },
+      wd2: {
+        money: "0",
+        type: "goods_post"
       },
       teach: {},
       limitTime: false,
@@ -115,6 +112,7 @@ export default {
   methods: {
     getData: function() {
       let id = this.$route.params.goodsid;
+      this.wd2.id = id;
       this.axios.post("/api/home/goods/show.html", { id: id }, res => {
         res = res.data.data;
         //价格
@@ -122,6 +120,7 @@ export default {
           .toFixed(2)
           .split(".");
         this.wd = res.data;
+        this.wd2.money = res.data.rate_goods_money;
         // 赋值关注
         this.$set(this.tooloptions, "follow", res.data.is_fav == 1);
         this.$set(this.tooloptions, "followid", res.data.id);
@@ -172,7 +171,8 @@ export default {
     tool,
     cg,
     ss,
-    cpay
+    cpay,
+    cs
   }
 };
 </script>

@@ -1,7 +1,16 @@
 <template>
   <!-- 搜索框 -->
   <article class="search-box">
-    <a href="/search" class="search-body d-flex align-items-center justify-content-center">
+    <div v-if="type==1">
+      <input
+        type="text"
+        @change="rekeyword"
+        v-model="keyword"
+        class="search-body text-center"
+        :placeholder="ptxt2"
+      />
+    </div>
+    <a v-else href="/search" class="search-body d-flex align-items-center justify-content-center">
       <span>
         <img src="../../assets/search-ico.png" alt />
       </span>
@@ -12,8 +21,17 @@
 <script>
 export default {
   data() {
-    return {};
-  }
+    return {
+      keyword: "",
+      ptxt2: this.ptxt || "搜索课程/专栏/直播间"
+    };
+  },
+  methods: {
+    rekeyword() {
+      this.$emit("rekey", this.keyword);
+    }
+  },
+  props: ["type", "ptxt"]
 };
 </script>
 <style lang="scss" scoped>
@@ -26,12 +44,19 @@ export default {
     font-size: 24px;
     background-color: #f8f8f8;
     height: 58px;
-    padding: 16px 0;
+    padding: 16px 29px;
     border-radius: 29px;
     img {
       height: 26px;
       margin-right: 18px;
     }
+  }
+
+  input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
   }
 }
 </style>

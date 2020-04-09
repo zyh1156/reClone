@@ -49,7 +49,7 @@
       <!-- 学员心得 -->
       <div v-show="menuInx==2" class="t1 db-box2">
         <!-- 有人评论 -->
-        <div v-show="feelStatus||feel.length>0" class="db2-tit font-weight-bold position-relative">
+        <div v-show="!feelStatus||feel.length>0" class="db2-tit font-weight-bold position-relative">
           <div>学生评论</div>
           <div id="showIOSDialog2" class="position-absolute user-edit">
             <span class="iconfont icon-chuangzuo"></span>

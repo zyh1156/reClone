@@ -47,13 +47,15 @@ export default {
     toTop() {
       let t, t2;
       $(document).scroll(() => {
-        t = $(".menu-x").offset().top;
-        t2 = $(document).scrollTop();
-        if (t2 > t) {
-          $(".menu-box").css("position", "fixed");
-          $(".menu-x").height($(".menu-box").height());
-        } else {
-          $(".menu-box").css("position", "relative");
+        if ($(".menu-x").length > 0) {
+          t = $(".menu-x").offset().top;
+          t2 = $(document).scrollTop();
+          if (t2 > t) {
+            $(".menu-box").css("position", "fixed");
+            $(".menu-x").height($(".menu-box").height());
+          } else {
+            $(".menu-box").css("position", "relative");
+          }
         }
       });
     },
@@ -83,13 +85,11 @@ export default {
       },
       1000
     );
+    $(".menu-x").height($(".menu-box").height());
   }
 };
 </script>
 <style lang="scss" scoped>
-.menu-x {
-  min-height: 63px;
-}
 // 菜单
 .menu-box {
   left: 0;

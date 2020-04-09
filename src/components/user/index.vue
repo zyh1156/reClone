@@ -1,5 +1,5 @@
 <template>
-  <section  class="bac">
+  <section class="bac">
     <!-- 资料页 -->
     <div class="user-data position-relative">
       <div class="d-flex align-items-center">
@@ -27,8 +27,13 @@
     <div class="dpgo">
       <!-- 功能页 -->
       <div class="d-flex copgo justify-content-around">
-        <div class="copbox text-center" v-for="(co,inx) in oplist" v-bind:key="inx">
-          <div class="copico iconfont" :class="co.classObj"></div>
+        <div
+          class="copbox text-center"
+          :class="co.classActive"
+          v-for="(co,inx) in oplist"
+          v-bind:key="inx"
+        >
+          <div class="copico iconfont d-inline-block" :class="co.classObj"></div>
           <div class="coptxt">{{co.text}}</div>
         </div>
       </div>
@@ -38,9 +43,14 @@
         <span class="iconfont icon-icon_circle_line"></span>
       </div>
       <!-- 功能页 -->
-      <div class="d-flex copgo  justify-content-around">
-        <div class="copbox text-center" v-for="(co,inx) in oplist1" v-bind:key="inx">
-          <div class="copico iconfont" :class="co.classObj"></div>
+      <div class="d-flex copgo justify-content-around">
+        <div
+          class="copbox text-center"
+          :class="co.classActive"
+          v-for="(co,inx) in oplist1"
+          v-bind:key="inx"
+        >
+          <div class="copico iconfont d-inline-block" :class="co.classObj"></div>
           <div class="coptxt">{{co.text}}</div>
         </div>
       </div>
@@ -84,6 +94,9 @@ export default {
           text: "优惠券",
           classObj: {
             "icon-dianyingpiao": true
+          },
+          classActive: {
+            // ii: true
           }
         },
         {
@@ -131,7 +144,8 @@ export default {
           text: "分销记录",
           classObj: {
             "icon-icon_statistics": true
-          }
+          },
+          url: "/user/retail/"
         },
         {
           text: "消息",
@@ -166,7 +180,9 @@ export default {
     footer2
   },
   mounted() {
-    document.querySelector(".sign").classList.remove("active");
+    setTimeout(() => {
+      document.querySelector(".sign").classList.remove("active");
+    }, 200);
   }
 };
 </script>
@@ -237,7 +253,7 @@ export default {
   .copbtn {
     margin-top: 27px;
     color: #fff;
-    background-image: linear-gradient(to right,$theme,$theme-bor);
+    background-image: linear-gradient(to right, $theme, $theme-bor);
     box-shadow: 0 4px 16px 0 $theme;
     font-size: 32px;
     height: 90px;
@@ -248,9 +264,21 @@ export default {
     }
   }
 }
+.copbox.ii::after {
+  content: "";
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border-radius: 8px;
+  background-color: $theme-bor;
+  left: calc(50% + 13px);
+  top: 2px;
+  border: 1px solid #fff;
+}
 .copbox {
   width: 20%;
   cursor: pointer;
+  position: relative;
   .copico {
     color: $theme;
     font-size: 52px;
@@ -262,13 +290,13 @@ export default {
 }
 .menu-list {
   background-color: #fff;
-  padding-left: 12px;
+  padding-left: $pardon;
   margin-bottom: 27px;
   .menu-box {
     color: #333;
     text-decoration: none;
     border-top: 2px solid #f1f1f1;
-    padding: 27px 0 27px 15px;
+    padding: $pardon $pardon/2;
     font-size: 27px;
     background-image: url(../../assets/right-ico2.png);
     background-position: 681px center;

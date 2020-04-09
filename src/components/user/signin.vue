@@ -36,6 +36,7 @@
 </template>
 <script>
 import Calendar from "vue-calendar-component";
+import dayjs from "dayjs";
 export default {
   data() {
     return {
@@ -46,11 +47,9 @@ export default {
     Calendar
   },
   methods: {
-    clickDay(data) {
-    },
-    changeDate(data) {
-    },
-    getDate() {
+    clickDay(data) {},
+    changeDate(data) {},
+    getDate2() {
       let arr = [],
         i,
         now = new Date().getDate(),
@@ -62,20 +61,52 @@ export default {
         };
         this.$set(this.dateArr, i, obj);
       }
-    }
+    },
+    getDate(month, flag) {
+      this.axios.post("/api/user/index/qdList.html", { month: month }, res => {
+        // 判断今天有没有签到
+        if (flag) {
+          let now = dayjs().format("YYYY-MM-DD"),
+            arr = res.data.data.data,
+            flag2 = true,
+            i;
+          for (i = 0; i < arr.length; i++) {
+            if (arr[i].create_time == now) {
+              flag2 = false;
+              break;
+            }
+          }
+          if (flag2) {
+            this.dateQD();
+          }
+        }
+      });
+    },
+    dateQD() {
+      // 去签到
+      this.axios.post(
+        "/api/user/index/qdAdd.html",
+        {},
+        res => {
+          this.weui.toast(res.data.msg, 1500);
+        },
+        true
+      );
+    },
+    checkQD(arr) {}
   },
   mounted() {
-    this.getDate();
+    let month = dayjs().format("YYYY-MM");
+    this.getDate(month, true);
   }
 };
 </script>
 <style lang="scss" scoped>
-.h-max{
-    height: 100vh;
+.h-max {
+  height: 100vh;
   background-color: #f2f3f3;
-  background-image: url(../../assets/user/headerTop.a664892.png);
+  background: url(../../assets/user/headerTop.a664892.png) no-repeat center -20px;
   background-size: 100% auto;
-  background-repeat: no-repeat;
 }
 .panel-top {
   .tit {
@@ -97,16 +128,17 @@ export default {
   background-color: #fff;
   border-radius: 16px;
   padding: 35px;
+  box-shadow: 10px 10px 10px $theme-bac;
   .txt1 {
     font-size: 30px;
   }
   .txt2 {
-      margin-top: 24px;
-      font-size: 18px;
-      color: #e15241;
-      .money{
-          font-size: 38px;
-      }
+    margin-top: 24px;
+    font-size: 18px;
+    color: #e15241;
+    .money {
+      font-size: 38px;
+    }
   }
   .btn-play {
     margin: 42px 0 0 0;
@@ -115,12 +147,12 @@ export default {
     padding: 28px 0;
     font-size: 32px;
     letter-spacing: 3px;
-    background-image: linear-gradient(to bottom, #ee7f44, #e71c0a);
+    background-image: linear-gradient(to bottom, $theme, $theme-bor);
   }
 }
-.panpel-calendar{
-    padding: 27px;
-    overflow: hidden;
-    border-radius: 16px;
+.panpel-calendar {
+  padding: 27px;
+  overflow: hidden;
+  border-radius: 16px;
 }
 </style>

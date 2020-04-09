@@ -19,12 +19,13 @@ export default {
   data() {
     return {};
   },
+  mounted() {},
   props: ["teach"],
   methods: {
     jumproom() {
       this.$router.push({ name: "room", params: { roomid: this.teach.id } });
     },
-    tofllow: function() {
+    tofllow() {
       this.axios.post(
         "/api/user/Favorites/setFavorites.html",
         {
@@ -34,7 +35,13 @@ export default {
         },
         res => {
           this.weui.toast(res.data.msg, 1500);
-          this.teach.is_fav = this.teach.is_fav == 1 ? 0 : 1;
+          if (this.teach.is_fav == 1) {
+            this.teach.is_fav = 0;
+            this.teach.post_favorites--;
+          } else {
+            this.teach.is_fav = 1;
+            this.teach.post_favorites++;
+          }
         }
       );
     },
