@@ -33,7 +33,9 @@
             </div>-->
           </div>
         </div>
+        <div v-if="e.outime" class="outime btn0 text-center position-absolute">已结束</div>
         <router-link
+          v-else
           class="btn0 text-center position-absolute"
           :to="{name:'act',params:{actid:e.id}}"
         >立即报名</router-link>
@@ -50,8 +52,7 @@ export default {
   data() {
     return {};
   },
-  props: ["enlist","nodata"],
-  mounted() {}
+  props: ["enlist", "nodata"]
 };
 </script>
 <style lang="scss" scoped>
@@ -135,6 +136,10 @@ export default {
       border-radius: 32px;
       border: 1px solid $theme-bor;
       background-image: linear-gradient(to right, $theme, $theme-bor);
+    }
+    .outime {
+      background: #ccc;
+      border-color: #b8b8b8;
     }
   }
 }

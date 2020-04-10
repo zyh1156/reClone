@@ -35,7 +35,8 @@ const router = new VueRouter({
                 component: reRouter("article/community"),
                 meta: {
                     title: "社区详情"
-                }
+                },
+                name:"community"
             }, {
                 path: ":content",
                 component: reRouter("article/content"),

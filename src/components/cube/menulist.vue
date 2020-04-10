@@ -101,11 +101,12 @@ export default {
   position: relative;
 }
 .en-title {
-  padding: $pardon/2;
+  //   padding: $pardon/2;
   .en-menu {
     color: #626262;
     line-height: 1.4;
-    padding: 0 40px;
+    // padding:0 40px;
+    padding: $pardon/2 40px;
     font-size: 30px;
     white-space: nowrap;
     cursor: pointer;
@@ -116,11 +117,12 @@ export default {
   }
   .active::after {
     content: "";
-    width: 68px;
+    width: 25%;
     height: 4px;
     position: absolute;
-    bottom: -$pardon/4;
-    left: calc(50% - 34px);
+    // bottom: -$pardon/4;
+    bottom: 10px;
+    left: 37.5%;
     background-color: $theme-bor;
     border-radius: 4px 4px 0 0;
   }

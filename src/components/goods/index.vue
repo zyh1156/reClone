@@ -71,7 +71,6 @@
       <div class="shop-mt">
         <shopt :teach="teach"></shopt>
       </div>
-      <ss></ss>
       <cpay :limitTime="limitTime" :wd="wd"></cpay>
       <tool :options="tooloptions"></tool>
     </div>
@@ -82,7 +81,6 @@ import shopt from "../cube/shoptitle";
 import tool from "../cube/tool";
 import cg from "../cube/cube-goods";
 import cpay from "../cube/cube-pay";
-import ss from "../cube/stepstone";
 import cs from "../cube/cube-share";
 export default {
   data() {
@@ -122,8 +120,12 @@ export default {
         this.wd = res.data;
         this.wd2.money = res.data.rate_goods_money;
         // 赋值关注
-        this.$set(this.tooloptions, "follow", res.data.is_fav == 1);
-        this.$set(this.tooloptions, "followid", res.data.id);
+        let follow = {
+          fav: res.data.is_fav == 1,
+          id: res.data.id,
+          string: "tv_post"
+        };
+        this.$set(this.tooloptions, "follow", follow);
         // 赋值讲师
         this.$set(this.tooloptions, "teach", res.teach);
         //   修改title
@@ -170,7 +172,6 @@ export default {
     shopt,
     tool,
     cg,
-    ss,
     cpay,
     cs
   }

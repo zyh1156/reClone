@@ -1,29 +1,29 @@
 <template>
 <!-- 圈子列表 -->
   <aside>
-    <div class="list-content" v-for="(l,inx) in list" v-bind:key="inx">
+    <div class="list-content" v-for="(cb,inx) in cblist" v-bind:key="inx">
       <div class="panpel">
         <div class="img-box">
-          <img v-lazy="l.bigImg" alt />
+          <img :src="cb.thumbnail" alt />
         </div>
         <div class="content-box d-flex justify-content-between align-items-center">
           <div class="box0">
-            <img v-lazy="l.smallImg" alt />
+            <img v-lazy="cb.t_thumbnail" alt />
           </div>
           <div class="box1">
-            <div class="txt0 font-weight-bold">{{l.title}}</div>
-            <div class="txt1 text-truncate">{{l.content}}</div>
+            <div class="txt0 font-weight-bold">{{cb.post_title}}</div>
+            <div class="txt1 text-truncate">{{cb.t_name}}</div>
           </div>
-          <div class="box2 text-center">进入</div>
+          <router-link class="box2 text-center" :to="{name:'community',params:{'communityid':cb.id}}">进入</router-link>
         </div>
         <div class="about-box d-flex">
           <div class="mr-90">
             <span class="iconfont icon-remen"></span>
-            <span>{{l.humen}}&nbsp;成员</span>
+            <span>{{cb.tuan_num}}&nbsp;成员</span>
           </div>
           <div>
             <span class="iconfont icon-dingdan"></span>
-            <span>{{l.cont}}&nbsp;内容</span>
+            <span>{{cb.page_num}}&nbsp;内容</span>
           </div>
         </div>
       </div>
@@ -34,50 +34,9 @@
 export default {
   data() {
     return {
-      list: [
-        {
-          bigImg: require("../../assets/swiper/00.png"),
-          smallImg: require("../../assets/menu.jpg"),
-          title: "轻小云",
-          content: "轻小云互动交流轻小云互动交流轻小云互动交流轻小云互动交流",
-          humen: 2,
-          cont: 5
-        },
-        {
-          bigImg: require("../../assets/swiper/00.png"),
-          smallImg: require("../../assets/menu.jpg"),
-          title: "轻小云",
-          content: "轻小云互动交流轻小云互动交流轻小云互动交流轻小云互动交流",
-          humen: 2,
-          cont: 5
-        },
-        {
-          bigImg: require("../../assets/swiper/00.png"),
-          smallImg: require("../../assets/menu.jpg"),
-          title: "轻小云",
-          content: "轻小云互动交流轻小云互动交流轻小云互动交流轻小云互动交流",
-          humen: 2,
-          cont: 5
-        },
-        {
-          bigImg: require("../../assets/swiper/00.png"),
-          smallImg: require("../../assets/menu.jpg"),
-          title: "轻小云",
-          content: "轻小云互动交流轻小云互动交流轻小云互动交流轻小云互动交流",
-          humen: 2,
-          cont: 5
-        },
-        {
-          bigImg: require("../../assets/swiper/00.png"),
-          smallImg: require("../../assets/menu.jpg"),
-          title: "轻小云",
-          content: "轻小云互动交流轻小云互动交流轻小云互动交流轻小云互动交流",
-          humen: 2,
-          cont: 5
-        }
-      ]
     };
-  }
+  },
+  props:["cblist"]
 };
 </script>
 <style lang="scss" scoped>
@@ -88,10 +47,11 @@ export default {
     background-color: #fefefe;
     padding: 27px 27px 0;
     .img-box {
-      height: 240px;
+      height: 385px;
       overflow: hidden;
       img {
         border-radius: 6px;
+        width: 100%;
       }
     }
     .content-box {
@@ -114,6 +74,7 @@ export default {
         }
       }
       .box2 {
+          color: #232425;
         height: 48px;
         width: 115px;
         border-radius: 24px;

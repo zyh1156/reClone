@@ -51,7 +51,6 @@
       </div>
       <cg :wd="wd" :mlinx="menuInx" @tojv="jumpv"></cg>
       <shopt :teach="teach"></shopt>
-      <ss></ss>
       <tool :options="tooloptions"></tool>
       <cpay :limitTime="limitTime" :wd="wd"></cpay>
     </div>
@@ -61,7 +60,6 @@
 import cg from "../cube/cube-goods";
 import cpay from "../cube/cube-pay";
 import shopt from "../cube/shoptitle";
-import ss from "../cube/stepstone";
 import $ from "jquery";
 import tool from "../cube/tool";
 import dayjs from "dayjs";
@@ -94,7 +92,6 @@ export default {
     cg,
     cpay,
     shopt,
-    ss,
     tool
   },
   methods: {
@@ -134,7 +131,7 @@ export default {
           // 播放器默认展示方式
           showControls: true
         },
-        loggerLevel:3
+        loggerLevel: 3
       });
       //   播放控件展示方式
       player.on("play", function() {
@@ -220,8 +217,12 @@ export default {
       // 获取商品详情
       this.axios.post("/api/home/goods/show.html", { id: gid }, res => {
         this.wd = res.data.data.data;
-        this.$set(this.tooloptions, "follow", res.data.data.data.is_fav == 1);
-        this.$set(this.tooloptions, "followid", res.data.id);
+        let follow = {
+          fav: res.data.data.data.is_fav == 1,
+          id: res.data.id,
+          string: "tv_post"
+        };
+        this.$set(this.tooloptions, "follow", follow);
         // 赋值讲师
         this.$set(this.tooloptions, "teach", res.teach);
         this.teach = res.data.data.teach;

@@ -60,7 +60,6 @@
       </div>
     </div>
     <st :teach="teach"></st>
-    <st2></st2>
     <!-- 进入直播间 -->
     <div>
       <div class="btns"></div>
@@ -79,7 +78,6 @@
 <script>
 import st from "../cube/shoptitle";
 import cs from "../cube/cube-share";
-import st2 from "../cube/stepstone";
 export default {
   data() {
     return {
@@ -127,14 +125,16 @@ export default {
   },
   components: {
     st,
-    cs,
-    st2
+    cs
   }
 };
 </script>
 <style lang="scss" scoped>
 .banner {
   height: 420px;
+  img{
+      width: 100%;
+  }
 }
 .status {
   color: #fff;

@@ -89,6 +89,11 @@ export default {
             keyword: this.keyword
           },
           res => {
+            res.data.data.data.forEach(ele => {
+              if (new Date(ele.endtime).getTime() < new Date().getTime()) {
+                ele.outime = true;
+              }
+            });
             this.celist = this.celist.concat(res.data.data.data);
             this.page.max = res.data.data.last_page;
             if (page < this.page.max) {
@@ -112,7 +117,7 @@ export default {
       if (nowScotop >= scrollHeight - wheight * 1.1) {
         // 页数是否拉满
         if (this.page.now < this.page.max) {
-          let inx = this.feelPage.now + 1;
+          let inx = this.page.now + 1;
           //获取数据
           this.getData(inx);
         }

@@ -139,7 +139,6 @@
 </template>
 <script>
 import menul from "./menulist";
-import ss from "./stepstone";
 import $ from "jquery";
 import axios from "axios";
 import { getCookie } from "../../core/cookie";
@@ -315,8 +314,7 @@ export default {
     }
   },
   components: {
-    menul,
-    ss
+    menul
   },
   props: ["wd", "mlinx"],
   mounted() {

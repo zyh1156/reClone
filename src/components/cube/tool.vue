@@ -1,7 +1,17 @@
 <template>
   <!-- 
     options:{
-        follow:是否关注
+        follow:{
+            fav:是否关注,
+            id:需要关注的id，
+            string:关键字
+        },
+        teach:{
+            thumbnail:微信头像
+            post_title:微信昵称
+            wx_name:微信号
+            wx_wxm:微信二维码
+        }
     }
   -->
 
@@ -34,7 +44,7 @@
         <div id="js_dialog_2" class="weui-half-screen-dialog">
           <!-- 主体 -->
           <div class="weui-half-screen-dialog__bd">
-            <div class="d-flex justify-content-between flex-wrap t-box">
+            <div class="d-flex flex-wrap t-box">
               <div
                 @click="tapTool(inx,ml)"
                 v-for="(ml,inx) in menuList"
@@ -87,14 +97,6 @@ export default {
         {
           classObj: "icon-lipinka",
           text: "赠好友"
-        },
-        {
-          classObj: "icon-shouye",
-          text: "邀请卡"
-        },
-        {
-          classObj: "icon-shouye",
-          text: "邀请卡"
         }
       ]
     };
@@ -104,7 +106,7 @@ export default {
   },
   watch: {
     "options.follow"() {
-      if (this.options.follow) {
+      if (this.options.follow.fav) {
         this.menuList[2].classObj.follow = true;
         this.menuList[2].text = "已收藏";
       }
@@ -115,9 +117,9 @@ export default {
     $(".weixinImg").on("click", function() {
       $(".weui-mask").click();
     });
-    $(".wxbox").on("click",function(evt){
-        evt.stopPropagation()
-    })
+    $(".wxbox").on("click", function(evt) {
+      evt.stopPropagation();
+    });
   },
   props: ["options"],
   methods: {
@@ -131,14 +133,18 @@ export default {
         this.toteach = true;
         $(".t0 #js_dialog_2").removeClass("weui-half-screen-dialog_show");
       } else if (x == 2) {
-        let id = this.options.followid,
-          flag = this.menuList[2].classObj.follow;
+        let id = this.options.follow.id,
+          flag = this.menuList[2].classObj.follow,
+          txt = this.options.follow.string;
         this.axios.post(
           "/api/user/Favorites/setFavorites.html",
-          { object_id: id, table_name: "goods_post" },
+          { object_id: id, table_name: txt },
           res => {
             //   切换文字
             this.menuList[2].text = flag ? "收藏" : "已收藏";
+            if (!flag) {
+              this.weui.toast(res.data.msg, 1500);
+            }
             //   切换样式
             this.menuList[2].classObj.follow = !flag;
           }
@@ -182,6 +188,7 @@ export default {
   bottom: 115px;
   background-color: #fff;
   box-shadow: 0 0 10px $theme;
+  transition: bottom 0.8s;
   .txt0 {
     margin-top: 17px;
     font-size: 37px;
