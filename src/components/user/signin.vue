@@ -49,19 +49,6 @@ export default {
   methods: {
     clickDay(data) {},
     changeDate(data) {},
-    getDate2() {
-      let arr = [],
-        i,
-        now = new Date().getDate(),
-        obj;
-      for (i = 0; i < now; i++) {
-        obj = {
-          date: "2020/3/" + i.toString(),
-          className: "mark0"
-        };
-        this.$set(this.dateArr, i, obj);
-      }
-    },
     getDate(month, flag) {
       this.axios.post("/api/user/index/qdList.html", { month: month }, res => {
         // 判断今天有没有签到
@@ -73,8 +60,11 @@ export default {
           for (i = 0; i < arr.length; i++) {
             if (arr[i].create_time == now) {
               flag2 = false;
-              break;
             }
+            this.$set(this.dateArr, i, {
+              date: arr[i].create_time,
+              className: "mark0"
+            });
           }
           if (flag2) {
             this.dateQD();

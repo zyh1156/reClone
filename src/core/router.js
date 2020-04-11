@@ -38,11 +38,12 @@ const router = new VueRouter({
                 },
                 name:"community"
             }, {
-                path: ":content",
+                path: ":contentid",
                 component: reRouter("article/content"),
                 meta: {
                     title: "帖子详情"
-                }
+                },
+                name:'content'
             }]
         }]
     }, {

@@ -18,7 +18,6 @@
           <router-link
             :to="{name:'share',query:{kc_id:acd.id,type:'article_post'}}"
             class="share-box text-center"
-            @click="share"
           >
             <span class="iconfont icon-fenxiang"></span>
             <span>邀请函</span>
@@ -53,86 +52,121 @@
         <tea :teach="teach"></tea>
       </div>
       <!-- 内容 -->
-      <div class="com-panel">
-        <div class="txt0 font-weight-bold">部分内容预览</div>
-        <div class="com-list">
-          <div class="com-li">
-            <!-- 帖子信息栏 -->
-            <div class="d-flex user">
-              <div class="box0 position-relative">
-                <img src="../../assets/menu.jpg" alt />
-                <div class="position-absolute text-center sex iconfont icon-nan"></div>
+      <div class="com-list">
+        <div v-if="acd.is_pay==0" class="txt0 font-weight-bold">部分内容预览</div>
+        <router-link
+          :to="{name:'content',params:{contentid:cl.id}}"
+          v-for="(cl,inx) in comlist"
+          v-bind:key="inx"
+          class="com-li"
+        >
+          <!-- 帖子信息栏 -->
+          <div class="d-flex user">
+            <div class="box0 position-relative">
+              <img :src="cl.avatar" alt />
+              <!-- <div class="position-absolute text-center sex iconfont icon-nan"></div> -->
+            </div>
+            <div class="box1">
+              <div class="d-flex align-items-center b1-list">
+                <div class="name">{{cl.user_nickname}}</div>
+                <div v-if="cl.is_quan_boss" class="master">圈主</div>
+                <!-- <div class="top">置顶</div> -->
+                <!-- <div class="level">lv1</div> -->
               </div>
-              <div class="box1">
-                <div class="d-flex align-items-center b1-list">
-                  <div class="name">韩健</div>
-                  <div class="master">圈主</div>
-                  <div class="top">置顶</div>
-                  <div class="level">lv1</div>
+              <div class="time">{{cl.create_time}}</div>
+            </div>
+          </div>
+          <!-- 标题栏 -->
+          <div class="tit font-weight-bold">{{cl.post_title}}</div>
+          <!-- 内容栏 -->
+          <div class="con">
+            <!-- 内容部分 -->
+            <div v-html="cl.post_content"></div>
+            <!-- 图片部分 -->
+            <div class="d-flex flex-wrap">
+              <div v-for="(ph,inx) in cl.photos" v-bind:key="inx">
+                <div class="phbox">
+                  <img v-lazy="ph.url" alt />
                 </div>
-                <div class="time">2020年3月25日 09点36分</div>
               </div>
             </div>
-            <!-- 标题栏 -->
-            <div class="tit font-weight-bold">吃西红柿了吗？</div>
-            <!-- 内容栏 -->
-            <div class="con">没吃</div>
           </div>
-          <div class="com-li">
-            <!-- 帖子信息栏 -->
-            <div class="d-flex user">
-              <div class="box0 position-relative">
-                <img src="../../assets/menu.jpg" alt />
-                <div class="position-absolute text-center sex iconfont icon-nan"></div>
-              </div>
-              <div class="box1">
-                <div class="d-flex align-items-center b1-list">
-                  <div class="name">韩健</div>
-                  <div class="master">圈主</div>
-                  <div class="top">置顶</div>
-                  <div class="level">lv1</div>
-                </div>
-                <div class="time">2020年3月25日 09点36分</div>
-              </div>
-            </div>
-            <!-- 标题栏 -->
-            <div class="tit font-weight-bold">吃西红柿了吗？</div>
-            <!-- 内容栏 -->
-            <div class="con">没吃</div>
-          </div>
-        </div>
+        </router-link>
       </div>
     </div>
+    <!-- 引导加入 -->
+    <div v-if="acd.is_pay==0" class="guide">加入圈子，查看更多内容</div>
     <!-- 加入 -->
-    <div class="bottom-btn position-fixed w-100 align-items-center justify-content-between d-flex">
-      <div class="money font-weight-bold">免费</div>
-      <div class="now-in text-center">立即加入</div>
+    <div
+      v-if="acd.is_pay==0"
+      class="bottom-btn position-fixed w-100 align-items-center justify-content-between d-flex"
+    >
+      <div class="money font-weight-bold">
+        <div v-if="acd.isfree">免费</div>
+        <div v-else>{{acd.price}}</div>
+      </div>
+      <div @click="gopay" class="now-in text-center">立即加入</div>
+    </div>
+    <div
+      v-else
+      class="bottom-btn position-fixed w-100 align-items-center justify-content-center d-flex"
+    >
+      <div class="now-in text-center">发起讨论</div>
     </div>
   </section>
 </template>
 <script>
 // 社区页面
 import tea from "../cube/shoptitle";
+let comid;
 export default {
   data() {
     return {
+      // 背景图
       bac: {},
-      acd: {},
-      teach: {}
+      //   基本信息
+      acd: { id: 0 },
+      //   教师信息
+      teach: {},
+      //   话题列表
+      comlist: []
     };
   },
   mounted() {
+    comid = this.$route.params.communityid;
     this.getDate();
+    this.getcom();
   },
   methods: {
     getDate() {
-      let id = this.$route.params.communityid;
-      this.axios.post("/api/home/article/show.html", { id: id }, res => {
-        this.acd = res.data.data.data;
-        this.teach = res.data.data.teach;
+      this.axios.post("/api/home/article/show.html", { id: comid }, res => {
+        res = res.data.data;
+        this.acd = res.data;
+        this.acd.isfree = parseFloat(res.data.price <= 0);
+        this.teach = res.teach;
         this.bac = {
-          backgroundImage: "url(" + res.data.data.data.thumbnail + ")"
+          backgroundImage: "url(" + res.data.thumbnail + ")"
         };
+      });
+    },
+    getcom() {
+      this.axios.post("/api/home/article/item.html", { id: comid }, res => {
+        this.comlist = res.data.data.data;
+      });
+    },
+    gopay() {
+      let data = {
+        table: "article_post",
+        object_id: comid,
+        is_firends: 0,
+        num: 1
+      };
+      this.axios.post("/api/user/order/to_pay.html", data, res => {
+        if (res.data.data == 0) {
+          this.$router.push({ name: "community", params: { communityid: id } });
+        } else {
+          this.$router.push({ name: "pay", query: { orderid: res.data.data } });
+        }
       });
     }
   },
@@ -152,7 +186,7 @@ export default {
 }
 .com-body {
   z-index: 5;
-  padding: 186px 27px 260px;
+  padding: 186px 27px 127px;
   .com-panel {
     background-color: #fefefe;
     border-radius: 4px;
@@ -234,9 +268,20 @@ export default {
 }
 
 .com-list {
+  margin-top: $pardon;
+  .txt0 {
+    padding: $pardon 22px;
+    background-color: #fff;
+    border-bottom: 1px dashed #dedede;
+  }
   .com-li {
-    padding-top: 60px;
-    border-top: 1px solid #f8f8f8;
+    display: block;
+    color: inherit;
+    margin-bottom: $pardon;
+    background-color: #fff;
+    padding: 60px 22px 0;
+    border-radius: $pardon/2;
+    box-shadow: 0 10px 10px #ededed;
     .user {
       padding-bottom: 23px;
     }
@@ -246,13 +291,10 @@ export default {
     }
     .con {
       color: #5f5f5f;
-      padding: 15px 0 90px;
+      font-size: 26px;
+      padding: $pardon/2 0 $pardon * 2;
       line-height: 36px;
     }
-  }
-  .com-li:first-child {
-    padding-top: 20px;
-    border-top: none;
   }
   .box0 {
     margin-right: 20px;
@@ -326,5 +368,22 @@ export default {
 }
 .mtp {
   margin-top: $pardon;
+}
+.guide {
+  margin-top: -70px;
+  padding-bottom: 140px;
+  text-align: center;
+  color: #888;
+  font-size: 24px;
+}
+.phbox {
+  margin: 8px;
+  width: 200px;
+  height: 200px;
+  border-radius: 6px;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
 }
 </style>

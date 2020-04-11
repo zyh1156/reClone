@@ -47,7 +47,7 @@ export default {
         user_id: this.$store.state.userid,
         kc_id: this.$route.query.kc_id,
         bj_id: x,
-        table_name:this.$route.query.type
+        table_name: this.$route.query.type
       };
       this.axios.post("/api/user/index/getsharethumb.html", data, res => {
         this.bigimg = res.data.data;

@@ -79,6 +79,10 @@ export default {
         setCookie("token", res.data.data.token, 30);
         //   设置userid
         setCookie("userid", res.data.data.user.id, 30);
+        //   设置userid
+        setCookie("usernick", res.data.data.user.user_nickname, 30);
+        //   设置userid
+        setCookie("useravatar", res.data.data.user.avatar, 30);
       });
     }
   }

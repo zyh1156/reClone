@@ -53,7 +53,6 @@ section.bac {
   padding: $pardon;
   background-color: #fff;
   border-radius: 10px;
-  height: calc(100vh - 500px);
   color: #9f9f9f;
   .txt0 {
     margin-top: 80px;

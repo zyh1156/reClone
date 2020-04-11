@@ -66,7 +66,7 @@
       <div class="btnt w-100 position-fixed">
         <router-link
           class="tolive text-center d-block"
-          v-if="tz.is_pay==1"
+          v-if="tz.is_pay==1||isteach"
           :to="{name:'channel'}"
         >进入直播间</router-link>
         <div v-else-if="tz.priceNum==0" class="tolive text-center" @click="topay">进入直播间</div>
@@ -86,7 +86,8 @@ export default {
       wd: {
         type: "act_post",
         money: ""
-      }
+      },
+      isteach: false
     };
   },
   mounted() {
@@ -95,6 +96,7 @@ export default {
   methods: {
     getData() {
       let id = this.$route.params.zoneid;
+      let userid = this.$store.state.userid;
       this.wd.id = id;
       this.axios.post("/api/home/tv/show.html", { id: id }, res => {
         this.tz = res.data.data.data;
@@ -103,6 +105,9 @@ export default {
         // 售价
         this.tz.priceNum = parseFloat(this.tz.price);
         this.teach = res.data.data.teach;
+        if (res.data.data.teach.user_id == userid) {
+          this.isteach = true;
+        }
       });
     },
     topay() {
@@ -119,7 +124,6 @@ export default {
         } else {
           this.$router.push({ name: "pay", query: { orderid: res.data.data } });
         }
-        console.log(res);
       });
     }
   },
@@ -132,8 +136,8 @@ export default {
 <style lang="scss" scoped>
 .banner {
   height: 420px;
-  img{
-      width: 100%;
+  img {
+    width: 100%;
   }
 }
 .status {

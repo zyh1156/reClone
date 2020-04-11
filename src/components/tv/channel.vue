@@ -1,8 +1,28 @@
 <template>
   <section class="bac">
-    <!-- 视频框 -->
     <div class="lc-video position-relative overflow-hidden">
-      <div id="player" class="qnplay"></div>
+      <!-- 倒计时 -->
+      <div
+        v-if="tcd.ts_static==0"
+        class="text-center djs-box align-content-center d-flex align-items-center flex-wrap"
+        :style="djsbac"
+      >
+        <div class="w-100 txt1" v-if="djs.nolive">直播未开始</div>
+        <div class="w-100" v-else>
+          <div class="txt0">距离开播还有</div>
+          <div class="txt1">
+            <span class="txt2">{{djs.d}}</span>
+            <span>天</span>
+            <span class="txt2">{{djs.h}}</span>
+            <span>:</span>
+            <span class="txt2">{{djs.m}}</span>
+            <span>:</span>
+            <span class="txt2">{{djs.s}}</span>
+          </div>
+        </div>
+      </div>
+      <!-- 直播 -->
+      <div v-show="tcd.ts_static!=0" id="player" class="qnplay"></div>
     </div>
     <!-- 菜单栏 -->
     <div class="position-relative">
@@ -41,13 +61,16 @@
       </div>
       <div v-show="menuInx==1" class="tcd-box">
         <div v-html="tcd.post_content"></div>
-        <st></st>
       </div>
       <div v-show="menuInx==2" class="kj-box">
         <div class="kj-body">
           <div class="kj-li" v-for="(f,inx) in tcd.files" v-bind:key="inx">
             <div>{{f.name}}</div>
             <a class="kj-xz" :href="f.url" target="_blank">下载</a>
+          </div>
+          <div v-if="tcd.nofiles" class="nodata text-center">
+            <div class="txt0 iconfont icon-wushuju"></div>
+            <div class="txt1">暂无课件</div>
           </div>
         </div>
       </div>
@@ -72,13 +95,13 @@ import $ from "jquery";
 import menulist from "../cube/menulist";
 // import gift from "./gift";
 import tool from "../cube/tool";
-import st from "../cube/stepstone";
-var roomId = 1;
-var token = "090dd7df1a1e19de04b522f6d9e0b0b9c9679c81244cc65bb2c2060e4a8d8de0";
+import { getCookie } from "../../core/cookie";
+let roomid, token, userid, usernick, useravatar;
 var ws = new WebSocket("ws://192.168.1.92:7272");
 export default {
   data() {
     return {
+      djsbac: {},
       chatCon: "",
       chatList: [],
       menul: [
@@ -93,21 +116,26 @@ export default {
       tooloptions: {
         fllows: false,
         teach: {}
+      },
+      djs: {
+        d: 0,
+        h: 0,
+        m: 0,
+        s: 0,
+        nolive: false
       }
     };
   },
   methods: {
     tomes() {
       var msg = this.chatCon.slice(0, 60);
-      ws.send(
-        '{"room":' +
-          roomId +
-          ',"token":"' +
-          token +
-          '","type":"msg","msg":"' +
-          msg +
-          '"}'
-      );
+      let obj = JSON.stringify({
+        room: roomid,
+        token: token,
+        type: "msg",
+        msg: msg
+      });
+      ws.send(obj);
     },
     setChat() {
       let that = this;
@@ -119,13 +147,17 @@ export default {
       };
       ws.onConnect = function(e) {};
       ws.onmessage = function(e) {
+        //   将事件添加到消息列表
         let obj = JSON.parse(e.data);
         that.chatList.push(obj);
+        console.log(that.chatList);
         // 清空输入框
         that.chatCon = "";
         if (obj.type == "bind" || obj.type == "close") {
+          // 刷新人数
           that.count = obj.count;
         } else if (obj.type == "msg") {
+          // 滚动聊天框
           let h = $(".lc-chat").height();
           $(".max-box").animate(
             {
@@ -136,11 +168,15 @@ export default {
         }
         switch (obj.type) {
           case "init": //绑定用户
-            ws.send(
-              '{"room":' +
-                roomId +
-                ',"user_nickname":"人生无味","avatar":"http://thirdwx.qlogo.cn/mmopen/vi_32/jib4NtzQJTqfz1xjg3qJPcxK92nfJttjXpmeAY3oJ81u5M5pX8cWRqAwD67u1ibnaokMlwPHcjwWmLpJB04mKcfw/132","type":"bind","msg":"绑定"}'
-            );
+            obj = JSON.stringify({
+              room: roomid,
+              user_nickname: usernick,
+              avatar: useravatar,
+              user_id: userid,
+              type: "bind",
+              msg: "绑定"
+            });
+            ws.send(obj);
             break;
           case "bind": //绑定用户成功后回调，刷新当前总人数
             break;
@@ -153,8 +189,7 @@ export default {
       };
     },
     getData() {
-      let id = this.$route.params.zoneid;
-      this.axios.post("/api/home/tv/player.html", { id: id }, res => {
+      this.axios.post("/api/home/tv/player.html", { id: roomid }, res => {
         // 赋值讲师
         this.$set(this.tooloptions, "teach", res.data.data.teach);
         // 赋值关注
@@ -166,41 +201,84 @@ export default {
         };
         this.$set(this.tooloptions, "follow", follow);
         this.tcd = res;
+        if (!res.files) {
+          this.tcd.nofiles = true;
+        }
+        this.djsbac.backgroundImage = "url(" + res.thumbnail + ")";
+        console.log(this.djs);
         switch (res.ts_static) {
           case 0:
             this.toStatus0(res);
             break;
-          case 1:
-            this.toStatus1(res);
-            break;
           default:
-            this.toStatus3(res);
+            this.toStatus1(res);
             break;
         }
       });
     },
     toStatus0(val) {
-      console.log(val);
+      let now = new Date().getTime(),
+        end = val.starttime * 1000,
+        obj,
+        last,
+        clock;
+      if (now < end) {
+        clock = setInterval(() => {
+          now += 88;
+          if (now >= end) {
+            // 时间到了以后刷新页面
+            clearInterval(clock);
+            this.$router.go();
+          }
+          var d = parseInt((end - now) / (24 * 60 * 60 * 1000));
+          var h = parseInt(
+            ((end - now) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000)
+          );
+          var m = parseInt(((end - now) % (60 * 60 * 1000)) / (60 * 1000));
+          var s = (((end - now) % (60 * 1000)) / 1000).toFixed(2);
+          this.djs = {
+            d: addzero(d),
+            h: addzero(h),
+            m: addzero(m),
+            s: addzero(s),
+            nolive: false
+          };
+        }, 88);
+      } else {
+        this.djs.nolive = true;
+      }
+      function addzero(x) {
+        return x < 10 ? "0" + x : x;
+      }
     },
-    toStatus1(val) {
-      console.log(val);
+    toStatus1(val, str) {
       let container = document.getElementById("player");
+      let url = val.ts_static == 1 ? val.look_url : val.huifang_url;
       let player = new QPlayer({
-        url: val.look_url,
+        url: url,
         poster: val.thumbnail,
         container: container,
         defaultViewConfig: {
           // 播放器默认展示方式
           showControls: true
         },
-        // isLive: true,
+        isLive: val.ts_static == 1,
         loggerLevel: 3
       });
-    },
-    toStatus3(val) {
-      console.log(val);
+      //   播放控件展示方式
+      player.on("play", function() {
+        this.config.defaultViewConfig.showControls = false;
+      });
+      player.on("pause", function() {
+        this.config.defaultViewConfig.showControls = true;
+      });
+      player.on("error", () => {
+        this.tcd.ts_static = 0;
+        this.djs.nolive = true;
+      });
     },
     gunText() {
+      // 滚动字幕
       let a = $(".wt-body"),
         w0 = a.width(),
         w1 = window.innerWidth,
@@ -215,16 +293,46 @@ export default {
     },
     tapMenu(val) {
       this.menuInx = val[0];
+    },
+    getChat() {
+      let arr = [];
+      this.axios.post(
+        "/api/home/tv/getRoomComment.html",
+        { room_id: roomid },
+        res => {
+          arr = res.data.data.data;
+          for (let i = 0; i < arr.length; i++) {
+            arr[i].type = "msg";
+            this.chatList.unshift(arr[i]);
+          }
+          setTimeout(() => {
+            // 滚动聊天框
+            let h = $(".lc-chat").height();
+            $(".max-box").animate(
+              {
+                scrollTop: h
+              },
+              400
+            );
+          }, 200);
+        }
+      );
     }
   },
   mounted() {
+    roomid = this.$route.params.zoneid;
+    token = getCookie("token");
+    userid = getCookie("userid");
+    usernick = getCookie("usernick");
+    useravatar = getCookie("useravatar");
+    this.getChat();
     this.setChat();
     this.getData();
     this.gunText();
   },
   components: {
     tool,
-    menulist,st
+    menulist
     // gift
   },
   updated() {
@@ -405,6 +513,19 @@ export default {
     background-image: url(../../assets/bac/Aegis.png);
     background-position-x: 0px;
     animation: tixiu 3s steps(23) infinite;
+  }
+}
+.djs-box {
+  height: 100%;
+  background-color: #010001;
+  color: #fff;
+  line-height: 2.4;
+  .txt1 {
+    font-size: 50px;
+    font-weight: bold;
+    span {
+      margin: 0 10px;
+    }
   }
 }
 @keyframes tixiu {

@@ -16,8 +16,8 @@
       <div class="money-box justify-content-between align-items-center d-flex">
         <div>
           <span class="txt0">￥</span>
-          <span class="txt1 font-weight-bold">{{ad.rate_act_money}}</span>
-          <span class="txt2 d-none">{{ad.price}}</span>
+          <span class="txt1 font-weight-bold">{{ad.price}}</span>
+          <!-- <span class="txt2 d-none">{{ad.price}}</span> -->
         </div>
         <div class="text-center adfavs" @click="adfav" :class="{'fav':ad.is_fav==1}">
           <div class="txt3 iconfont icon-shoucang1"></div>
