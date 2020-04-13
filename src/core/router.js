@@ -36,14 +36,21 @@ const router = new VueRouter({
                 meta: {
                     title: "社区详情"
                 },
-                name:"community"
+                name: "community"
+            }, {
+                path: "release",
+                component: reRouter("article/release"),
+                menta: {
+                    title: "社区发帖"
+                },
+                name:"release"
             }, {
                 path: ":contentid",
                 component: reRouter("article/content"),
                 meta: {
                     title: "帖子详情"
                 },
-                name:'content'
+                name: 'content'
             }]
         }]
     }, {

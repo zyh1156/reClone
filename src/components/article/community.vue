@@ -111,7 +111,7 @@
       v-else
       class="bottom-btn position-fixed w-100 align-items-center justify-content-center d-flex"
     >
-      <div class="now-in text-center">发起讨论</div>
+      <router-link :to="{name:'release'}" class="now-in text-center">发起讨论</router-link>
     </div>
   </section>
 </template>
@@ -363,6 +363,7 @@ export default {
     width: 300px;
     height: 64px;
     line-height: 64px;
+    color: inherit;
     border-radius: 32px;
   }
 }
