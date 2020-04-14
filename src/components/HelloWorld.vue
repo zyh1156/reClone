@@ -3,7 +3,7 @@
     <!-- 顶部功能区 -->
     <div>
       <!-- 红包区 -->
-      <div class="reward position-relative">
+      <router-link :to="{name:'coupon'}" class="reward d-block position-relative">
         <!-- 红包 -->
         <div class="icon position-absolute">
           <img src="../assets/hb-ico.png" alt />
@@ -21,7 +21,7 @@
             <img src="../assets/right-ico.png" alt />
           </span>
         </div>
-      </div>
+      </router-link>
     </div>
     <search></search>
     <menulist :mlist="menuLists" @tapset="setMenu"></menulist>

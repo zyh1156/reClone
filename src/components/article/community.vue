@@ -54,12 +54,15 @@
       <!-- 内容 -->
       <div class="com-list">
         <div v-if="acd.is_pay==0" class="txt0 font-weight-bold">部分内容预览</div>
-        <router-link
-          :to="{name:'content',params:{contentid:cl.id}}"
+        <div
           v-for="(cl,inx) in comlist"
           v-bind:key="inx"
-          class="com-li"
+          @click="goCon(cl.id)"
+          class="com-li position-relative"
         >
+          <div v-if="cl.recommended==1" class="tj position-absolute">
+            <div class="iconfont icon-tuijianjiaobiao"></div>
+          </div>
           <!-- 帖子信息栏 -->
           <div class="d-flex user">
             <div class="box0 position-relative">
@@ -91,7 +94,7 @@
               </div>
             </div>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
     <!-- 引导加入 -->
@@ -125,34 +128,58 @@ export default {
       // 背景图
       bac: {},
       //   基本信息
-      acd: { id: 0 },
+      acd: { id: 0, is_pay: 0 },
       //   教师信息
       teach: {},
       //   话题列表
-      comlist: []
+      comlist: [],
+      page: {
+        now: 0,
+        max: 0,
+        ojbk: false
+      }
     };
   },
   mounted() {
-    comid = this.$route.params.communityid;
+    comid = parseInt(this.$route.params.communityid);
     this.getDate();
-    this.getcom();
   },
   methods: {
+    goCon(id) {
+      if (this.acd.is_pay == 1) {
+        this.$router.push({ name: "content", params: { contentid: id } });
+      }
+    },
     getDate() {
       this.axios.post("/api/home/article/show.html", { id: comid }, res => {
         res = res.data.data;
         this.acd = res.data;
-        this.acd.isfree = parseFloat(res.data.price <= 0);
         this.teach = res.teach;
+        this.acd.isfree = parseFloat(res.data.price) <= 0;
         this.bac = {
           backgroundImage: "url(" + res.data.thumbnail + ")"
         };
+        this.getcom(1);
       });
     },
-    getcom() {
-      this.axios.post("/api/home/article/item.html", { id: comid }, res => {
-        this.comlist = res.data.data.data;
-      });
+    getcom(page) {
+      this.page.now = page;
+      if (!this.page.ojbk) {
+        this.axios.post(
+          "/api/home/article/item.html",
+          { id: comid, page: page },
+          res => {
+            this.page.max = res.data.data.last_page;
+            if (this.acd.is_pay == 1) {
+              this.comlist = this.comlist.concat(res.data.data.data);
+              this.page.ojbkpage >= this.page.max;
+            } else {
+              this.comlist = res.data.data.data.splice(0, 3);
+              this.page.ojbk = true;
+            }
+          }
+        );
+      }
     },
     gopay() {
       let data = {
@@ -168,6 +195,26 @@ export default {
           this.$router.push({ name: "pay", query: { orderid: res.data.data } });
         }
       });
+    },
+    scrollLoad() {
+      let scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight; //document的滚动高度
+      let nowScotop =
+        document.documentElement.clientHeight || document.body.clientHeight; //可视区高度
+      let wheight =
+        document.documentElement.scrollTop || document.body.scrollTop; //已滚动高度
+
+      //   是否快滚到底
+      if (nowScotop >= scrollHeight - wheight * 1.1) {
+        // 页数是否拉满
+        if (this.acd.is_pay == 0) {
+          this.getcom(1);
+        } else if (this.page.now < this.page.max) {
+          let inx = this.page.now + 1;
+          //获取数据
+          this.getcom(inx);
+        }
+      }
     }
   },
   components: {
@@ -198,6 +245,7 @@ export default {
     }
     .txt1 {
       padding: 0 0 45px 0;
+      line-height: 1.4;
     }
   }
   .title {
@@ -282,6 +330,13 @@ export default {
     padding: 60px 22px 0;
     border-radius: $pardon/2;
     box-shadow: 0 10px 10px #ededed;
+
+    .tj {
+      top: 0;
+      right: 0;
+      font-size: 80px;
+      color: $theme;
+    }
     .user {
       padding-bottom: 23px;
     }
@@ -358,12 +413,12 @@ export default {
     font-size: 32px;
   }
   .now-in {
-    border: 1px solid #f3c93b;
-    background-color: #f4d054;
+    border: 1px solid $theme-bor;
+    background-color: $theme;
     width: 300px;
     height: 64px;
     line-height: 64px;
-    color: inherit;
+    color: #fff;
     border-radius: 32px;
   }
 }

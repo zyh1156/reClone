@@ -185,7 +185,7 @@ export default {
   height: 98px;
   border-radius: 49px;
   right: $pardon;
-  bottom: 115px;
+  bottom: 215px;
   background-color: #fff;
   box-shadow: 0 0 10px $theme;
   transition: bottom 0.8s;

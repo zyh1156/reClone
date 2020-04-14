@@ -107,8 +107,7 @@
         </div>
       </div>
     </div>
-    <!-- 弹窗 -->
-
+    <!-- 评论弹窗 -->
     <aside class="t1">
       <div id="dialogs">
         <div class="js_dialog" id="iosDialog2" style="display: none;">
@@ -242,7 +241,7 @@ export default {
         object_id: this.wd.kc_id,
         table_name: "goods_post",
         content: this.convey,
-        url: location.pathname + location.search,
+        url:this.$route.path,
         parent_id: "",
         to_user_id: this.wd.user_id
       };
@@ -273,8 +272,7 @@ export default {
     addcon() {
       // WeUI弹窗
       this.feelType = false;
-      var $dialog1 = $(".t1 #js_dialog_1"),
-        $dialog2 = $(".t1 #js_dialog_2"),
+      var $dialog2 = $(".t1 #js_dialog_2"),
         $iosDialog2 = $(".t1 #iosDialog2");
       $(".t1 #showIOSDialog2").on("click", function() {
         // $iosDialog2.fadeIn(200);
@@ -285,7 +283,6 @@ export default {
         $(this)
           .parents(".js_dialog")
           .hide();
-        $dialog1.removeClass("weui-half-screen-dialog_show");
         $dialog2.removeClass("weui-half-screen-dialog_show");
       });
       $(".t1 .close").on("click", function() {

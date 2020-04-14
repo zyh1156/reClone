@@ -123,7 +123,7 @@ export default {
         let follow = {
           fav: res.data.is_fav == 1,
           id: res.data.id,
-          string: "tv_post"
+          string: "goods_post"
         };
         this.$set(this.tooloptions, "follow", follow);
         // 赋值讲师

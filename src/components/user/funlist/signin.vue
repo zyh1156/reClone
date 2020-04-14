@@ -95,7 +95,7 @@ export default {
 .h-max {
   height: 100vh;
   background-color: #f2f3f3;
-  background: url(../../assets/user/headerTop.a664892.png) no-repeat center -20px;
+  background: url(/assets/user/headerTop.a664892.png) no-repeat center -20px;
   background-size: 100% auto;
 }
 .panel-top {

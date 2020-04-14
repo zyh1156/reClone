@@ -27,15 +27,16 @@
     <div class="dpgo">
       <!-- 功能页 -->
       <div class="d-flex copgo justify-content-around">
-        <div
+        <a
           class="copbox text-center"
           :class="co.classActive"
+          :href="co.url"
           v-for="(co,inx) in oplist"
           v-bind:key="inx"
         >
           <div class="copico iconfont d-inline-block" :class="co.classObj"></div>
           <div class="coptxt">{{co.text}}</div>
-        </div>
+        </a>
       </div>
       <!-- 开课 -->
       <div class="copbtn text-center font-weight-bold">
@@ -44,15 +45,16 @@
       </div>
       <!-- 功能页 -->
       <div class="d-flex copgo justify-content-around">
-        <div
+        <a
           class="copbox text-center"
           :class="co.classActive"
+          :href="co.url"
           v-for="(co,inx) in oplist1"
           v-bind:key="inx"
         >
           <div class="copico iconfont d-inline-block" :class="co.classObj"></div>
           <div class="coptxt">{{co.text}}</div>
-        </div>
+        </a>
       </div>
     </div>
     <!-- 功能列表1 -->
@@ -82,13 +84,15 @@ export default {
           text: "关注",
           classObj: {
             "icon-aixin": true
-          }
+          },
+          url: "/user/follow?type=0"
         },
         {
           text: "收藏",
           classObj: {
             "icon-shoucang": true
-          }
+          },
+          url: "/user/follow?type=1"
         },
         {
           text: "优惠券",
@@ -97,13 +101,15 @@ export default {
           },
           classActive: {
             // ii: true
-          }
+          },
+          url: "/user/coupon"
         },
         {
           text: "订单记录",
           classObj: {
             "icon-dingdan": true
-          }
+          },
+          url: "/user/order"
         }
       ],
       oplist1: [
@@ -120,7 +126,7 @@ export default {
           }
         },
         {
-          text: "我的答题",
+          text: "我的话题",
           classObj: {
             "icon-customization": true
           }
@@ -277,6 +283,7 @@ export default {
 }
 .copbox {
   width: 20%;
+  color: inherit;
   cursor: pointer;
   position: relative;
   .copico {

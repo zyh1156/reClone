@@ -33,6 +33,7 @@
           <div class="wr-text">
             <div class="txt0">文字</div>
             <div class="txt1">时间</div>
+            <div class="txt1">时间</div>
           </div>
           <!-- 金额 -->
           <div class="text-right wr-money font-weight-bold">￥100.00</div>
@@ -139,7 +140,7 @@ export default {
   }
   .wr-text {
     width: 430px;
-    height: 106px;
+    height: 155px;
     padding: $pardon/2;
     border-bottom: 1px solid #f1f1f1;
     .txt0 {
@@ -155,8 +156,8 @@ export default {
   }
   .wr-money {
     width: 200px;
-    height: 106px;
-    line-height: 106px;
+    height: 155px;
+    line-height: 155px;
     padding: 0 $pardon;
     font-size: 32px;
     border-bottom: 1px solid #f1f1f1;

@@ -91,7 +91,7 @@ export default {
       if (nowScotop >= scrollHeight - wheight * 1.1) {
         // 页数是否拉满
         if (this.page.now < this.page.max) {
-          let inx = this.feelPage.now + 1;
+          let inx = this.page.now + 1;
           //获取数据
           this.getData(inx);
         }

@@ -19,6 +19,7 @@ export default {
     },
     // 获取播放数据
     toPlay() {
+        return;
       if (checkCookie("playtime")) {
         let data = JSON.parse(getCookie("playtime"));
         if (!data.toajax) {
@@ -45,7 +46,7 @@ export default {
     "WenQuanYi Micro Hei", sans-serif;
 }
 section.bac {
-  background-color: #f8f8f8;
+  background-color: #f0f0f0;
   min-height: 100vh;
 }
 

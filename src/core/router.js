@@ -43,7 +43,7 @@ const router = new VueRouter({
                 menta: {
                     title: "社区发帖"
                 },
-                name:"release"
+                name: "release"
             }, {
                 path: ":contentid",
                 component: reRouter("article/content"),
@@ -111,10 +111,34 @@ const router = new VueRouter({
             component: reRouter("user/index")
         }, {
             path: "login",
-            component: reRouter("user/login")
+            component: reRouter("user/login"),
+            meta: {
+                title: "登录界面"
+            }
+        }, {
+            path: "coupon",
+            component: reRouter("user/funlist/coupon"),
+            name: "coupon",
+            meta: {
+                title: "优惠券"
+            }
+        }, {
+            path: "follow",
+            component: reRouter("user/funlist/follow"),
+            name:"follow",
+            meta:{
+                title:"关注"
+            }
+        },{
+            path:"order",
+            component:reRouter("user/funlist/order"),
+            name:"order",
+            meta:{
+                title:"订单记录"
+            }
         }, {
             path: "signin",
-            component: reRouter("user/signin"),
+            component: reRouter("user/funlist/signin"),
             name: "signin",
             meta: {
                 title: "签到记录"
