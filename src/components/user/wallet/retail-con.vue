@@ -11,27 +11,34 @@
         <!-- 备注文字 -->
         <div class="wr-text">
           <div class="txt0 text-truncate">{{or.remark}}</div>
-          <div class="txt1">流水号：{{or.order_sn}}</div>
-          <div class="txt1">申请时间：{{or.create_time}}</div>
-          <div class="txt1"></div>
+          <div class="txt1">订单号：{{or.order_sn}}</div>
+          <div class="txt1">支付时间：{{or.create_time}}</div>
+          <div class="txt1">支付方式：{{or.pay_name}}</div>
         </div>
         <!-- 金额 -->
         <div class="text-right wr-money">
-          <div class="txt0 font-weight-bold">￥{{or.money}}</div>
-          <div class="txt1">{{or.status_name}}</div>
+          <div class="txt0 font-weight-bold">￥{{or.order_amount}}</div>
+          <div class="txt1">已支付</div>
         </div>
+      </div>
+
+      <!-- 无效页 -->
+      <div v-if="page.ojbk&&orList.length==0" class="nodata text-center">
+        <div class="txt0 iconfont icon-wushuju"></div>
+        <div class="txt1">找不到更多数据</div>
       </div>
     </div>
   </section>
 </template>
 <script>
 import ct from "../../cube/cube-title";
+let type;
 export default {
   data() {
     return {
       cobj: {
         // class: { "icon-dingdan": true },
-        tit: "提现记录"
+        // txt: "订单记录"
       },
       orList: [],
       page: {
@@ -49,8 +56,9 @@ export default {
       this.page.now = page;
       if (!this.page.ojbk) {
         this.axios.post(
-          "/api/user/user_money_log/gettxlist.html",
+          "/api/user/user_money_log/fxorder.html",
           {
+            types: type,
             page: page
           },
           res => {
@@ -85,6 +93,7 @@ export default {
     }
   },
   mounted() {
+    type = this.$route.query.type;
     this.getData(1);
     this.scrollLoad();
   }

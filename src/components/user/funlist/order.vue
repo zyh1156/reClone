@@ -1,5 +1,6 @@
 <template>
   <section class="bac">
+    <ct :ctxt="cobj"></ct>
     <div class="shop-ul">
       <!-- 详情 -->
       <div
@@ -24,9 +25,14 @@
   </section>
 </template>
 <script>
+import ct from "../../cube/cube-title";
 export default {
   data() {
     return {
+      cobj: {
+        class: { "icon-dingdan": true },
+        txt: "订单记录"
+      },
       orList: [],
       page: {
         now: 0,
@@ -34,6 +40,9 @@ export default {
         ojbk: false
       }
     };
+  },
+  components: {
+    ct
   },
   methods: {
     getData(page) {

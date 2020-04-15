@@ -117,7 +117,8 @@ export default {
           text: "我的课程",
           classObj: {
             "icon-training": true
-          }
+          },
+          url: "/user/course"
         },
         {
           text: "我的活动",
@@ -135,7 +136,8 @@ export default {
           text: "我的学习",
           classObj: {
             "icon-manage-order": true
-          }
+          },
+          url: "/user/study"
         }
       ],
       menu0: [
@@ -151,7 +153,7 @@ export default {
           classObj: {
             "icon-icon_statistics": true
           },
-          url: "/user/retail/"
+          url: "/user/wallet/retail/"
         },
         {
           text: "消息",
@@ -171,7 +173,8 @@ export default {
           text: "帮助与反馈",
           classObj: {
             "icon-icon_shakehands": true
-          }
+          },
+          url: "/user/help"
         },
         {
           text: "设置",

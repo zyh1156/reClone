@@ -17,14 +17,14 @@
             <div class="money font-weight-bold">{{md.j_money}}</div>
           </div>
         </div>
-        <div @click="outMoney" class="cash-out font-weight-bold text-center">提现</div>
+        <router-link :to="{path:'apply'}" class="d-block cash-out font-weight-bold text-center">提现</router-link>
       </div>
     </div>
     <div class="cash-record">
-      <a href="/user/wallet/record" class="cr-li d-flex align-items-center">
+      <router-link :to="{path:'record'}" class="cr-li d-flex align-items-center">
         <div class="iconfont icon-icon_doc_fill icbox"></div>
         <div class="txt">提现记录</div>
-      </a>
+      </router-link>
     </div>
   </section>
 </template>
@@ -32,7 +32,10 @@
 export default {
   data() {
     return {
-      md: {}
+      md: {
+        z_money: "0.00",
+        j_money: "0.00"
+      }
     };
   },
   methods: {

@@ -123,18 +123,38 @@ const router = new VueRouter({
                 title: "优惠券"
             }
         }, {
+            path: "course",
+            component: reRouter("user/funlist/course"),
+            meta: {
+                title: "我的课程"
+            }
+        }, {
             path: "follow",
             component: reRouter("user/funlist/follow"),
-            name:"follow",
-            meta:{
-                title:"关注"
+            name: "follow",
+            meta: {
+                title: "关注"
             }
-        },{
-            path:"order",
-            component:reRouter("user/funlist/order"),
-            name:"order",
-            meta:{
-                title:"订单记录"
+        }, {
+            path: "help",
+            component: reprint,
+            children: [{
+                path: ":helpid",
+                component: reRouter("user/funlist/help-con"),
+                name: "help"
+            }, {
+                path: "",
+                component: reRouter("user/funlist/help")
+            }],
+            meta: {
+                title: "帮助与反馈"
+            }
+        }, {
+            path: "order",
+            component: reRouter("user/funlist/order"),
+            name: "order",
+            meta: {
+                title: "订单记录"
             }
         }, {
             path: "signin",
@@ -144,22 +164,34 @@ const router = new VueRouter({
                 title: "签到记录"
             }
         }, {
-            path: "retail",
-            component: reprint,
-            children: [{
-                path: "",
-                component: reRouter("user/retail/index")
-            }],
+            path: "study",
+            component: reRouter("user/funlist/study"),
             meta: {
-                title: "分销记录"
+                title: "我的学习"
             }
         }, {
             path: "wallet",
             component: reprint,
             children: [{
+                path: "apply",
+                component: reRouter("user/wallet/apply"),
+                name:"apply"
+            }, {
                 path: "record",
                 component: reRouter("user/wallet/record")
             }, {
+                path: "retail",
+                component: reRouter("user/wallet/retail"),
+                meta: {
+                    title: "分销记录"
+                }
+            },{
+                path: "retail-con",
+                component: reRouter("user/wallet/retail-con"),
+                meta: {
+                    title: "分销记录"
+                }
+            },  {
                 path: "",
                 component: reRouter("user/wallet/index")
             }],

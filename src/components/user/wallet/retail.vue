@@ -4,25 +4,22 @@
       <div class="d-flex text-center">
         <div class="w-50 w-box">
           <div class="toget">今日收益（元）</div>
-          <div class="money">0.00</div>
+          <div class="money">{{rd.j_money}}</div>
         </div>
         <div class="w-50 w-box">
           <div class="toget">累计收益（元）</div>
-          <div class="money">0.00</div>
+          <div class="money">{{rd.z_money}}</div>
         </div>
       </div>
       <!-- 按钮 -->
-      <div class="getMoney">提现</div>
+      <router-link :to="{name:'apply'}" class="d-block getMoney">提现</router-link>
     </div>
     <!-- 分销管理 -->
     <div class="rt-box">
       <div class="rt-tit">分销管理</div>
       <div class="rt-ul">
-        <div class="rt-li">分销订单</div>
-        <div class="rt-li">我分销的直播间</div>
-      </div>
-      <div class="rt-ul">
-        <div class="rt-li">赚钱秘籍</div>
+        <a href="/user/wallet/retail-con?type=1" class="d-block rt-li">分销订单</a>
+        <a href="/user/wallet/retail-con?type=2" class="d-block rt-li">我分销的课程</a>
       </div>
     </div>
   </section>
@@ -30,7 +27,25 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      rd: {
+        z_money: "0.00",
+        j_money: "0.00"
+      }
+    };
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.axios.post("/api/user/user_money_log/dayMoney.html", {}, res => {
+        this.rd = {
+          z_money: res.data.data.z_money.toFixed(2),
+          j_money: res.data.data.j_money.toFixed(2)
+        };
+      });
+    }
   }
 };
 </script>
@@ -72,18 +87,18 @@ export default {
     padding: 20px;
   }
   .rt-ul {
-      margin-bottom: 20px;
+    margin-bottom: 20px;
     background-color: #fff;
   }
   .rt-li:last-child {
     border-bottom: none;
   }
   .rt-li {
-      color: #636363;
+    color: #636363;
     padding: $pardon 20px;
     border-bottom: 1px solid #f2f2f2;
-    background: url(../../../assets/right-ico2.png) no-repeat 720px center;
-    background-size: auto 26px;
+    background: url(../../../assets/right-ico2.png) no-repeat 700px center;
+    background-size: auto 28px;
   }
 }
 </style>
