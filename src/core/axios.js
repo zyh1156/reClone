@@ -25,10 +25,10 @@ export default {
             if (res.data.code == 1) {
                 call(res);
             } else if (res.data.code == 10001) {
-                return
+                // return
                 location.href = "/user/login";
             } else {
-                return
+                // return
                 location.href = "/error404";
             }
         }, res => {

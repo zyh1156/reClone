@@ -52,11 +52,7 @@ export default {
             this.$set(this.caseData, "list", arr);
             //   是否所有页数加载完成
             this.page.max = res.data.data.last_page;
-            if (page < this.page.max) {
-              this.page.ojbk = false;
-            } else {
-              this.page.ojbk = true;
-            }
+            this.page.ojbk = page >= this.page.max;
           }
         );
       }

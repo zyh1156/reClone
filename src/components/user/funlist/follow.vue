@@ -48,6 +48,15 @@
         </div>
       </div>
     </div>
+    <!-- 没有数据的时候 -->
+    <!-- 无效页 -->
+    <div class="nodata-box">
+      <div v-if="page.ojbk&&flist.length==0" class="nodata text-center">
+        <div class="txt0 iconfont icon-wushuju"></div>
+        <div class="txt1" v-if="type==0">还没有关注讲师</div>
+        <div class="txt1" v-if="type==1">还没有收藏课程</div>
+      </div>
+    </div>
   </section>
 </template>
 <script>
@@ -55,31 +64,65 @@ export default {
   data() {
     return {
       type: 2,
-      flist: []
+      flist: [],
+      page: {
+        now: 0,
+        max: 0,
+        ojbk: false
+      }
     };
   },
   methods: {
-    getData() {
+    getData(page) {
+      this.page.now = page;
       let data = {
+        page: page,
         table: this.type == 0 ? "teach_post" : "goods_post"
       };
-      this.axios.post("/api/user/profile/getFavorites.html", data, res => {
-        this.flist = res.data.data.data;
-      });
+      if (!this.page.ojbk) {
+        this.axios.post("/api/user/profile/getFavorites.html", data, res => {
+          if (page == 1) {
+            this.flist = res.data.data.data;
+          } else {
+            this.flist = this.flist.concat(res.data.data.data);
+          }
+          this.page.max = res.data.data.last_page;
+          this.page.ojbk = this.page.max <= page;
+        });
+      }
     },
     unfollow(id) {
       let data = {
-        object_id:id.object_id,
+        object_id: id.object_id,
         table_name: this.type == 0 ? "teach_post" : "goods_post"
       };
-      this.axios.post("/api/user/Favorites/setFavorites.html",data, res => {
-          this.getData();
+      this.axios.post("/api/user/Favorites/setFavorites.html", data, res => {
+        this.getData();
       });
+    },
+    scrollLoad() {
+      let scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight; //document的滚动高度
+      let nowScotop =
+        document.documentElement.clientHeight || document.body.clientHeight; //可视区高度
+      let wheight =
+        document.documentElement.scrollTop || document.body.scrollTop; //已滚动高度
+
+      //   是否快滚到底
+      if (nowScotop >= scrollHeight - wheight * 1.1) {
+        // 页数是否拉满
+        if (this.page.now < this.page.max) {
+          let inx = this.page.now + 1;
+          //获取数据
+          this.getData(inx);
+        }
+      }
     }
   },
   mounted() {
     this.type = this.$route.query.type;
-    this.getData();
+    this.getData(1);
+    this.scrollLoad();
   }
 };
 </script>
@@ -171,5 +214,8 @@ export default {
   line-height: 56px;
   border-radius: 28px;
   border: 2px solid #b0b0b0;
+}
+.nodata-box {
+  padding: $pardon;
 }
 </style>

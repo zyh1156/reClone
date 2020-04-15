@@ -31,19 +31,56 @@
 export default {
   data() {
     return {
-      cplist: []
+      cplist: [],
+      page: {
+        now: 0,
+        max: 0,
+        ojbk: false
+      }
     };
   },
   methods: {
-    getData() {
-      this.axios.post("/api/home/red/index.html", {}, res => {
-        console.log(res);
-        this.cplist = res.data.data.data;
-      });
+    getData(page) {
+      this.page.now = page;
+      if (!this.page.ojbk) {
+        this.axios.post(
+          "/api/home/red/index.html",
+          {
+            page: page
+          },
+          res => {
+            if (page == 1) {
+              this.cplist = res.data.data.data;
+            } else {
+              this.cplist = this.cplist.concat(res.data.data.data);
+            }
+            this.page.max = res.data.data.last_page;
+            this.page.ojbk = this.page.max <= page;
+          }
+        );
+      }
+    },
+    scrollLoad() {
+      let scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight; //document的滚动高度
+      let nowScotop =
+        document.documentElement.clientHeight || document.body.clientHeight; //可视区高度
+      let wheight =
+        document.documentElement.scrollTop || document.body.scrollTop; //已滚动高度
+      //   是否快滚到底
+      if (nowScotop >= scrollHeight - wheight * 1.1) {
+        // 页数是否拉满
+        if (this.page.now < this.page.max) {
+          let inx = this.page.now + 1;
+          //获取数据
+          this.getData(inx);
+        }
+      }
     }
   },
   mounted() {
-    this.getData();
+    this.getData(1);
+    this.scrollLoad();
   }
 };
 </script>

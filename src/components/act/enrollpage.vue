@@ -107,7 +107,11 @@
         <div>我的</div>
       </a>
       <!-- 立即报名 -->
-      <div class="bm font-weight-bold text-center" :class="{'out':!surTime.show||ad.is_pay}">
+      <div
+        @click="topay"
+        class="bm font-weight-bold text-center"
+        :class="{'out':!surTime.show||ad.is_pay}"
+      >
         <span v-if="ad.is_pay==1">已支付</span>
         <span v-else-if="surTime.show">立即报名</span>
         <span v-else>已结束</span>
@@ -210,6 +214,26 @@ export default {
       }
       function addzero(x) {
         return x < 10 ? "0" + x : x;
+      }
+    },
+    topay() {
+      if (this.ad.is_pay == 0 || this.surTime.show) {
+        let data = {
+          table: "act_post",
+          object_id: this.ad.id,
+          is_firends: 0,
+          num: 1
+        };
+        this.axios.post("/api/user/order/to_pay.html", data, res => {
+          if (res.data.data == 0) {
+            this.$router.push({ name: "act", params: { actid: this.ad.id } });
+          } else {
+            this.$router.push({
+              name: "pay",
+              query: { orderid: res.data.data }
+            });
+          }
+        });
       }
     }
   },
