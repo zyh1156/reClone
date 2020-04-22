@@ -98,6 +98,7 @@ import tool from "../cube/tool";
 import { getCookie } from "../../core/cookie";
 let roomid, token, userid, usernick, useravatar;
 var ws = new WebSocket("ws://" + location.host + ":7272");
+var loadjs = require("loadjs");
 export default {
   data() {
     return {
@@ -211,7 +212,9 @@ export default {
             this.toStatus0(res);
             break;
           default:
-            this.toStatus1(res);
+            loadjs("/js/qiniu-web-player-1.2.3.js", res => {
+              this.toStatus1(res);
+            });
             break;
         }
       });
@@ -327,8 +330,8 @@ export default {
     useravatar = getCookie("useravatar");
     this.getChat();
     this.setChat();
-    this.getData();
     this.gunText();
+    this.getData();
   },
   components: {
     tool,

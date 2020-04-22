@@ -10,7 +10,7 @@
               <span>分校报名</span>
             </div>
             <div class="con position-relative overflow-hidden">
-              <img src="../../assets/swiper/00.png" alt />
+              <!-- <img src="../../assets/swiper/00.png" alt /> -->
               <div class="time d-inline-block position-absolute">
                 <span class="iconfont icon-shijian"></span>
                 <span>截止到2020年3月26日10点21分</span>
