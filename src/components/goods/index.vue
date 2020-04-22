@@ -103,7 +103,8 @@ export default {
       },
       tooloptions: {
         follow: false,
-        teach: {}
+        teach: {},
+        give: {}
       }
     };
   },
@@ -119,6 +120,8 @@ export default {
           .split(".");
         this.wd = res.data;
         this.wd2.money = res.data.rate_goods_money;
+        // 赋值讲师
+        this.$set(this.tooloptions, "teach", res.teach);
         // 赋值关注
         let follow = {
           fav: res.data.is_fav == 1,
@@ -126,8 +129,13 @@ export default {
           string: "goods_post"
         };
         this.$set(this.tooloptions, "follow", follow);
-        // 赋值讲师
-        this.$set(this.tooloptions, "teach", res.teach);
+        //赋值赠送
+        let give = {
+          type: "goods_post",
+          id: res.data.id,
+          money: res.data.money
+        };
+        this.$set(this.tooloptions, "give", give);
         //   修改title
         document.title = res.data.post_title;
         this.teach = res.teach;

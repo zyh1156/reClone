@@ -3,10 +3,12 @@ import axios from 'axios'
 import "weui"
 import weui from "weui.js"
 import {
+    setCookie,
     getCookie
 } from "./cookie"
 export default {
-    post(url, data, call, nolo) {
+    post(url, data, call, nolo, noto) {
+        url = "http://t3.lcqingshu.com" + url;
         let loading, token = getCookie("token");
         if (nolo) {} else {
             loading = weui.loading("获取中");
@@ -17,7 +19,7 @@ export default {
                 "XX-Device-Type": "mobile",
                 // "XX-Api-Version": "1.0.0"
             },
-            timeout: 5000
+            timeout: 10 * 1000
         }).then(res => {
             if (nolo) {} else {
                 loading.hide();
@@ -25,11 +27,14 @@ export default {
             if (res.data.code == 1) {
                 call(res);
             } else if (res.data.code == 10001) {
-                // return
+                setCookie("nowurl", encodeURIComponent(location.href));
                 location.href = "/user/login";
             } else {
-                // return
-                location.href = "/error404";
+                if (noto) {
+                    weui.alert(res.data.msg);
+                } else {
+                    location.href = "/error404";
+                }
             }
         }, res => {
             loading.hide();

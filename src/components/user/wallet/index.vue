@@ -2,7 +2,7 @@
   <section class="bac">
     <div class="wallet-box">
       <div class="wallet-body position-relative">
-        <div class="readmx position-absolute">查看明细</div>
+        <router-link :to="{path:'detail'}" class="readmx position-absolute">查看明细</router-link>
         <div class="balance">
           <div>我的余额</div>
           <div class="money font-weight-bold">{{md.all_money}}</div>
@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       md: {
+        all_money: "0.00",
         z_money: "0.00",
         j_money: "0.00"
       }
@@ -73,6 +74,7 @@ export default {
 .readmx {
   top: 45px;
   right: 38px;
+  color: #fff;
 }
 .balance {
   .money {

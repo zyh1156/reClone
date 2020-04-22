@@ -8,7 +8,7 @@
         </div>
         <div class="w-50 w-box">
           <div class="toget">累计收益（元）</div>
-          <div class="money">{{rd.z_money}}</div>
+          <div class="money">{{rd.all_money}}</div>
         </div>
       </div>
       <!-- 按钮 -->
@@ -18,8 +18,8 @@
     <div class="rt-box">
       <div class="rt-tit">分销管理</div>
       <div class="rt-ul">
-        <a href="/user/wallet/retail-con?type=1" class="d-block rt-li">分销订单</a>
-        <a href="/user/wallet/retail-con?type=2" class="d-block rt-li">我分销的课程</a>
+        <a href="/user/wallet/retail-con?type=2" class="d-block rt-li">分销订单</a>
+        <a href="/user/wallet/retail-con?type=3" class="d-block rt-li">讲师分成订单</a>
       </div>
     </div>
   </section>

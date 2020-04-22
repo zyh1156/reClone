@@ -1,16 +1,21 @@
 <template>
   <!-- 
     options:{
-        follow:{
-            fav:是否关注,
-            id:需要关注的id，
-            string:关键字
-        },
         teach:{
             thumbnail:微信头像
             post_title:微信昵称
             wx_name:微信号
             wx_wxm:微信二维码
+        },
+        follow:{
+            fav:是否关注,
+            id:需要关注的id，
+            string:关键字
+        },
+        give:{
+            type:购买类型,
+            id:产品ID,
+            money:产品价格
         }
     }
   -->
@@ -23,7 +28,7 @@
     <div id="dialogs">
       <div class="js_dialog" id="iosDialog2" style="display: none;">
         <div class="weui-mask"></div>
-        <!-- 教师二维码：功能二 -->
+        <!-- 教师二维码：功能三 -->
         <div v-if="toteach" class="weixinImg">
           <div class="wxbox">
             <div class="d-flex">
@@ -37,6 +42,37 @@
             </div>
             <div class="wx-img">
               <img :src="options.teach.wx_wxm" alt />
+            </div>
+          </div>
+        </div>
+        <!-- 赠送：功能五 -->
+        <div v-if="togive" class="weixinImg">
+          <div class="wxbox givebox">
+            <div class="box0 text-center">豪爽赠送好友</div>
+            <div class="box1">赠送数量</div>
+            <div class="d-flex flex-wrap num-ul text-center">
+              <div
+                v-for="(gl,inx) in givelist"
+                v-bind:key="inx"
+                class="num-li"
+                :class="{active:givedata.num==gl}"
+                @click="changeNum(gl)"
+              >{{gl}}</div>
+            </div>
+            <div class="d-flex box2 justify-content-between">
+              <div class="bo0">豪爽赠送</div>
+              <div class="bo1 d-flex text-center">
+                <div @click="prev" class="a">-</div>
+                <input v-model="givedata.num" class="text-center" type="text" />
+                <div @click="plus" class="b">+</div>
+              </div>
+            </div>
+            <div class="text-right box3">
+              <div class="bo0">总计：{{givedata.money}}元</div>
+              <div class="bo1">好友可免费领取，永久有效</div>
+            </div>
+            <div class="box4 text-center">
+              <div @click="togivemoney" class="bo0">打包{{givedata.num}}份赠礼</div>
             </div>
           </div>
         </div>
@@ -71,13 +107,22 @@ export default {
   data() {
     return {
       toteach: false,
+      togive: false,
+      givelist: [1, 2, 4, 10, 20, 50],
+      givedata: {
+        is_firends: 1,
+        num: 1
+      },
       menuList: [
         {
           classObj: "icon-shouye",
           text: "首页",
           url: "/"
         },
-
+        {
+          classObj: "icon-laoshi",
+          text: "教师"
+        },
         {
           classObj: "icon-icon_service",
           text: "咨询"
@@ -102,53 +147,83 @@ export default {
     };
   },
   mounted() {
+    if (this.$store.state.togive == 2) {
+      this.$store.state.togive = 0;
+      this.$router.push({ path: "/give" });
+    }
     this.addcon();
   },
   watch: {
     "options.follow"() {
       if (this.options.follow.fav) {
-        this.menuList[2].classObj.follow = true;
-        this.menuList[2].text = "已收藏";
+        this.menuList[3].classObj.follow = true;
+        this.menuList[3].text = "已收藏";
       }
     },
-    toteach() {}
+    "options.give"() {
+      this.givedata.table = this.options.give.type;
+      this.givedata.object_id = this.options.give.id;
+      this.givedata.money = this.options.give.money;
+    }
   },
   updated() {
-    $(".weixinImg").on("click", function() {
-      $(".weui-mask").click();
-    });
-    $(".wxbox").on("click", function(evt) {
-      evt.stopPropagation();
-    });
+    $(".weixinImg")
+      .off("click")
+      .on("click", function() {
+        $(".weui-mask").click();
+      });
+    $(".wxbox")
+      .off("click")
+      .on("click", function(evt) {
+        evt.stopPropagation();
+      });
   },
   props: ["options"],
   methods: {
     tapTool(x, y) {
       // 默认始终关闭
       this.toteach = false;
+      this.togive = false;
       if (x == 0) {
         // 返回首页
         this.$router.push("/");
       } else if (x == 1) {
+        this.$router.push({
+          name: "room",
+          params: { roomid: this.options.teach.id }
+        });
+      } else if (x == 2) {
+        //   咨询
         this.toteach = true;
         $(".t0 #js_dialog_2").removeClass("weui-half-screen-dialog_show");
-      } else if (x == 2) {
+      } else if (x == 3) {
+        //   收藏
         let id = this.options.follow.id,
-          flag = this.menuList[2].classObj.follow,
+          flag = this.menuList[3].classObj.follow,
           txt = this.options.follow.string;
         this.axios.post(
           "/api/user/Favorites/setFavorites.html",
           { object_id: id, table_name: txt },
           res => {
             //   切换文字
-            this.menuList[2].text = flag ? "收藏" : "已收藏";
+            this.menuList[3].text = flag ? "收藏" : "已收藏";
             if (!flag) {
               this.weui.toast(res.data.msg, 1500);
             }
             //   切换样式
-            this.menuList[2].classObj.follow = !flag;
+            this.menuList[3].classObj.follow = !flag;
           }
         );
+      } else if (x == 4) {
+        //邀请卡
+        this.$router.push({
+          name: "share",
+          query: { kc_id: this.options.give.id, type: this.options.give.type }
+        });
+      } else if (x == 6) {
+        //   咨询
+        this.togive = true;
+        $(".t0 #js_dialog_2").removeClass("weui-half-screen-dialog_show");
       }
     },
     addcon() {
@@ -159,6 +234,7 @@ export default {
         that = this;
       $(".t0 #showIOSDialog2").on("click", function() {
         that.toteach = false;
+        that.togive = false;
         $iosDialog2.show();
         $dialog2.addClass("weui-half-screen-dialog_show");
       });
@@ -171,6 +247,33 @@ export default {
       });
       $(".t0 .close").on("click", function() {
         $(".weui-mask").click();
+      });
+    },
+    changeNum(num) {
+      this.givedata.num = num;
+      this.givedata.money = (num * this.options.give.money).toFixed(2);
+    },
+    prev() {
+      let num = this.givedata.num;
+      num = num > 1 ? num - 1 : num;
+      this.changeNum(num);
+    },
+    plus() {
+      let num = this.givedata.num + 1;
+      this.changeNum(num);
+    },
+    togivemoney() {
+      this.$store.state.togive = 1;
+      this.axios.post("/api/user/order/to_pay.html", this.givedata, res => {
+        if (res.data.data == 0) {
+          this.weui.toast(res.data.msg, 1500);
+          this.$router.go();
+        } else {
+          this.$router.push({
+            name: "pay",
+            query: { orderid: res.data.data }
+          });
+        }
       });
     }
   }
@@ -226,6 +329,9 @@ export default {
     background-color: #eb5658;
   }
   .t-con:nth-child(2) .t-ico {
+    background-color: #50735b;
+  }
+  .t-con:nth-child(3) .t-ico {
     background-color: #82d272;
   }
   .icon-shoucang {
@@ -234,19 +340,19 @@ export default {
   .icon-shoucang.follow {
     background-color: #ee7800;
   }
-  .t-con:nth-child(4) .t-ico {
-    background-color: #eb5658;
-  }
   .t-con:nth-child(5) .t-ico {
-    background-color: #82b2f8;
+    background-color: #eb5658;
   }
   .t-con:nth-child(6) .t-ico {
-    background-color: #f4bd49;
+    background-color: #82b2f8;
   }
   .t-con:nth-child(7) .t-ico {
-    background-color: #eb5658;
+    background-color: #f4bd49;
   }
   .t-con:nth-child(8) .t-ico {
+    background-color: #eb5658;
+  }
+  .t-con:nth-child(9) .t-ico {
     background-color: #eb5658;
   }
 }
@@ -293,6 +399,91 @@ export default {
   .wx-img {
     img {
       width: 520px;
+    }
+  }
+}
+.givebox {
+  width: 600px;
+  .box0 {
+    color: $theme-bor;
+    font-size: 30px;
+  }
+  .box1 {
+    color: #939393;
+    margin-top: 35px;
+    font-size: 22px;
+  }
+  .num-ul {
+    margin: 14px -22px;
+    .num-li {
+      width: 150px;
+      margin: 16px 18px;
+      border-radius: 6px;
+      height: 58px;
+      line-height: 54px;
+      font-size: 24px;
+      border: 2px solid #939393;
+    }
+    .active {
+      color: #fff;
+      background-color: $theme;
+      border-color: $theme-bor;
+    }
+  }
+  .box2 {
+    margin-top: 14px;
+    padding-bottom: $pardon;
+    border-bottom: 2px solid #f7f7f7;
+    .bo0 {
+      color: #939393;
+      font-size: 22px;
+    }
+    .bo1 {
+      border: 2px solid #e6e6e6;
+      border-radius: 6px;
+      .a {
+        border-right: 2px solid #e6e6e6;
+      }
+      .b {
+        border-left: 2px solid #e6e6e6;
+      }
+      div {
+        color: $theme-bor;
+        width: 56px;
+      }
+      input {
+        width: 90px;
+      }
+      div,
+      input {
+        height: 50px;
+        line-height: 50px;
+        border: none;
+        outline: none;
+      }
+    }
+  }
+  .box3 {
+    color: #8f8f8f;
+    padding: 20px 0 30px;
+    border-bottom: 2px solid #f7f7f7;
+    .bo0 {
+      font-size: 22px;
+    }
+    .bo1 {
+      font-size: 26px;
+      margin-top: $pardon/2;
+    }
+  }
+  .box4 {
+    padding-top: $pardon;
+    .bo0 {
+      color: #fff;
+      height: 78px;
+      line-height: 78px;
+      border-radius: 8px;
+      background-color: $theme;
+      border: 1px solid $theme-bor;
     }
   }
 }

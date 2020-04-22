@@ -13,12 +13,14 @@
           <div class="txt0 text-truncate">{{or.remark}}</div>
           <div class="txt1">订单号：{{or.order_sn}}</div>
           <div class="txt1">支付时间：{{or.create_time}}</div>
-          <div class="txt1">支付方式：{{or.pay_name}}</div>
         </div>
         <!-- 金额 -->
         <div class="text-right wr-money">
           <div class="txt0 font-weight-bold">￥{{or.order_amount}}</div>
-          <div class="txt1">已支付</div>
+          <div
+            class="txt1"
+            :class="{'status1':or.status==1,'status2':or.status==2,'status3':or.status==3}"
+          >{{or.status_name}}</div>
         </div>
       </div>
 
@@ -135,8 +137,16 @@ export default {
       line-height: 100px;
     }
     .txt1 {
-      color: $theme;
       font-size: 24px;
+    }
+    .status1 {
+      color: var(--weui-FG-0);
+    }
+    .status2 {
+      color: var(--weui-RED);
+    }
+    .status3 {
+      color: var(--weui-LIGHTGREEN);
     }
   }
 }

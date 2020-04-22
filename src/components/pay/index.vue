@@ -106,6 +106,9 @@ export default {
           that = this;
         this.axios.post("/api/user/order/go_pay.html", data, res => {
           if (data.pay_types == 2 && res.data.data.order_id == "") {
+            if (this.$store.state.togive == 1) {
+              this.$store.state.togive = 2;
+            }
             this.weui.toast(res.data.msg, {
               duration: 1500,
               callback: function() {

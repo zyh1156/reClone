@@ -3,7 +3,7 @@
     <search :type="1" :ptxt="'搜索话题'" @rekey="getkw"></search>
     <menulist :mlist="menuls"></menulist>
     <!-- 列表部分 -->
-    <cb :cblist="alist"></cb>
+    <cb :cblist="alist" :nodata="page.ojbk"></cb>
     <footer2></footer2>
   </section>
 </template>
@@ -46,7 +46,11 @@ export default {
           keyword: this.keyword
         },
         res => {
-          this.alist = this.alist.concat(res.data.data.data);
+          if (page == 1) {
+            this.alist = res.data.data.data;
+          } else {
+            this.alist = this.alist.concat(res.data.data.data);
+          }
           this.page.max = res.data.data.last_page;
           if (page < this.page.max) {
             this.page.ojbk = false;

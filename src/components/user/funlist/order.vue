@@ -30,8 +30,7 @@ export default {
   data() {
     return {
       cobj: {
-        class: { "icon-dingdan": true },
-        txt: "订单记录"
+        tit: "订单记录"
       },
       orList: [],
       page: {

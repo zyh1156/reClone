@@ -36,7 +36,8 @@ export default {
         this.weui.alert("标题不能为空。");
       } else {
         this.axios.post("/api/home/article/addArticle.html", this.acd, res => {
-          console.log(res);
+          this.weui.toast(res.data.msg, 1500);
+          this.$router.push({ name: "content", params: { contentid: res.data.data } });
         });
       }
     }
@@ -79,11 +80,11 @@ export default {
   padding: $pardon 30px;
   box-shadow: 0 -10px 10px #f8f8f8;
   .gorel {
-      color: #fff;
+    color: #fff;
     font-size: 34px;
     height: 100px;
     line-height: 100px;
-    background-image:linear-gradient(to right, $theme,$theme-bor);
+    background-image: linear-gradient(to right, $theme, $theme-bor);
     border-radius: 50px;
   }
 }

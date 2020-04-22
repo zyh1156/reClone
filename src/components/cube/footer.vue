@@ -26,14 +26,14 @@ export default {
           text: "首页",
           url: "/",
           classObject: {
-            "icon-icon_discovery": true
+            "icon-icon_new_recruit": true
           }
         },
         {
-          text: "课程",
-          url: "/entry?entryid",
+          text: "话题",
+          url: "/article",
           classObject: {
-            "icon-icon_new_recruit": true
+            "icon-icon_discovery": true
           }
         },
         {

@@ -2,20 +2,20 @@
   <section class="bac">
     <!-- 资料页 -->
     <div class="user-data position-relative">
-      <div class="d-flex align-items-center">
+      <router-link :to="{path:'/user/edit'}" class="d-inline-flex align-items-center">
         <!-- 头像 -->
         <div class="user-img">
-          <img src="../../assets/menu.jpg" alt />
+          <img :src="user.avatar" alt />
         </div>
         <!-- 资料 -->
         <div class="user-abo">
           <div class="d-flex align-items-center">
-            <div class="font-weight-bold">Cytus</div>
-            <div class="user-vip text-center">学习卡</div>
+            <div class="font-weight-bold">{{user.truename}}</div>
+            <!-- <div class="user-vip text-center">学习卡</div> -->
           </div>
-          <div class="describe">一句话形容美丽的自己</div>
+          <div class="text-truncate describe">{{user.desc}}</div>
         </div>
-      </div>
+      </router-link>
       <a href="/user/signin" class="active sign position-absolute d-flex align-items-center">
         <div class="ico text-center d-flex justify-content-center align-items-center">
           <span class="iconfont icon-tuipiao"></span>
@@ -39,7 +39,7 @@
         </a>
       </div>
       <!-- 开课 -->
-      <div class="copbtn text-center font-weight-bold">
+      <div class="d-none copbtn text-center font-weight-bold">
         <span>一键开课</span>
         <span class="iconfont icon-icon_circle_line"></span>
       </div>
@@ -75,10 +75,16 @@
   </section>
 </template>
 <script>
+import { setCookie, getCookie, checkCookie } from "../../core/cookie";
 import footer2 from "../cube/footer";
 export default {
   data() {
     return {
+      user: {
+        truename: "",
+        avatar: "",
+        desc: ""
+      },
       oplist: [
         {
           text: "关注",
@@ -124,13 +130,15 @@ export default {
           text: "我的活动",
           classObj: {
             "icon-process": true
-          }
+          },
+          url: "user/activity"
         },
         {
           text: "我的话题",
           classObj: {
             "icon-customization": true
-          }
+          },
+          url: "/user/talk"
         },
         {
           text: "我的学习",
@@ -149,7 +157,7 @@ export default {
           url: "/user/wallet/"
         },
         {
-          text: "分销记录",
+          text: "收益明细",
           classObj: {
             "icon-icon_statistics": true
           },
@@ -159,7 +167,15 @@ export default {
           text: "消息",
           classObj: {
             "icon-icon_sms": true
-          }
+          },
+          url: "/user/news"
+        },
+        {
+          text: "赠送好友",
+          classObj: {
+            "icon-lipinka": true
+          },
+          url: "/give"
         }
       ],
       menu1: [
@@ -167,7 +183,8 @@ export default {
           text: "联系客服",
           classObj: {
             "icon-icon_service": true
-          }
+          },
+          url: "/user/service"
         },
         {
           text: "帮助与反馈",
@@ -177,10 +194,11 @@ export default {
           url: "/user/help"
         },
         {
-          text: "设置",
+          text: "绑定手机",
           classObj: {
-            "icon-icon_setting": true
-          }
+            "icon-icon_mobilephone": true
+          },
+          url: "/user/phone"
         }
       ]
     };
@@ -189,6 +207,17 @@ export default {
     footer2
   },
   mounted() {
+    if (checkCookie("usernick")) {
+      this.user = {
+        truename: getCookie("usernick"),
+        avatar: getCookie("useravatar"),
+        desc: getCookie("userdesc") || "一句话形容自己"
+      };
+    } else {
+      setCookie("nowurl", encodeURIComponent(location.href));
+      location.href = "/user/login";
+    }
+    //   滑动效果
     setTimeout(() => {
       document.querySelector(".sign").classList.remove("active");
     }, 200);
@@ -196,8 +225,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+section {
+  overflow-x: hidden;
+}
 .user-data {
-  padding-top: 36px;
+  padding-top: $pardon;
+  height: 116px;
   .user-img {
     margin-left: 26px;
     img {
@@ -207,6 +240,7 @@ export default {
     }
   }
   .user-abo {
+    color: initial;
     padding-left: 18px;
     .user-vip {
       color: #a56224;
@@ -221,6 +255,7 @@ export default {
       color: #5a5a5a;
       font-size: 24px;
       margin-top: 8px;
+      width: 400px;
     }
   }
   .sign {
@@ -231,7 +266,7 @@ export default {
     font-size: 25px;
     background-color: $theme-bac;
     padding: 0 16px 0 10px;
-    top: 40px;
+    top: 35px;
     right: -34px;
     transition: right 0.8s;
     .ico {
@@ -251,16 +286,15 @@ export default {
   }
 }
 .dpgo {
-  background-color: #f7f7f7;
-  padding: 0 27px 27px;
+  padding: 0 $pardon;
   .copgo {
     background-color: #fff;
     border-radius: 11px;
-    margin-top: 27px;
+    margin: $pardon 0;
     padding: 38px 0 20px;
   }
   .copbtn {
-    margin-top: 27px;
+    margin-top: $pardon;
     color: #fff;
     background-image: linear-gradient(to right, $theme, $theme-bor);
     box-shadow: 0 4px 16px 0 $theme;
@@ -312,6 +346,9 @@ export default {
     background-position: 681px center;
     background-repeat: no-repeat;
     background-size: auto 22px;
+  }
+  .menu-box:first-child {
+    border: none;
   }
   .menu-box:hover {
     background-color: #f2f2f2;

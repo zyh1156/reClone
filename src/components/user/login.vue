@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       params: {
-        username: "15387871422",
+        username: "15878787878",
         password: "123456",
         device_type: "mobile"
       }
@@ -74,16 +74,31 @@ export default {
   },
   methods: {
     toCon: function() {
-      this.axios.post("/api/user/public/login", this.params, res => {
-        //   设置token
-        setCookie("token", res.data.data.token, 30);
-        //   设置userid
-        setCookie("userid", res.data.data.user.id, 30);
-        //   设置userid
-        setCookie("usernick", res.data.data.user.user_nickname, 30);
-        //   设置userid
-        setCookie("useravatar", res.data.data.user.avatar, 30);
-      });
+      this.axios.post(
+        "/api/user/public/login",
+        this.params,
+        res => {
+          //   设置token
+          setCookie("token", res.data.data.token, 30);
+          //   设置userid
+          setCookie("userid", res.data.data.user.id, 30);
+          //   设置昵称
+          setCookie("usernick", res.data.data.user.user_nickname, 30);
+          //   设置真实姓名
+          setCookie("username", res.data.data.user.truename, 30);
+          //   设置头像
+          setCookie("useravatar", res.data.data.user.avatar, 30);
+          //   设置简介
+          setCookie("userdesc", res.data.data.user.desc, 30);
+          //   设置性别
+        //   setCookie("usersex", res.data.data.user.sex, 30);
+          //   设置手机号
+          setCookie("usermobile", res.data.data.user.mobile, 30);
+          this.weui.alert(res.data.msg);
+        },
+        true,
+        true
+      );
     }
   }
 };

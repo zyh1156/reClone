@@ -84,7 +84,7 @@
           <!-- 内容栏 -->
           <div class="con">
             <!-- 内容部分 -->
-            <div v-html="cl.post_content"></div>
+            <div class="line-clamp2" v-html="cl.post_content"></div>
             <!-- 图片部分 -->
             <div class="d-flex flex-wrap">
               <div v-for="(ph,inx) in cl.photos" v-bind:key="inx">
@@ -143,6 +143,8 @@ export default {
   mounted() {
     comid = parseInt(this.$route.params.communityid);
     this.getDate();
+    // 添加滚动监听
+    document.addEventListener("scroll", this.scrollLoad);
   },
   methods: {
     goCon(id) {
@@ -172,7 +174,7 @@ export default {
             this.page.max = res.data.data.last_page;
             if (this.acd.is_pay == 1) {
               this.comlist = this.comlist.concat(res.data.data.data);
-              this.page.ojbkpage >= this.page.max;
+              this.page.ojbk = this.page.now >= this.page.max;
             } else {
               this.comlist = res.data.data.data.splice(0, 3);
               this.page.ojbk = true;
@@ -203,13 +205,10 @@ export default {
         document.documentElement.clientHeight || document.body.clientHeight; //可视区高度
       let wheight =
         document.documentElement.scrollTop || document.body.scrollTop; //已滚动高度
-
       //   是否快滚到底
-      if (nowScotop >= scrollHeight - wheight * 1.1) {
+      if (this.acd.is_pay == 1 && nowScotop >= scrollHeight - wheight * 1.1) {
         // 页数是否拉满
-        if (this.acd.is_pay == 0) {
-          this.getcom(1);
-        } else if (this.page.now < this.page.max) {
+        if (this.page.now < this.page.max) {
           let inx = this.page.now + 1;
           //获取数据
           this.getcom(inx);

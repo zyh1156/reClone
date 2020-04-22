@@ -1,12 +1,13 @@
 <template>
   <section class="bac">
-    <search></search>
+    <search :type="1" :ptxt="'搜索课程'" @rekey="getkey"></search>
     <menulist :mlist="menuLists" :menuinx="menuInx" @tapid="setMenu"></menulist>
     <showCase :datas="caseData" :nodata="page.ojbk"></showCase>
     <foot></foot>
   </section>
 </template>
 <script>
+let inx, keyword;
 import search from "../cube/search";
 import menulist from "../cube/menulist";
 import showCase from "../cube/showcase";
@@ -37,15 +38,15 @@ export default {
   },
   methods: {
     getData(page) {
-      let inx = this.$route.query.entryid,
-        arr = [];
+      let arr = [];
       this.page.now = page;
       if (!this.page.ojbk) {
         this.axios.post(
           "/api/home/goods/index.html",
           {
             category: inx,
-            page: page
+            page: page,
+            keyword: keyword
           },
           res => {
             arr = this.caseData.list.concat(res.data.data.data);
@@ -64,6 +65,10 @@ export default {
         this.$router.push({ path: "/entry", query: { entryid: val } });
         this.getData(1);
       }
+    },
+    getkey(val) {
+      this.$router.push({ path: "/entry", query: { keyword: val } });
+      this.$router.go();
     },
     getMenu() {
       this.axios.post("/api/home/goods/getcate.html", {}, res => {
@@ -95,6 +100,8 @@ export default {
     }
   },
   mounted() {
+    inx = this.$route.query.entryid;
+    keyword = this.$route.query.keyword;
     this.getData(1);
     this.getMenu();
     // 添加滚动监听

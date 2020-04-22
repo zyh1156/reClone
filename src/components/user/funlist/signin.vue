@@ -2,14 +2,14 @@
   <section class="h-max">
     <!-- 签到合计 -->
     <div class="d-flex panel-top">
-      <div class="w-50 text-center">
+      <div class="w-100 text-center">
         <div class="tit">连续签到</div>
         <div class="days">
-          <span class="big font-weight-bold">1</span>
+          <span class="big font-weight-bold">{{days}}</span>
           <span>天</span>
         </div>
       </div>
-      <div class="w-50 text-center">
+      <div class="d-none w-50 text-center">
         <div class="tit">累计学习</div>
         <div class="days">
           <span class="big font-weight-bold">0</span>
@@ -22,9 +22,12 @@
       <div class="txt1">我的奖学金</div>
       <div class="txt2">
         <span>￥</span>
-        <span class="money font-weight-bold">10.00</span>
+        <span class="money font-weight-bold">{{credit}}</span>
       </div>
-      <div class="font-weight-bold btn-play">立即使用</div>
+      <router-link
+        class="d-block font-weight-bold btn-play"
+        :to="{path:'/user/wallet/exchange',query:{credit:credit}}"
+      >立即使用</router-link>
     </div>
     <!-- 日历 -->
     <div class="panpel-calendar">
@@ -40,7 +43,9 @@ import dayjs from "dayjs";
 export default {
   data() {
     return {
-      dateArr: []
+      dateArr: [],
+      days: 1,
+      credit: 0
     };
   },
   components: {
@@ -50,8 +55,11 @@ export default {
     clickDay(data) {},
     changeDate(data) {},
     getDate(month, flag) {
+      // 获取签到列表
       this.axios.post("/api/user/index/qdList.html", { month: month }, res => {
         // 判断今天有没有签到
+        this.days = res.data.data.days;
+        this.credit = res.data.data.credit;
         if (flag) {
           let now = dayjs().format("YYYY-MM-DD"),
             arr = res.data.data.data,
@@ -95,7 +103,7 @@ export default {
 .h-max {
   height: 100vh;
   background-color: #f2f3f3;
-  background: url(/assets/user/headerTop.a664892.png) no-repeat center -20px;
+  background: url(../../../assets/user/headerTop.a664892.png) no-repeat center -20px;
   background-size: 100% auto;
 }
 .panel-top {

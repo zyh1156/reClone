@@ -52,7 +52,7 @@ export default {
           t2 = $(document).scrollTop();
           if (t2 > t) {
             $(".menu-box").css("position", "fixed");
-            $(".menu-x").height($(".menu-box").height());
+            $(".menu-x").css("min-height", $(".menu-box").height());
           } else {
             $(".menu-box").css("position", "relative");
           }
@@ -85,7 +85,7 @@ export default {
       },
       1000
     );
-    $(".menu-x").height($(".menu-box").height());
+    $(".menu-x").css("min-height", $(".menu-box").height());
   }
 };
 </script>

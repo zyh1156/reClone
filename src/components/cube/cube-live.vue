@@ -17,7 +17,7 @@
         <span v-if="c.ts_static==3">回放</span>
         </div>
         <div class="position-absolute user">{{c.truename}}</div>
-        <img :src="c.thumbnail" alt />
+        <img v-lazy="c.thumbnail" alt />
       </div>
       <div class="li-con d-flex flex-wrap align-content-around">
         <div class="txt0 w-100 font-weight-bold line-clamp2">{{c.post_title}}</div>

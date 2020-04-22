@@ -9,10 +9,10 @@
           <img src="../assets/hb-ico.png" alt />
         </div>
         <!-- 文字 -->
-        <div>
+        <div v-if="hwdata.red_sum>0">
           <span>你有</span>
-          <span>370</span>
-          <span>元红包未领取，7天后过期</span>
+          <span>{{hwdata.red_sum}}</span>
+          <span>元红包未领取</span>
         </div>
         <!-- 领取 -->
         <div class="receive d-flex align-items-center position-absolute">
@@ -23,7 +23,7 @@
         </div>
       </router-link>
     </div>
-    <search></search>
+    <search :type="1" @rekey="getkey"></search>
     <menulist :mlist="menuLists" @tapset="setMenu"></menulist>
     <div class="swiper-box">
       <!-- 轮播图 -->
@@ -58,7 +58,7 @@
         <div class="ch0">
           <div class="txt0 font-weight-bold">大V直播</div>
           <div class="txt1 line-clamp2">{{hwdata.tv.post_title}}</div>
-          <div class="txt2 line-clamp2">{{hwdata.tv.post_excerpt}}</div>
+          <div class="txt2 text-truncate">{{hwdata.tv.post_excerpt}}</div>
         </div>
         <div class="ch1 overflow-hidden position-relative">
           <img :src="hwdata.tv.thumbnail" alt />
@@ -91,6 +91,7 @@ import footer2 from "./cube/footer";
 import showcase from "./cube/showcase";
 import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
+import { setCookie } from "../core/cookie";
 let mySwiper;
 export default {
   data() {
@@ -152,6 +153,9 @@ export default {
         let data = res.data.data;
         //课程
         this.hwdata = data;
+        document.title = data.site_info.site_name;
+        setCookie("site_name", data.site_info.site_name, 3 * 365);
+        this.getMenu(data.catelist);
         this.$set(this.tjCourse, "list", data.tj_goods);
         this.$set(this.hotCourse, "list", data.hot_goods);
         this.$set(this.freeCourse, "list", data.mf_goods);
@@ -163,15 +167,16 @@ export default {
       let inx = this.menuLists[val[0]].id || "";
       this.$router.push({ path: "/entry", query: { entryid: inx } });
     },
-    getMenu: function() {
-      this.axios.post("/api/home/goods/getcate.html", {}, res => {
-        let arr = [{ text: "全部", id: "" }];
-        res.data.data.forEach(ele => {
-          ele.text = ele.name;
-          arr.push(ele);
-        });
-        this.menuLists = arr;
+    getMenu: function(obj) {
+      let arr = [{ text: "全部", id: "" }];
+      obj.forEach(ele => {
+        ele.text = ele.name;
+        arr.push(ele);
       });
+      this.menuLists = arr;
+    },
+    getkey(val) {
+      this.$router.push({ path: "/entry", query: { keyword: val } });
     }
   },
   components: {
@@ -183,7 +188,6 @@ export default {
   mounted() {
     // 获取数据
     this.getData();
-    this.getMenu();
   },
   updated() {
     this.toSwiper();
@@ -246,6 +250,7 @@ export default {
       color: #bb986a;
     }
     .txt1 {
+      color: initial;
       margin-top: 16px;
       font-size: 27px;
       line-height: 1.4;

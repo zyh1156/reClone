@@ -1,10 +1,12 @@
 <template>
-<!-- 圈子列表 -->
+  <!-- 圈子列表 -->
   <aside>
     <div class="list-content" v-for="(cb,inx) in cblist" v-bind:key="inx">
       <div class="panpel">
         <div class="img-box">
-          <img :src="cb.thumbnail" alt />
+          <router-link :to="{name:'community',params:{'communityid':cb.id}}">
+            <img v-lazy="cb.thumbnail" alt />
+          </router-link>
         </div>
         <div class="content-box d-flex justify-content-between align-items-center">
           <div class="box0">
@@ -14,7 +16,10 @@
             <div class="txt0 font-weight-bold">{{cb.post_title}}</div>
             <div class="txt1 text-truncate">{{cb.t_name}}</div>
           </div>
-          <router-link class="box2 text-center" :to="{name:'community',params:{'communityid':cb.id}}">进入</router-link>
+          <router-link
+            class="box2 text-center"
+            :to="{name:'community',params:{'communityid':cb.id}}"
+          >进入</router-link>
         </div>
         <div class="about-box d-flex">
           <div class="mr-90">
@@ -28,15 +33,18 @@
         </div>
       </div>
     </div>
+    <div v-if="nodata&&cblist.length==0" class="nodata text-center">
+      <div class="txt0 iconfont icon-wushuju"></div>
+      <div class="txt1">找不到更多数据</div>
+    </div>
   </aside>
 </template>
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
-  props:["cblist"]
+  props: ["cblist", "nodata"]
 };
 </script>
 <style lang="scss" scoped>
@@ -74,7 +82,7 @@ export default {
         }
       }
       .box2 {
-          color: #232425;
+        color: #232425;
         height: 48px;
         width: 115px;
         border-radius: 24px;

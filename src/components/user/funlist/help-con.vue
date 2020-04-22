@@ -1,9 +1,10 @@
 <template>
   <section>
+    <ct :ctxt="cobj"></ct>
     <div class="box0 font-weight-bold">{{hcon.post_title}}</div>
     <div class="box1">
-      <span class="txt0">老师名字</span>
       <span class="txt1">{{hcon.timeString}}</span>
+      <span class="txt0">{{hcon.post_hits}}人已看</span>
     </div>
     <div class="box2" v-html="hcon.post_content"></div>
   </section>
@@ -11,10 +12,12 @@
 <script>
 let id;
 import dayjs from "dayjs";
+import ct from "../../cube/cube-title";
 export default {
   data() {
     return {
-      hcon: {}
+      hcon: {},
+      cobj: {}
     };
   },
   mounted() {
@@ -30,6 +33,9 @@ export default {
         );
       });
     }
+  },
+  components: {
+    ct
   }
 };
 </script>
@@ -44,9 +50,9 @@ export default {
   font-size: 24px;
   .txt0 {
     color: #56668e;
-    margin-right: 22px;
   }
   .txt1 {
+    margin-right: 22px;
     color: #a3a3a3;
   }
 }

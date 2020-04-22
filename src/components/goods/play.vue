@@ -64,6 +64,8 @@ import $ from "jquery";
 import tool from "../cube/tool";
 import dayjs from "dayjs";
 import { setCookie, getCookie } from "../../core/cookie";
+// import("./qiniu-web-player-1.2.3");
+var loadjs = require("loadjs");
 let clock, startTime;
 export default {
   data() {
@@ -244,8 +246,9 @@ export default {
     }
   },
   mounted() {
-    //获取播放器信息
-    this.getData();
+    loadjs("/js/qiniu-web-player-1.2.3.js", res => {
+      this.getData();
+    });
   }
 };
 </script>

@@ -21,7 +21,7 @@
  }
 
  function checkCookie(cname) {
-     var user = getCookie("username");
+     var user = getCookie(cname);
      return user != "";
  }
 

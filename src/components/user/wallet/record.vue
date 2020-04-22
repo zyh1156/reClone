@@ -86,7 +86,8 @@ export default {
   },
   mounted() {
     this.getData(1);
-    this.scrollLoad();
+    // 添加滚动监听
+    document.addEventListener("scroll", this.scrollLoad);
   }
 };
 </script>

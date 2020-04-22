@@ -21,7 +21,7 @@ datas:{
         class="course-title d-flex align-items-center justify-content-between"
       >
         <div class="title">{{datas.name}}</div>
-        <div class="remore">查看更多</div>
+        <a href="/entry" class="remore">查看更多</a>
       </div>
       <!-- 课程部分 -->
       <router-link
@@ -68,7 +68,7 @@ datas:{
         class="course-title d-flex align-items-center justify-content-between"
       >
         <div class="title">{{datas.name}}</div>
-        <div class="remore">查看更多</div>
+        <a href="/entry" class="remore">查看更多</a>
       </div>
       <!-- 课程部分 -->
       <div class="d-flex flex-wrap justify-content-between">

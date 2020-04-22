@@ -1,7 +1,7 @@
 <template>
   <section class="bac">
-    <ser :type="1" :ptxt="'输入关键字搜索'"></ser>
-    <div class="tit">热点问题</div>
+    <ct :ctxt="cobj"></ct>
+    <div class="tit"></div>
     <div class="q-ul">
       <router-link
         :to="{name:'help',params:{helpid:hl.id}}"
@@ -13,11 +13,14 @@
   </section>
 </template>
 <script>
-import ser from "../../cube/search";
+import ct from "../../cube/cube-title"
 export default {
   data() {
     return {
-      hlist: []
+      hlist: [],
+      cobj:{
+          tit:"帮助与反馈"
+      }
     };
   },
   mounted() {
@@ -31,7 +34,7 @@ export default {
     }
   },
   components: {
-    ser
+    ct
   }
 };
 </script>

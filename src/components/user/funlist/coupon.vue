@@ -1,5 +1,6 @@
 <template>
   <section class="bac">
+    <ct :ctxt="cobj"></ct>
     <div class="cplist">
       <div class="d-flex cpbox" v-for="(cp,inx) in cplist" v-bind:key="inx">
         <div class="l-box flex-grow-1">
@@ -21,16 +22,20 @@
             <span class="txt0">￥</span>
             <span class="txt1 font-weight-bold">{{cp.price}}</span>
           </div>
-          <div class="txt2">立即使用</div>
+          <router-link :to="{name:'goods',params:{goodsid:cp.id}}" class="d-block txt2">立即使用</router-link>
         </div>
       </div>
     </div>
   </section>
 </template>
 <script>
+import ct from "../../cube/cube-title";
 export default {
   data() {
     return {
+      cobj: {
+        tit: "优惠券"
+      },
       cplist: [],
       page: {
         now: 0,
@@ -38,6 +43,9 @@ export default {
         ojbk: false
       }
     };
+  },
+  components: {
+    ct
   },
   methods: {
     getData(page) {
@@ -80,7 +88,8 @@ export default {
   },
   mounted() {
     this.getData(1);
-    this.scrollLoad();
+    // 添加滚动监听
+    document.addEventListener("scroll", this.scrollLoad);
   }
 };
 </script>
@@ -122,7 +131,10 @@ export default {
   top: -10%;
   height: 120%;
   z-index: 100;
-  border-left: 30px dotted #f0f0f0;
+  width: 30px;
+  background-image: radial-gradient(#f0f0f0 50%, transparent 0);
+  background-size: 30px 30px;
+  background-position:0 7.5px;
 }
 .r-box {
   width: 214px;
@@ -145,6 +157,7 @@ export default {
     line-height: 50px;
     background-color: #fff;
     border-radius: 25px;
+    color: inherit;
   }
 }
 </style>

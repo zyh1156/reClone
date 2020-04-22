@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import HelloWorld from "../components/HelloWorld"
 import reprint from "../components/cube/router"
 import err404 from "../components/cube/error404"
-
+import {
+    getCookie
+} from "./cookie"
 Vue.use(VueRouter)
 
 function reRouter(to) {
@@ -15,7 +17,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [{
         path: "/",
-        component: HelloWorld,
+        component: reRouter("HelloWorld"),
         name: "index",
         alias: "/index"
     }, {
@@ -25,7 +27,7 @@ const router = new VueRouter({
             path: "",
             component: reRouter("article/index"),
             meta: {
-                title: "圈子首页"
+                title: "话题"
             }
         }, {
             path: ":communityid",
@@ -62,7 +64,10 @@ const router = new VueRouter({
             name: 'act'
         }, {
             path: '',
-            component: reRouter("act/index")
+            component: reRouter("act/index"),
+            meta: {
+                title: "活动中心"
+            }
         }]
     }, {
         path: "/entry",
@@ -108,12 +113,24 @@ const router = new VueRouter({
         component: reprint,
         children: [{
             path: "",
-            component: reRouter("user/index")
+            component: reRouter("user/index"),
+            meta: {
+                title: "会员中心"
+            },
+        }, {
+            path: "getcode",
+            component: reRouter("user/getcode")
         }, {
             path: "login",
-            component: reRouter("user/login"),
+            component: reRouter("user/welogin"),
             meta: {
                 title: "登录界面"
+            }
+        }, {
+            path: "activity",
+            component: reRouter("user/funlist/activity"),
+            meta: {
+                title: "我的活动"
             }
         }, {
             path: "coupon",
@@ -127,6 +144,12 @@ const router = new VueRouter({
             component: reRouter("user/funlist/course"),
             meta: {
                 title: "我的课程"
+            }
+        }, {
+            path: "edit",
+            component: reRouter("user/funlist/edit"),
+            meta: {
+                title: "编辑资料"
             }
         }, {
             path: "follow",
@@ -150,11 +173,26 @@ const router = new VueRouter({
                 title: "帮助与反馈"
             }
         }, {
+            path: "news",
+            component: reRouter("user/funlist/news")
+        }, {
             path: "order",
             component: reRouter("user/funlist/order"),
             name: "order",
             meta: {
                 title: "订单记录"
+            }
+        }, {
+            path: "phone",
+            component: reRouter("user/funlist/phone"),
+            meta: {
+                title: "绑定手机"
+            }
+        }, {
+            path: "service",
+            component: reRouter("user/funlist/service"),
+            meta: {
+                title: "客户服务"
             }
         }, {
             path: "signin",
@@ -170,12 +208,30 @@ const router = new VueRouter({
                 title: "我的学习"
             }
         }, {
+            path: "talk",
+            component: reRouter("user/funlist/talk"),
+            meta: {
+                title: "我的话题"
+            }
+        }, {
             path: "wallet",
             component: reprint,
             children: [{
                 path: "apply",
                 component: reRouter("user/wallet/apply"),
-                name:"apply"
+                name: "apply"
+            }, {
+                path: "detail",
+                component: reRouter("user/wallet/detail"),
+                meta: {
+                    title: "资金明细"
+                }
+            }, {
+                path: "exchange",
+                component: reRouter("user/wallet/exchange"),
+                meta: {
+                    title: "积分兑换"
+                }
             }, {
                 path: "record",
                 component: reRouter("user/wallet/record")
@@ -185,13 +241,13 @@ const router = new VueRouter({
                 meta: {
                     title: "分销记录"
                 }
-            },{
+            }, {
                 path: "retail-con",
                 component: reRouter("user/wallet/retail-con"),
                 meta: {
                     title: "分销记录"
                 }
-            },  {
+            }, {
                 path: "",
                 component: reRouter("user/wallet/index")
             }],
@@ -203,6 +259,23 @@ const router = new VueRouter({
         path: "/pay",
         component: reRouter("pay/index"),
         name: "pay"
+    }, {
+        path: "/give",
+        component: reprint,
+        meta: {
+            title: "赠送"
+        },
+        children: [{
+            path: "givelist",
+            component: reRouter("give/give-con"),
+            name: "givelist"
+        }, {
+            path: "giveacc",
+            component: reRouter("give/give-accept"),
+        }, {
+            path: "",
+            component: reRouter("give/index")
+        }]
     }, {
         path: "/goods",
         component: reprint,
@@ -233,5 +306,12 @@ const router = new VueRouter({
             y: 0
         }
     }
+})
+router.beforeEach((to, from, next) => {
+    let site_name = getCookie("site_name");
+    let title = to.meta.title ? to.meta.title : "";
+    // let title = to.meta.title ? to.meta.title : "张永铧的个人主页";
+    document.title = title;
+    next();
 })
 export default router

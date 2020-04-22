@@ -2,16 +2,29 @@
   <section class="bac">
     <ct :ctxt="cobj"></ct>
     <div class="box0">
-      <div v-for="inx in 10" v-bind:key="inx" class="box1 d-flex justify-content-between">
-        <div class="con0 position-relative">
-          <div class="txt0 line-clamp2">诗刊是看是看诗刊是看是看诗刊是看是看诗刊是看是看</div>
-          <div class="d-none con2 w-100 position-absolute">
-            <div class="txt1">10%</div>
-            <div class="txt2 w-100 position-relative"></div>
+      <div v-for="(or,inx) in orList" v-bind:key="inx">
+        <router-link
+          class="box1 d-flex justify-content-between"
+          :to="{name:'goods',params:{goodsid:or.id}}"
+        >
+          <div class="con0 position-relative">
+            <div class="txt0 line-clamp2">{{or.post_title}}</div>
+            <div class="txt3">{{or.create_time}}</div>
+            <div class="d-none con2 w-100 position-absolute">
+              <div class="txt1">10%</div>
+              <div class="txt2 w-100 position-relative"></div>
+            </div>
           </div>
-        </div>
-        <div class="con1 overflow-hidden">
-          <img src="../../../assets/menu.jpg" alt />
+          <div class="con1 overflow-hidden">
+            <img :src="or.thumbnail" alt />
+          </div>
+        </router-link>
+      </div>
+      <!-- 无效页 -->
+      <div class="nodata-box">
+        <div v-if="page.ojbk&&orList.length==0" class="nodata text-center">
+          <div class="txt0 iconfont icon-wushuju"></div>
+          <div class="txt1">还没有学习课程</div>
         </div>
       </div>
     </div>
@@ -24,24 +37,58 @@ export default {
     return {
       cobj: {
         tit: "我的学习"
+      },
+      orList: [],
+      page: {
+        now: 0,
+        max: 0,
+        ojbk: false
       }
     };
   },
   methods: {
-    getData() {
+    getData(page) {
+      this.page.now = page;
       this.axios.post(
         "/api/user/profile/getgo.html",
         {
-          table: "goods_post"
+          table: "goods_post",
+          page: page
         },
         res => {
-          console.log(res);
+          if (page == 1) {
+            this.orList = res.data.data.data;
+          } else {
+            this.orList = this.orList.concat(res.data.data.data);
+          }
+          this.page.max = res.data.data.last_page;
+          this.page.ojbk = this.page.max <= page;
         }
       );
+    },
+    scrollLoad() {
+      let scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight; //document的滚动高度
+      let nowScotop =
+        document.documentElement.clientHeight || document.body.clientHeight; //可视区高度
+      let wheight =
+        document.documentElement.scrollTop || document.body.scrollTop; //已滚动高度
+
+      //   是否快滚到底
+      if (nowScotop >= scrollHeight - wheight * 1.1) {
+        // 页数是否拉满
+        if (this.page.now < this.page.max) {
+          let inx = this.page.now + 1;
+          //获取数据
+          this.getData(inx);
+        }
+      }
     }
   },
   mounted() {
-    this.getData();
+    this.getData(1);
+    // 添加滚动监听
+    document.addEventListener("scroll", this.scrollLoad);
   },
   components: {
     ct
@@ -63,11 +110,18 @@ export default {
   .txt0 {
     height: 76px;
     line-height: 1.4;
+    font-weight: bold;
+    color: initial;
+  }
+  .txt3 {
+    margin-top: 24px;
+    color: gray;
+    font-size: 24px;
   }
 }
 .con1 {
   width: 218px;
-  height: 122px;
+  height: 125px;
   border-radius: 3px;
   img {
     width: 100%;

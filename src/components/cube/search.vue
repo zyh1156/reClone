@@ -10,11 +10,11 @@
         :placeholder="ptxt2"
       />
     </div>
-    <a v-else href="/search" class="search-body d-flex align-items-center justify-content-center">
+    <a v-else href="/entry" class="search-body d-flex align-items-center justify-content-center">
       <span>
         <img src="../../assets/search-ico.png" alt />
       </span>
-      <span>搜索课程/专栏/直播间</span>
+      <span>搜索课程</span>
     </a>
   </article>
 </template>
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       keyword: "",
-      ptxt2: this.ptxt || "搜索课程/专栏/直播间"
+      ptxt2: this.ptxt || "搜索课程"
     };
   },
   methods: {

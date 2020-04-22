@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <transition name="slide-fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -19,7 +21,7 @@ export default {
     },
     // 获取播放数据
     toPlay() {
-        return;
+      return;
       if (checkCookie("playtime")) {
         let data = JSON.parse(getCookie("playtime"));
         if (!data.toajax) {
@@ -57,11 +59,26 @@ section.bac {
   color: #9f9f9f;
   .txt0 {
     margin-top: 80px;
-    font-size: 300px;
+    font-size: 120px;
   }
   .txt1 {
     margin-top: 80px;
-    font-size: 40px;
+    font-size: 30px;
   }
+}
+
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-enter {
+  transform: translateX(750px);
+}
+.slide-fade-leave-to {
+  transform: translateX(0);
 }
 </style>

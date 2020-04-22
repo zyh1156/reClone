@@ -97,7 +97,7 @@ import menulist from "../cube/menulist";
 import tool from "../cube/tool";
 import { getCookie } from "../../core/cookie";
 let roomid, token, userid, usernick, useravatar;
-var ws = new WebSocket("ws://192.168.1.92:7272");
+var ws = new WebSocket("ws://" + location.host + ":7272");
 export default {
   data() {
     return {

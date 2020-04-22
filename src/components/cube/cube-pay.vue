@@ -5,6 +5,7 @@
     <div :class="{ispay:wd.is_pay==1}" class="money-box w-100 position-fixed">
       <div @click="topay" class="nowshop text-center">
         <span v-if="wd.is_pay==1">已支付</span>
+        <span v-else-if="wd.price=='0.00'">免费</span>
         <span v-else>
           <span v-if="limitTime">折扣价</span>
           <span v-else-if="wd.red_price">优惠价</span>
@@ -32,7 +33,8 @@ export default {
         };
         this.axios.post("/api/user/order/to_pay.html", data, res => {
           if (res.data.data == 0) {
-            this.$router.push({ name: "goods", params: { goodsid: id } });
+            this.weui.toast(res.data.msg, 1500);
+            this.$router.go();
           } else {
             this.$router.push({
               name: "pay",

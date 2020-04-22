@@ -9,7 +9,7 @@
     >
       <div class="en-left overflow-hidden">
         <div class="en-img overflow-hidden">
-          <img :src="e.thumbnail" alt />
+          <img v-lazy="e.thumbnail" alt />
         </div>
         <div class="en-time">{{e.endtime}}</div>
       </div>
