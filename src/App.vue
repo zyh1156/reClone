@@ -17,7 +17,12 @@ export default {
     // 获取用户信息
     getUser() {
       // id
-      this.$store.state.userid = getCookie("userid");
+      if (checkCookie("userid")) {
+        this.$store.state.userid = getCookie("userid");
+      } else {
+        setCookie("nowurl", encodeURIComponent(location.href));
+        location.href = "/user/login";
+      }
     },
     // 获取播放数据
     toPlay() {

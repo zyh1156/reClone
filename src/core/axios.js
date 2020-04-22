@@ -32,6 +32,7 @@ export default {
             } else {
                 if (noto) {
                     weui.alert(res.data.msg);
+                    call(res);
                 } else {
                     location.href = "/error404";
                 }

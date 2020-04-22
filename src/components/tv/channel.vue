@@ -190,34 +190,42 @@ export default {
       };
     },
     getData() {
-      this.axios.post("/api/home/tv/player.html", { id: roomid }, res => {
-        // 赋值讲师
-        this.$set(this.tooloptions, "teach", res.data.data.teach);
-        // 赋值关注
-        res = res.data.data.data;
-        let follow = {
-          fav: res.is_fav == 1,
-          id: res.id,
-          string: "tv_post"
-        };
-        this.$set(this.tooloptions, "follow", follow);
-        this.tcd = res;
-        if (!res.files) {
-          this.tcd.nofiles = true;
-        }
-        this.djsbac.backgroundImage = "url(" + res.thumbnail + ")";
-        console.log(this.djs);
-        switch (res.ts_static) {
-          case 0:
-            this.toStatus0(res);
-            break;
-          default:
-            loadjs("/js/qiniu-web-player-1.2.3.js", res => {
-              this.toStatus1(res);
-            });
-            break;
-        }
-      });
+      this.axios.post(
+        "/api/home/tv/player.html",
+        { id: roomid },
+        res => {
+            if(res.data.code==0){
+                this.$router.push({name:"zone",params:{zoneid:roomid}});
+            }
+          // 赋值讲师
+          this.$set(this.tooloptions, "teach", res.data.data.teach);
+          // 赋值关注
+          res = res.data.data.data;
+          let follow = {
+            fav: res.is_fav == 1,
+            id: res.id,
+            string: "tv_post"
+          };
+          this.$set(this.tooloptions, "follow", follow);
+          this.tcd = res;
+          if (!res.files) {
+            this.tcd.nofiles = true;
+          }
+          this.djsbac.backgroundImage = "url(" + res.thumbnail + ")";
+          switch (res.ts_static) {
+            case 0:
+              this.toStatus0(res);
+              break;
+            default:
+              loadjs("/js/qiniu-web-player-1.2.3.js", () => {
+                this.toStatus1(res);
+              });
+              break;
+          }
+        },
+        true,
+        true
+      );
     },
     toStatus0(val) {
       let now = new Date().getTime(),
@@ -255,8 +263,10 @@ export default {
       }
     },
     toStatus1(val, str) {
+      console.log(val);
       let container = document.getElementById("player");
       let url = val.ts_static == 1 ? val.look_url : val.huifang_url;
+      console.log(url);
       let player = new QPlayer({
         url: url,
         poster: val.thumbnail,

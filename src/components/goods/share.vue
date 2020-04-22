@@ -34,12 +34,17 @@ export default {
   },
   methods: {
     getData() {
-      this.axios.post("/api/user/index/getadthumb.html", {}, res => {
-        this.imglist = res.data.data;
-        // 加载完成后获取第一个
-        this.selInx = res.data.data[0].url;
-        this.getBigImg(res.data.data[0].url);
-      });
+      this.axios.post(
+        "/api/user/index/getadthumb.html",
+        {},
+        res => {
+          this.imglist = res.data.data;
+          // 加载完成后获取第一个
+          this.selInx = res.data.data[0].url;
+          this.getBigImg(res.data.data[0].url);
+        },
+        true
+      );
     },
     getBigImg(x) {
       this.selInx = x;

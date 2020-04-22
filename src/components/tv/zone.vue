@@ -84,7 +84,7 @@ export default {
       tz: {},
       teach: {},
       wd: {
-        type: "act_post",
+        type: "tv_post",
         money: ""
       },
       isteach: false

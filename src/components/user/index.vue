@@ -207,16 +207,11 @@ export default {
     footer2
   },
   mounted() {
-    if (checkCookie("usernick")) {
       this.user = {
         truename: getCookie("usernick"),
         avatar: getCookie("useravatar"),
         desc: getCookie("userdesc") || "一句话形容自己"
       };
-    } else {
-      setCookie("nowurl", encodeURIComponent(location.href));
-      location.href = "/user/login";
-    }
     //   滑动效果
     setTimeout(() => {
       document.querySelector(".sign").classList.remove("active");

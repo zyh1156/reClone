@@ -127,6 +127,12 @@ const router = new VueRouter({
                 title: "登录界面"
             }
         }, {
+            path: "login2",
+            component: reRouter("user/login"),
+            meta: {
+                title: "登录界面"
+            }
+        }, {
             path: "activity",
             component: reRouter("user/funlist/activity"),
             meta: {
