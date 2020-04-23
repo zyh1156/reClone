@@ -1,5 +1,6 @@
 <template>
   <section class="bac">
+      <ct :ctxt="cobj"></ct>
     <div class="wallet-box">
       <div class="wallet-body position-relative">
         <router-link :to="{path:'detail'}" class="readmx position-absolute">查看明细</router-link>
@@ -29,6 +30,7 @@
   </section>
 </template>
 <script>
+import ct from "../../cube/cube-title"
 export default {
   data() {
     return {
@@ -36,6 +38,9 @@ export default {
         all_money: "0.00",
         z_money: "0.00",
         j_money: "0.00"
+      },
+      cobj:{
+          tit:"我的钱包"
       }
     };
   },
@@ -57,6 +62,9 @@ export default {
   },
   mounted() {
     this.getData();
+  },
+  components:{
+      ct
   }
 };
 </script>

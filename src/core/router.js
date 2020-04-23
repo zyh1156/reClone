@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HelloWorld from "../components/HelloWorld"
 import reprint from "../components/cube/router"
 import err404 from "../components/cube/error404"
 import {
@@ -19,7 +18,10 @@ const router = new VueRouter({
         path: "/",
         component: reRouter("HelloWorld"),
         name: "index",
-        alias: "/index"
+        alias: "/index",
+        meta: {
+            title: "首页"
+        }
     }, {
         path: "/article",
         component: reprint,
@@ -27,7 +29,7 @@ const router = new VueRouter({
             path: "",
             component: reRouter("article/index"),
             meta: {
-                title: "话题"
+                title: "话题中心"
             }
         }, {
             path: ":communityid",
@@ -61,7 +63,10 @@ const router = new VueRouter({
         children: [{
             path: ':actid',
             component: reRouter("act/enrollpage"),
-            name: 'act'
+            name: 'act',
+            meta: {
+                title: "活动详情"
+            }
         }, {
             path: '',
             component: reRouter("act/index"),
@@ -71,36 +76,54 @@ const router = new VueRouter({
         }]
     }, {
         path: "/entry",
-        component: reRouter("entry/index")
+        component: reRouter("entry/index"),
+        meta: {
+            title: "产品列表"
+        }
     }, {
         path: '/tv',
         component: reprint,
         children: [{
             path: "",
-            component: reRouter("tv/index")
+            component: reRouter("tv/index"),
+            meta: {
+                title: "大V直播"
+            }
         }, {
             path: ':zoneid',
             component: reprint,
             children: [{
                 path: "",
                 component: reRouter("tv/zone"),
-                name: "zone"
+                name: "zone",
+                meta: {
+                    title: "直播详情"
+                }
             }, {
                 path: "channel",
                 component: reRouter("tv/channel"),
-                name: "channel"
+                name: "channel",
+                meta: {
+                    title: "直播间"
+                }
             }]
         }]
     }, {
         path: "/search",
-        component: reRouter("search/index")
+        component: reRouter("search/index"),
+        meta: {
+            title: "搜索"
+        }
     }, {
         path: "/room",
         component: reprint,
         children: [{
             path: ":roomid",
             component: reRouter("room/index"),
-            name: 'room'
+            name: 'room',
+            meta: {
+                title: "教师详情"
+            }
         }, {
             path: "",
             redirect: "/"
@@ -162,7 +185,7 @@ const router = new VueRouter({
             component: reRouter("user/funlist/follow"),
             name: "follow",
             meta: {
-                title: "关注"
+                title: "我的关注"
             }
         }, {
             path: "help",
@@ -170,17 +193,23 @@ const router = new VueRouter({
             children: [{
                 path: ":helpid",
                 component: reRouter("user/funlist/help-con"),
-                name: "help"
+                name: "help",
+                meta: {
+                    title: "文章详情"
+                }
             }, {
                 path: "",
-                component: reRouter("user/funlist/help")
-            }],
-            meta: {
-                title: "帮助与反馈"
-            }
+                component: reRouter("user/funlist/help"),
+                meta: {
+                    title: "帮助与反馈"
+                }
+            }]
         }, {
             path: "news",
-            component: reRouter("user/funlist/news")
+            component: reRouter("user/funlist/news"),
+            meta: {
+                title: "新闻"
+            }
         }, {
             path: "order",
             component: reRouter("user/funlist/order"),
@@ -225,7 +254,10 @@ const router = new VueRouter({
             children: [{
                 path: "apply",
                 component: reRouter("user/wallet/apply"),
-                name: "apply"
+                name: "apply",
+                meta: {
+                    title: "提现"
+                }
             }, {
                 path: "detail",
                 component: reRouter("user/wallet/detail"),
@@ -240,7 +272,10 @@ const router = new VueRouter({
                 }
             }, {
                 path: "record",
-                component: reRouter("user/wallet/record")
+                component: reRouter("user/wallet/record"),
+                meta: {
+                    title: "提现流水"
+                }
             }, {
                 path: "retail",
                 component: reRouter("user/wallet/retail"),
@@ -255,11 +290,11 @@ const router = new VueRouter({
                 }
             }, {
                 path: "",
-                component: reRouter("user/wallet/index")
-            }],
-            meta: {
-                title: "钱包"
-            }
+                component: reRouter("user/wallet/index"),
+                meta: {
+                    title: "钱包"
+                }
+            }]
         }]
     }, {
         path: "/pay",
@@ -274,13 +309,22 @@ const router = new VueRouter({
         children: [{
             path: "givelist",
             component: reRouter("give/give-con"),
-            name: "givelist"
+            name: "givelist",
+            meta: {
+                title: "礼物详情"
+            }
         }, {
             path: "giveacc",
             component: reRouter("give/give-accept"),
+            meta: {
+                title: "收到礼物"
+            }
         }, {
             path: "",
-            component: reRouter("give/index")
+            component: reRouter("give/index"),
+            meta: {
+                title: "礼物列表"
+            }
         }]
     }, {
         path: "/goods",
@@ -288,11 +332,17 @@ const router = new VueRouter({
         children: [{
             path: "share",
             component: reRouter("goods/share"),
-            name: 'share'
+            name: 'share',
+            meta: {
+                title: "分享"
+            }
         }, {
             path: ":goodsid",
             component: reRouter("goods/index"),
-            name: 'goods'
+            name: 'goods',
+            meta: {
+                title: "产品详情"
+            }
         }, {
             path: "",
             redirect: "/search"
@@ -300,7 +350,10 @@ const router = new VueRouter({
     }, {
         path: "/play",
         component: reRouter("goods/play"),
-        name: "play"
+        name: "play",
+        meta: {
+            title: "播放页"
+        }
     }, {
         path: "*",
         component: err404

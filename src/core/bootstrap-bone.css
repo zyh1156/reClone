@@ -410,16 +410,16 @@ img {
 }
 
 .swiper-pagination-bullet {
-    width: 10px;
-    height: 10px;
-    background-color: rgba(0, 0, 0, .5);
-    border-radius: 4px;
-    transition: all .3s;
+    width: 10px!important;
+    height: 10px!important;
+    background-color: rgba(0, 0, 0, .5)!important;
+    border-radius: 4px!important;
+    transition: all .3s!important;
 }
 
 .swiper-pagination-bullet-active {
-    background-color: #fff;
-    width: 21px;
+    background-color: #fff!important;
+    width: 21px!important;
 }
 
 

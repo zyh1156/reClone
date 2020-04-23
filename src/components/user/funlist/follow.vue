@@ -1,9 +1,7 @@
 <template>
   <section class="bac">
-    <div class="ftit">
-      <span v-if="type==0">我关注的讲师</span>
-      <span v-if="type==1">我的收藏</span>
-    </div>
+    <ct :ctxt="cobj" v-if="type==0"></ct>
+    <ct :ctxt="cobj2" v-if="type==1"></ct>
     <!-- 关注的老师 -->
     <div class="ful" v-if="type==0">
       <div class="fli" v-for="(f,inx) in flist" v-bind:key="inx">
@@ -49,7 +47,6 @@
       </div>
     </div>
     <!-- 没有数据的时候 -->
-    <!-- 无效页 -->
     <div class="nodata-box">
       <div v-if="page.ojbk&&flist.length==0" class="nodata text-center">
         <div class="txt0 iconfont icon-wushuju"></div>
@@ -60,6 +57,7 @@
   </section>
 </template>
 <script>
+import ct from "../../cube/cube-title";
 export default {
   data() {
     return {
@@ -69,8 +67,17 @@ export default {
         now: 0,
         max: 0,
         ojbk: false
+      },
+      cobj: {
+        tit: "关注"
+      },
+      cobj2: {
+        tit: "收藏"
       }
     };
+  },
+  components: {
+    ct
   },
   methods: {
     getData(page) {

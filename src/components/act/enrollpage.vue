@@ -46,7 +46,7 @@
           </div>
           <div class="ens-li position-relative text-center ens-more">...</div>
         </div>
-        <div class="ens-btn">
+        <div @click="share" class="ens-btn">
           <span class="iconfont icon-fenxiang"></span>
           <span>分享</span>
         </div>
@@ -146,12 +146,14 @@ export default {
       // 获取数据
       let actid = this.$route.params.actid;
       this.axios.post("/api/home/act/show.html", { id: actid }, res => {
-        this.ad = res.data.data.data;
-        this.go = res.data.data.go.slice(0, 5);
-        this.teach = res.data.data.teach;
-        this.ad.create_timeString = dayjs(
-          res.data.data.data.create_time * 1000
-        ).format("YYYY-MM-DD HH:mm:ss");
+        res = res.data.data;
+        document.title = res.data.post_title;
+        this.ad = res.data;
+        this.go = res.go.slice(0, 5);
+        this.teach = res.teach;
+        this.ad.create_timeString = dayjs(res.data.create_time * 1000).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
         if (this.ad.endtime < new Date().getTime() / 1000) {
           this.surTime.show = false;
         } else {
@@ -172,6 +174,13 @@ export default {
       } else {
         this.tofllow();
       }
+    },
+    share() {
+      //邀请卡
+      this.$router.push({
+        name: "share",
+        query: { kc_id: this.ad.id, type: "act_post" }
+      });
     },
     tofllow() {
       this.axios.post(

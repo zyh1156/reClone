@@ -155,6 +155,7 @@ export default {
     getDate() {
       this.axios.post("/api/home/article/show.html", { id: comid }, res => {
         res = res.data.data;
+        document.title=res.data.post_title;
         this.acd = res.data;
         this.teach = res.teach;
         this.acd.isfree = parseFloat(res.data.price) <= 0;

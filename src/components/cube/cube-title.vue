@@ -20,9 +20,14 @@ export default {
   data() {
     return {};
   },
+  mounted() {},
   methods: {
     reload() {
-      this.$router.go(-1);
+      if (history.length > 1) {
+        this.$router.go(-1);
+      } else {
+        this.$router.push({ path: "/" });
+      }
     }
   },
   props: ["ctxt"]

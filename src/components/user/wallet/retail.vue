@@ -1,5 +1,6 @@
 <template>
   <section class="bac">
+    <ct :ctxt="cobj"></ct>
     <div class="topbox">
       <div class="d-flex text-center">
         <div class="w-50 w-box">
@@ -25,12 +26,16 @@
   </section>
 </template>
 <script>
+import ct from "../../cube/cube-title";
 export default {
   data() {
     return {
       rd: {
-        z_money: "0.00",
+        all_money: "0.00",
         j_money: "0.00"
+      },
+      cobj: {
+        tit: "收益明细"
       }
     };
   },
@@ -41,11 +46,14 @@ export default {
     getData() {
       this.axios.post("/api/user/user_money_log/dayMoney.html", {}, res => {
         this.rd = {
-          z_money: res.data.data.z_money.toFixed(2),
+          all_money: res.data.data.all_money.toFixed(2),
           j_money: res.data.data.j_money.toFixed(2)
         };
       });
     }
+  },
+  components: {
+    ct
   }
 };
 </script>

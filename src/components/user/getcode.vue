@@ -1,16 +1,12 @@
 <template>
-  <section>
-    <div>CODE:{{code}}</div>
-  </section>
+  <section></section>
 </template>
 <script>
 import { Base64 } from "js-base64";
 import { setCookie, getCookie, checkCookie } from "../../core/cookie";
 export default {
   data() {
-    return {
-      code: ""
-    };
+    return {};
   },
   mounted() {
     this.getData();
@@ -42,7 +38,7 @@ export default {
       //   setCookie("usersex", res.data.data.user.sex, 30);
       if (checkCookie("nowurl")) {
         let href = decodeURIComponent(getCookie("nowurl"));
-        setCookie("nowurl", "");
+        setCookie("nowurl", "", 0.1);
         location.href = href;
       }
     }

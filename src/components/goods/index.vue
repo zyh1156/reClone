@@ -82,6 +82,7 @@ import tool from "../cube/tool";
 import cg from "../cube/cube-goods";
 import cpay from "../cube/cube-pay";
 import cs from "../cube/cube-share";
+import share from "../../core/share";
 export default {
   data() {
     return {

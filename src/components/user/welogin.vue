@@ -3,7 +3,7 @@
 </template>
 <script>
 let appid, redirect_uri;
-import { setCookie } from "../../core/cookie";
+import { setCookie, checkCookie } from "../../core/cookie";
 export default {
   data() {
     return {};
@@ -13,14 +13,18 @@ export default {
   },
   methods: {
     getData() {
-      this.axios.post("/api/home/wxlogin/getappid.html", {}, res => {
-        appid = res.data.data.wechat_appid;
-        this.getData2();
-      });
+      if (!checkCookie("userid") && location.href.indexOf("?id=") < 0) {
+        setCookie("nowurl", location.href, 365);
+        this.axios.post("/api/home/wxlogin/getappid.html", {}, res => {
+          appid = res.data.data.wechat_appid;
+          this.getData2();
+        });
+      }
     },
     getData2() {
       redirect_uri = encodeURIComponent(
-        location.origin + "/index.php/wx/wxlogin/callback"
+        location.origin + "/wx/wxlogin/callback.html"
+        // "http://192.168.1.92/" + "/index.php/wx/wxlogin/callback"
       );
       let url =
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +

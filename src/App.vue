@@ -3,26 +3,26 @@
     <transition name="slide-fade">
       <router-view></router-view>
     </transition>
+    <login></login>
   </div>
 </template>
 
 <script>
 import { setCookie, getCookie, checkCookie } from "./core/cookie";
+import login from "./components/user/welogin";
+import share from "./core/share"
 export default {
   name: "app",
+  components: {
+    login
+  },
   data() {
     return {};
   },
   methods: {
     // 获取用户信息
     getUser() {
-      // id
-      if (checkCookie("userid")) {
-        this.$store.state.userid = getCookie("userid");
-      } else {
-        setCookie("nowurl", encodeURIComponent(location.href));
-        location.href = "/user/login";
-      }
+      this.$store.state.userid = getCookie("userid");
     },
     // 获取播放数据
     toPlay() {
@@ -42,6 +42,7 @@ export default {
   mounted() {
     this.getUser();
     this.toPlay();
+    share();
   }
 };
 </script>

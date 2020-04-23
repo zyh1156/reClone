@@ -3,13 +3,13 @@
     <!-- 顶部功能区 -->
     <div>
       <!-- 红包区 -->
-      <router-link :to="{name:'coupon'}" class="reward d-block position-relative">
+      <router-link v-if="hwdata.red_sum>0" :to="{name:'coupon'}" class="reward d-block position-relative">
         <!-- 红包 -->
         <div class="icon position-absolute">
           <img src="../assets/hb-ico.png" alt />
         </div>
         <!-- 文字 -->
-        <div v-if="hwdata.red_sum>0">
+        <div>
           <span>你有</span>
           <span>{{hwdata.red_sum}}</span>
           <span>元红包未领取</span>

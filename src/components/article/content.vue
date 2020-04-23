@@ -204,10 +204,12 @@ export default {
         "/api/home/article/item_show.html",
         { id: comid },
         res => {
-          this.comd = res.data.data.data;
-          this.user = res.data.data.user;
-          this.photos = res.data.data.data.photos;
-          if (this.photos.length > 0) {
+          res = res.data.data;
+          document.title = res.data.post_title;
+          this.comd = res.data;
+          this.user = res.user;
+          this.photos = res.photos;
+          if (this.photos && this.photos.length > 0) {
             this.photos.forEach(ele => {
               inx = ele.url.indexOf("-thumbnail300x300");
               if (inx > 0) {

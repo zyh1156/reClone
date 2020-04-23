@@ -5,7 +5,7 @@
       children:[""]
   } -->
 <template>
-  <article class="menu-x w-100">
+  <header class="menu-x w-100">
     <div class="menu-box">
       <div class="en-title overflow-auto d-flex">
         <div
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-  </article>
+  </header>
 </template>
 <script>
 import $ from "jquery";

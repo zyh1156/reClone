@@ -2,7 +2,7 @@
   <section>
     <!-- 大图 -->
     <div class="big-box d-flex align-items-center">
-      <img :src="bigimg" alt />
+      <img @load="toload" :src="bigimg" alt />
     </div>
     <!-- 小图 -->
     <div class="small-box">
@@ -21,6 +21,7 @@
   </section>
 </template>
 <script>
+let loading;
 export default {
   data() {
     return {
@@ -56,7 +57,11 @@ export default {
       };
       this.axios.post("/api/user/index/getsharethumb.html", data, res => {
         this.bigimg = res.data.data;
+        loading = this.weui.loading("获取中");
       });
+    },
+    toload() {
+      loading.hide();
     }
   }
 };

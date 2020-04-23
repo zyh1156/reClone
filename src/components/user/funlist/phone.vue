@@ -116,10 +116,10 @@ export default {
   },
   mounted() {
     if (checkCookie("usermobile")) {
-        this.menuInx=0;
+      this.menuInx = 0;
       this.phone = getCookie("usermobile");
     } else {
-        this.menuInx=1;
+      this.menuInx = 1;
     }
   },
   methods: {
@@ -135,11 +135,7 @@ export default {
         }, 1000);
     },
     reload() {
-      if (this.menuInx == 1) {
-        this.menuInx = 0;
-      } else {
-        this.$router.go(-1);
-      }
+      this.$router.go(-1);
     },
     getver() {
       let phone = this.user.mobile;
@@ -172,10 +168,14 @@ export default {
           "/api/user/profile/bindingMobile.html",
           this.user,
           res => {
-            this.weui.toast(res.data.msg, 1500);
-            //   设置手机号
-            setCookie("usermobile", phone, 30);
-            this.$router.go();
+            if (res.data.code == 0) {
+              this.weui.alert(res.data.msg);
+            } else {
+              this.weui.toast(res.data.msg, 1500);
+              //   设置手机号
+              setCookie("usermobile", phone, 30);
+              this.$router.go();
+            }
           },
           false,
           true

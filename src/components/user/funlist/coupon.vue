@@ -26,6 +26,13 @@
         </div>
       </div>
     </div>
+    <!-- 没有数据的时候 -->
+    <div class="nodata-box">
+      <div v-if="page.ojbk&&cplist.length==0" class="nodata text-center">
+        <div class="txt0 iconfont icon-wushuju"></div>
+        <div class="txt1">暂无优惠券</div>
+      </div>
+    </div>
   </section>
 </template>
 <script>
