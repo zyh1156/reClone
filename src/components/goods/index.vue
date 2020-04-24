@@ -115,6 +115,11 @@ export default {
       this.wd2.id = id;
       this.axios.post("/api/home/goods/show.html", { id: id }, res => {
         res = res.data.data;
+        share({
+          title: res.data.post_title,
+          desc: res.data.post_excerpt,
+          imgUrl: res.data.thumbnail
+        });
         //价格
         res.data.money2 = parseFloat(res.data.money)
           .toFixed(2)

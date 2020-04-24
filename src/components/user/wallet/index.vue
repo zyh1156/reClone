@@ -53,11 +53,6 @@ export default {
           all_money: parseFloat(res.data.data.money).toFixed(2)
         };
       });
-    },
-    outMoney() {
-      this.axios.post("/api/user/user_money_log/txPost.html", {}, res => {
-        console.log(res);
-      });
     }
   },
   mounted() {

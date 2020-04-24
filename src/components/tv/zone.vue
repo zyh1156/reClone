@@ -78,6 +78,7 @@
 <script>
 import st from "../cube/shoptitle";
 import cs from "../cube/cube-share";
+import share from "../../core/share"
 export default {
   data() {
     return {
@@ -100,6 +101,11 @@ export default {
       this.wd.id = id;
       this.axios.post("/api/home/tv/show.html", { id: id }, res => {
         this.tz = res.data.data.data;
+        share({
+          title: res.data.data.post_title,
+          desc: res.data.data.post_excerpt,
+          imgUrl: res.data.data.thumbnail
+        });
         // 分享金额
         this.wd.money = res.data.data.data.rate_money;
         // 售价

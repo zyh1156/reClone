@@ -78,7 +78,6 @@ export default {
       width = dom.outerWidth(),
       devW = window.innerWidth;
     devW = left - devW / 2 + width / 2;
-    // console.log(devW);
     $(".en-title").animate(
       {
         scrollLeft: devW

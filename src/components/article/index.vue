@@ -1,7 +1,7 @@
 <template>
   <section class="bac">
     <search :type="1" :ptxt="'搜索话题'" @rekey="getkw"></search>
-    <menulist :mlist="menuls"></menulist>
+    <menulist :mlist="menuls" @tapset="ts"></menulist>
     <!-- 列表部分 -->
     <cb :cblist="alist" :nodata="page.ojbk"></cb>
     <footer2></footer2>
@@ -16,8 +16,13 @@ export default {
   data() {
     return {
       alist: [],
-      menuls: [{ text: "推荐" }, { text: "热门" }, { text: "火爆" }],
+      menuls: [
+        { text: "最新", key: "new" },
+        { text: "推荐", key: "tj" },
+        { text: "火爆", key: "huo" }
+      ],
       keyword: "",
+      o: "new",
       page: {
         now: 0,
         max: 0,
@@ -37,13 +42,22 @@ export default {
     document.addEventListener("scroll", this.scrollLoad);
   },
   methods: {
+    ts(val) {
+      this.o = this.menuls[val[0]].key;
+      //   重置搜索内容
+      this.page.ojbk = false;
+      this.alist = [];
+      //   开始搜索
+      this.getData(1);
+    },
     getData(page) {
       this.page.now = page;
       this.axios.post(
         "/api/home/article/index.html",
         {
           page: page,
-          keyword: this.keyword
+          keyword: this.keyword,
+          o: this.o
         },
         res => {
           if (page == 1) {

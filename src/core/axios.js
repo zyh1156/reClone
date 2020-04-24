@@ -9,6 +9,7 @@ import {
 export default {
     post(url, data, call, nolo, noto) {
         url = "http://t3.lcqingshu.com" + url;
+        // url = "http://192.168.1.92" + url;
         let loading, token = getCookie("token");
         if (nolo) {} else {
             loading = weui.loading("获取中");
@@ -34,7 +35,7 @@ export default {
                     weui.alert(res.data.msg);
                     call(res);
                 } else {
-                    location.href = "/error404";
+                    this.$router.push({name:"err"});
                 }
             }
         }, res => {

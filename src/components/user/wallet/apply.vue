@@ -14,6 +14,8 @@
         <div class="txt1 flex-grow-1">
           <input
             @change="moneyChange"
+            @blur="moneyChange"
+            @input="moneyChange"
             v-model="money.get"
             class="w-100 font-weight-bold"
             type="text"

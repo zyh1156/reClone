@@ -156,6 +156,9 @@ const router = new VueRouter({
                 title: "登录界面"
             }
         }, {
+            path: "logout",
+            component: reRouter("user/logout")
+        }, {
             path: "activity",
             component: reRouter("user/funlist/activity"),
             meta: {
@@ -356,7 +359,8 @@ const router = new VueRouter({
         }
     }, {
         path: "*",
-        component: err404
+        component: err404,
+        name: "err"
     }],
     scrollBehavior(to, from, savedPosition) {
         // 跳转后滚动条置顶

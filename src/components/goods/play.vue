@@ -63,8 +63,8 @@ import shopt from "../cube/shoptitle";
 import $ from "jquery";
 import tool from "../cube/tool";
 import dayjs from "dayjs";
+import share from "../../core/share";
 import { setCookie, getCookie } from "../../core/cookie";
-// import("./qiniu-web-player-1.2.3");
 var loadjs = require("loadjs");
 let clock, startTime;
 export default {
@@ -110,11 +110,21 @@ export default {
           },
           res => {
             let data = res.data.data.data;
+            share({
+              title: data.post_title,
+              desc: data.post_excerpt,
+              imgUrl: data.thumbnail
+            });
             document.title = data.post_title;
             this.pd = data;
             this.getGood(data.goods_id);
             if (data.post_type == 1) {
-              this.toplay(data);
+              loadjs(
+                "https://sdk-release.qnsdk.com/qiniu-web-player-1.2.3.js",
+                res => {
+                  this.toplay(data);
+                }
+              );
             } else {
               this.toaudio(data);
             }
@@ -133,7 +143,9 @@ export default {
           // 播放器默认展示方式
           showControls: true
         },
-        loggerLevel: 3
+        loggerLevel: 3,
+        // muted:true,
+        autoplay: true
       });
       //   播放控件展示方式
       player.on("play", function() {
@@ -246,9 +258,7 @@ export default {
     }
   },
   mounted() {
-    loadjs("/js/qiniu-web-player-1.2.3.js", res => {
-      this.getData();
-    });
+    this.getData();
   }
 };
 </script>

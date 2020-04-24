@@ -96,6 +96,7 @@ import menulist from "../cube/menulist";
 // import gift from "./gift";
 import tool from "../cube/tool";
 import { getCookie } from "../../core/cookie";
+import share from "../../core/share";
 let roomid, token, userid, usernick, useravatar;
 var ws = new WebSocket("ws://" + location.host + ":7272");
 var loadjs = require("loadjs");
@@ -151,7 +152,6 @@ export default {
         //   将事件添加到消息列表
         let obj = JSON.parse(e.data);
         that.chatList.push(obj);
-        console.log(that.chatList);
         // 清空输入框
         that.chatCon = "";
         if (obj.type == "bind" || obj.type == "close") {
@@ -194,13 +194,18 @@ export default {
         "/api/home/tv/player.html",
         { id: roomid },
         res => {
-            if(res.data.code==0){
-                this.$router.push({name:"zone",params:{zoneid:roomid}});
-            }
+          if (res.data.code == 0) {
+            this.$router.push({ name: "zone", params: { zoneid: roomid } });
+          }
           // 赋值讲师
           this.$set(this.tooloptions, "teach", res.data.data.teach);
           // 赋值关注
           res = res.data.data.data;
+          share({
+            title: res.post_title,
+            desc: res.post_excerpt,
+            imgUrl: res.thumbnail
+          });
           let follow = {
             fav: res.is_fav == 1,
             id: res.id,
@@ -217,7 +222,7 @@ export default {
               this.toStatus0(res);
               break;
             default:
-              loadjs("/js/qiniu-web-player-1.2.3.js", () => {
+              loadjs("https://sdk-release.qnsdk.com/qiniu-web-player-1.2.3.js", () => {
                 this.toStatus1(res);
               });
               break;
@@ -263,10 +268,8 @@ export default {
       }
     },
     toStatus1(val, str) {
-      console.log(val);
       let container = document.getElementById("player");
       let url = val.ts_static == 1 ? val.look_url : val.huifang_url;
-      console.log(url);
       let player = new QPlayer({
         url: url,
         poster: val.thumbnail,
@@ -531,6 +534,8 @@ export default {
 .djs-box {
   height: 100%;
   background-color: #010001;
+  background-size: 100% auto;
+  background-position: center;
   color: #fff;
   line-height: 2.4;
   .txt1 {

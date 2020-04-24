@@ -123,6 +123,7 @@
 import menus from "../cube/menulist";
 import st from "../cube/shoptitle";
 import dayjs from "dayjs";
+import share2 from "../../core/share"
 export default {
   data() {
     return {
@@ -147,6 +148,11 @@ export default {
       let actid = this.$route.params.actid;
       this.axios.post("/api/home/act/show.html", { id: actid }, res => {
         res = res.data.data;
+        share2({
+          title: res.data.post_title,
+          desc: res.data.post_excerpt,
+          imgUrl: res.data.thumbnail
+        });
         document.title = res.data.post_title;
         this.ad = res.data;
         this.go = res.go.slice(0, 5);

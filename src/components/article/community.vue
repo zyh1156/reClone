@@ -121,6 +121,7 @@
 <script>
 // 社区页面
 import tea from "../cube/shoptitle";
+import share from "../../core/share";
 let comid;
 export default {
   data() {
@@ -155,7 +156,13 @@ export default {
     getDate() {
       this.axios.post("/api/home/article/show.html", { id: comid }, res => {
         res = res.data.data;
-        document.title=res.data.post_title;
+
+        share({
+          title: res.data.post_title,
+          desc: res.data.post_excerpt,
+          imgUrl: res.data.thumbnail
+        });
+        document.title = res.data.post_title;
         this.acd = res.data;
         this.teach = res.teach;
         this.acd.isfree = parseFloat(res.data.price) <= 0;
