@@ -8,7 +8,8 @@ import {
 Vue.use(VueRouter)
 
 function reRouter(to) {
-    return () => import("@/components/" + to + ".vue")
+    // return () => import("@/components/" + to )
+    return resolve => require(["@/components/" + to], resolve);
 }
 
 const router = new VueRouter({
@@ -140,6 +141,13 @@ const router = new VueRouter({
             meta: {
                 title: "会员中心"
             },
+        }, {
+            path: "complaint",
+            component: reRouter("user/funlist/complaint"),
+            meta: {
+                title: "投诉与留言"
+            },
+            name: "complaint"
         }, {
             path: "getcode",
             component: reRouter("user/getcode")

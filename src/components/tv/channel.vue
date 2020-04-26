@@ -27,7 +27,7 @@
     <!-- 菜单栏 -->
     <div class="position-relative">
       <menulist :mlist="menul" @tapset="tapMenu"></menulist>
-      <div class="zlw d-flex position-absolute">
+      <div @click="togive=true" class="zlw d-flex position-absolute">
         <div>打赏</div>
       </div>
     </div>
@@ -87,7 +87,41 @@
       <div class="txt1">在线</div>
       <div class="txt2">{{count}}人</div>
     </div>
-    <!-- <gift></gift> -->
+    <!-- 礼物部分 -->
+    <div v-show="togive">
+      <div class="weui-mask"></div>
+      <!-- 赠送：功能五 -->
+      <div class="weixinImg">
+        <div class="wxbox givebox">
+          <div class="box0 text-center">鼓励打赏</div>
+          <div class="box1">赠送数量</div>
+          <div class="d-flex flex-wrap num-ul text-center">
+            <div
+              v-for="(gl,inx) in givelist"
+              v-bind:key="inx"
+              class="num-li"
+              :class="{active:givedata.num==gl}"
+              @click="changeNum(gl)"
+            >{{gl}}</div>
+          </div>
+          <div class="d-flex box2 justify-content-between">
+            <div class="bo0">豪爽赠送</div>
+            <div class="bo1 d-flex text-center">
+              <div @click="prev" class="a">-</div>
+              <input v-model="givedata.num" class="text-center" type="text" />
+              <div @click="plus" class="b">+</div>
+            </div>
+          </div>
+          <div class="text-right box3">
+            <div class="bo0">总计：{{givedata.like_money}}元</div>
+            <div class="bo1">好友可免费领取，永久有效</div>
+          </div>
+          <div class="box4 text-center">
+            <div @click="togivemoney" class="bo0">打算&nbsp;{{givedata.like_money}}&nbsp;元</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 <script>
@@ -106,6 +140,15 @@ export default {
       djsbac: {},
       chatCon: "",
       chatList: [],
+      togive: false,
+      givelist: [1, 2, 4, 10, 20, 50],
+      givedata: {
+        is_firends: 0,
+        num: 1,
+        table: "like_post",
+        object_id: "",
+        like_money: 1
+      },
       menul: [
         { text: "聊天" },
         { text: "详情" },
@@ -199,6 +242,7 @@ export default {
           }
           // 赋值讲师
           this.$set(this.tooloptions, "teach", res.data.data.teach);
+          this.givedata.object_id = res.data.data.teach.id;
           // 赋值关注
           res = res.data.data.data;
           share({
@@ -207,6 +251,7 @@ export default {
             imgUrl: res.thumbnail
           });
           let follow = {
+            title: res.data.post_title,
             fav: res.is_fav == 1,
             id: res.id,
             string: "tv_post"
@@ -222,9 +267,12 @@ export default {
               this.toStatus0(res);
               break;
             default:
-              loadjs("https://sdk-release.qnsdk.com/qiniu-web-player-1.2.3.js", () => {
-                this.toStatus1(res);
-              });
+              loadjs(
+                "https://sdk-release.qnsdk.com/qiniu-web-player-1.2.3.js",
+                () => {
+                  this.toStatus1(res);
+                }
+              );
               break;
           }
         },
@@ -333,6 +381,33 @@ export default {
           }, 200);
         }
       );
+    },
+    // 礼物部分
+    changeNum(num) {
+      this.givedata.num = num;
+      this.givedata.like_money = (num * 1).toFixed(2);
+    },
+    prev() {
+      let num = this.givedata.num;
+      num = num > 1 ? num - 1 : num;
+      this.changeNum(num);
+    },
+    plus() {
+      let num = this.givedata.num + 1;
+      this.changeNum(num);
+    },
+    togivemoney() {
+      this.axios.post("/api/user/order/to_pay.html", this.givedata, res => {
+        if (res.data.data == 0) {
+          this.weui.toast(res.data.msg, 1500);
+          this.$router.go();
+        } else {
+          this.$router.push({
+            name: "pay",
+            query: { orderid: res.data.data }
+          });
+        }
+      });
     }
   },
   mounted() {
@@ -345,6 +420,12 @@ export default {
     this.setChat();
     this.gunText();
     this.getData();
+    $(".weixinImg").on("click", () => {
+      this.togive = false;
+    });
+    $(".wxbox").on("click", function(evt) {
+      evt.stopPropagation();
+    });
   },
   components: {
     tool,
@@ -377,15 +458,15 @@ export default {
 }
 .max-box {
   height: calc(100vh - 432px - 46px -79px);
+  background: url("../../assets/bac/tvbac.jpg");
+  background-attachment: fixed;
+  background-size: 100% auto;
   .tcd-box {
     padding: $pardon $pardon 90px;
   }
 }
 .lc-chat {
   min-height: 100%;
-  background: url("../../assets/bac/tvbac.jpg");
-  background-attachment: fixed;
-  background-size: 100% auto;
   padding: $pardon/2 $pardon/2 $pardon/2 + 100;
   .chat-box {
     padding: 9px 0;
@@ -552,6 +633,109 @@ export default {
   }
   to {
     background-position-x: -736px;
+  }
+}
+
+// 微信二维码
+.weixinImg {
+  position: fixed;
+  z-index: 1025;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .wxbox {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+  }
+}
+.givebox {
+  width: 600px;
+  .box0 {
+    color: $theme-bor;
+    font-size: 30px;
+  }
+  .box1 {
+    color: #939393;
+    margin-top: 35px;
+    font-size: 22px;
+  }
+  .num-ul {
+    margin: 14px -22px;
+    .num-li {
+      width: 150px;
+      margin: 16px 18px;
+      border-radius: 6px;
+      height: 58px;
+      line-height: 54px;
+      font-size: 24px;
+      border: 2px solid #939393;
+    }
+    .active {
+      color: #fff;
+      background-color: $theme;
+      border-color: $theme-bor;
+    }
+  }
+  .box2 {
+    margin-top: 14px;
+    padding-bottom: $pardon;
+    border-bottom: 2px solid #f7f7f7;
+    .bo0 {
+      color: #939393;
+      font-size: 22px;
+    }
+    .bo1 {
+      border: 2px solid #e6e6e6;
+      border-radius: 6px;
+      .a {
+        border-right: 2px solid #e6e6e6;
+      }
+      .b {
+        border-left: 2px solid #e6e6e6;
+      }
+      div {
+        color: $theme-bor;
+        width: 56px;
+      }
+      input {
+        width: 90px;
+      }
+      div,
+      input {
+        height: 50px;
+        line-height: 50px;
+        border: none;
+        outline: none;
+      }
+    }
+  }
+  .box3 {
+    color: #8f8f8f;
+    padding: 20px 0 30px;
+    border-bottom: 2px solid #f7f7f7;
+    .bo0 {
+      font-size: 22px;
+    }
+    .bo1 {
+      font-size: 26px;
+      margin-top: $pardon/2;
+    }
+  }
+  .box4 {
+    padding-top: $pardon;
+    .bo0 {
+      color: #fff;
+      height: 78px;
+      line-height: 78px;
+      border-radius: 8px;
+      background-color: $theme;
+      border: 1px solid $theme-bor;
+    }
   }
 }
 </style>

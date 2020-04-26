@@ -28,17 +28,18 @@ export default {
             if (res.data.code == 1) {
                 call(res);
             } else if (res.data.code == 10001) {
-                setCookie("nowurl", encodeURIComponent(location.href));
-                location.href = "/user/login";
+                setCookie("userid", "", -1);
+                location.href = "/user/login"
             } else {
                 if (noto) {
                     weui.alert(res.data.msg);
                     call(res);
                 } else {
-                    this.$router.push({name:"err"});
+                    location.href = "/error"
                 }
             }
         }, res => {
+            // this.weui.alert(JSON.stringify(res));
             loading.hide();
             weui.alert("请求错误。");
         })

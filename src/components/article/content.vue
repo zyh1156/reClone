@@ -162,7 +162,6 @@ export default {
         mySwiper.destroy(false);
       }
       mySwiper = new Swiper(".swiper-container", {
-        loop: true, // 循环模式选项
         // 如果需要分页器
         pagination: {
           el: ".swiper-pagination"
@@ -174,9 +173,9 @@ export default {
       $(".swiper-box").on("click", res => {
         this.readImg = false;
       });
-      $(".swiper-container").on("click", function(e) {
-        e.stopPropagation();
-      });
+    //   $(".swiper-container").on("click", function(e) {
+    //     e.stopPropagation();
+    //   });
       // WeUI弹窗
       var $dialog1 = $(".t1 #js_dialog_1"),
         $dialog2 = $(".t1 #js_dialog_2"),
@@ -208,7 +207,7 @@ export default {
           document.title = res.data.post_title;
           this.comd = res.data;
           this.user = res.user;
-          this.photos = res.photos;
+          this.photos = res.data.photos;
           if (this.photos && this.photos.length > 0) {
             this.photos.forEach(ele => {
               inx = ele.url.indexOf("-thumbnail300x300");

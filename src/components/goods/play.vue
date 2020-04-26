@@ -230,17 +230,19 @@ export default {
     getGood: function(gid) {
       // 获取商品详情
       this.axios.post("/api/home/goods/show.html", { id: gid }, res => {
-        this.wd = res.data.data.data;
+        res = res.data.data;
+        this.wd = res.data;
         let follow = {
-          fav: res.data.data.data.is_fav == 1,
+          title: res.data.post_title,
+          fav: res.data.is_fav == 1,
           id: res.data.id,
           string: "tv_post"
         };
         this.$set(this.tooloptions, "follow", follow);
         // 赋值讲师
         this.$set(this.tooloptions, "teach", res.teach);
-        this.teach = res.data.data.teach;
-        if (res.data.data.data.zk_endtime < new Date().getTime() / 1000) {
+        this.teach = res.teach;
+        if (res.data.zk_endtime < new Date().getTime() / 1000) {
           this.limitTime = false;
         } else {
           this.limitTime = true;

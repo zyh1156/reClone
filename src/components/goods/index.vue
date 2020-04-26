@@ -130,6 +130,7 @@ export default {
         this.$set(this.tooloptions, "teach", res.teach);
         // 赋值关注
         let follow = {
+          title: res.data.post_title,
           fav: res.data.is_fav == 1,
           id: res.data.id,
           string: "goods_post"
@@ -137,6 +138,7 @@ export default {
         this.$set(this.tooloptions, "follow", follow);
         //赋值赠送
         let give = {
+          title: res.data.post_title,
           type: "goods_post",
           id: res.data.id,
           money: res.data.money

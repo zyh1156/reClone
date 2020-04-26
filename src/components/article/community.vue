@@ -200,7 +200,8 @@ export default {
       };
       this.axios.post("/api/user/order/to_pay.html", data, res => {
         if (res.data.data == 0) {
-          this.$router.push({ name: "community", params: { communityid: id } });
+          this.weui.toast(res.data.msg, 1500);
+          this.$router.go();
         } else {
           this.$router.push({ name: "pay", query: { orderid: res.data.data } });
         }

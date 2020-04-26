@@ -46,9 +46,10 @@
   </section>
 </template>
 <script>
-let id, key, goodsid, name;
+let id, key, goodsid, name, url2, userid;
 import ct from "../cube/cube-title";
 import { getCookie } from "../../core/cookie";
+import share from "../../core/share";
 export default {
   data() {
     return {
@@ -68,22 +69,34 @@ export default {
         "/api/user/user_friends/index_show.html",
         { id: id },
         res => {
-          this.$router.replace({
-            query: {
-              giveid: res.data.data.order.id,
-              key: res.data.data.order.key
-            }
+          res = res.data.data;
+          key = res.order.key;
+          this.cl = res.order;
+          this.glist = res.data;
+          userid = getCookie("userid");
+          url2 =
+            location.origin +
+            "/give/giveacc?giveid=" +
+            id +
+            "&givekey=" +
+            key +
+            "&user_pid=" +
+            userid;
+          share({
+            title: res.order.post_title,
+            imgUrl: res.order.thumbnail,
+            link: url2
           });
-          this.cl = res.data.data.order;
-          this.glist = res.data.data.data;
         }
       );
     },
     fztext() {
       var textarea = document.createElement("input"); //创建input对象
       var currentFocus = document.activeElement; //当前获得焦点的元素
+      var userid = getCookie("userid");
       document.body.appendChild(textarea); //添加元素
-      textarea.value = location.href;
+      //   textarea.value = location.href;
+      textarea.value = url2;
       textarea.focus();
       if (textarea.setSelectionRange)
         textarea.setSelectionRange(0, textarea.value.length);
@@ -102,16 +115,7 @@ export default {
   },
   mounted() {
     id = this.$route.query.giveid;
-    // key = this.$route.query.key;
-    if (key) {
-      return;
-      this.$router.push({
-        path: "/give/giveacc",
-        query: { giveid: id, givekey: key }
-      });
-    } else {
-      this.getData();
-    }
+    this.getData();
   }
 };
 </script>
@@ -176,7 +180,7 @@ export default {
   background-color: #fff;
   .give-li {
     width: 100px;
-    margin:25px;
+    margin: 25px;
     .u0 {
       img {
         height: 100px;

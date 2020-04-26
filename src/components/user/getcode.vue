@@ -38,7 +38,6 @@ export default {
       //   setCookie("usersex", res.data.data.user.sex, 30);
       if (checkCookie("nowurl")) {
         let href = decodeURIComponent(getCookie("nowurl"));
-        setCookie("nowurl", "", 0.1);
         location.href = href;
       }
     }

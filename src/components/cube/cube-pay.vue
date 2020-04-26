@@ -2,9 +2,9 @@
   <aside>
     <!-- 价格部分 -->
     <div class="money-boxs"></div>
-    <div :class="{ispay:wd.is_pay==1}" class="money-box w-100 position-fixed">
+    <div class="money-box w-100 position-fixed">
       <div @click="topay" class="nowshop text-center">
-        <span v-if="wd.is_pay==1">已支付</span>
+        <span v-if="wd.is_pay==1">已订阅</span>
         <span v-else-if="wd.price=='0.00'">免费</span>
         <span v-else>
           <span v-if="limitTime">折扣价</span>

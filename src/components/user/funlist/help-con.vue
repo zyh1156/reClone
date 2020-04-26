@@ -13,6 +13,7 @@
 let id;
 import dayjs from "dayjs";
 import ct from "../../cube/cube-title";
+import share from "../../../core/share";
 export default {
   data() {
     return {
@@ -23,6 +24,7 @@ export default {
   mounted() {
     id = this.$route.params.helpid;
     this.getData();
+    share();
   },
   methods: {
     getData() {

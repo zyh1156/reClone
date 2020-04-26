@@ -104,7 +104,8 @@ export default {
         table_name: this.type == 0 ? "teach_post" : "goods_post"
       };
       this.axios.post("/api/user/Favorites/setFavorites.html", data, res => {
-        this.getData();
+        this.page.ojbk = false;
+        this.getData(1);
       });
     },
     scrollLoad() {

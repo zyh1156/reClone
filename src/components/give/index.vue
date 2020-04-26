@@ -3,7 +3,7 @@
     <ct :ctxt="cobj"></ct>
     <div class="gul">
       <router-link
-        :to="{name:'givelist',query:{giveid:cl.id,key:''}}"
+        :to="{name:'givelist',query:{giveid:cl.id}}"
         class="d-block gli"
         v-for="(cl,inx) in cplist"
         v-bind:key="inx"

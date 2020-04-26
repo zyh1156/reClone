@@ -3,9 +3,8 @@ import {
     getCookie
 } from "./cookie";
 import axios from "axios"
-import $ from "jquery";
 export default (data) => {
-    loadjs("http://res.wx.qq.com/open/js/jweixin-1.4.0.js", res => {
+    loadjs("http://res.wx.qq.com/open/js/jweixin-1.6.0.js", () => {
         let url = location.href,
             url2;
         if (url.indexOf("?") > -1) {
@@ -24,10 +23,10 @@ export default (data) => {
             // shareData 参数记得为字符串类型
             if (data && res.data.is_lock == 0) {
                 var shareData = {
-                    title: data.title,
-                    desc: data.desc, //这里请特别注意是要去除html
-                    link: url2, //域名必须JS安全域名
-                    imgUrl: data.imgUrl
+                    title: data.title || res.data.title,
+                    desc: data.desc || res.data.desc, //这里请特别注意是要去除html
+                    link: data.link || url2, //域名必须JS安全域名
+                    imgUrl: data.imgUrl || res.data.imgUrl
                 };
             } else {
                 var shareData = {

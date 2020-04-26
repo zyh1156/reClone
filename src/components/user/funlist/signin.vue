@@ -86,6 +86,7 @@ export default {
         "/api/user/index/qdAdd.html",
         {},
         res => {
+          this.credit = res.data.data.credit;
           this.weui.toast(res.data.msg, 1500);
         },
         true

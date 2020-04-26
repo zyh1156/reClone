@@ -8,7 +8,10 @@
             <img v-lazy="cb.thumbnail" alt />
           </router-link>
         </div>
-        <div class="content-box d-flex justify-content-between align-items-center">
+        <router-link
+          :to="{name:'community',params:{'communityid':cb.id}}"
+          class="content-box d-flex justify-content-between align-items-center"
+        >
           <div class="box0">
             <img v-lazy="cb.t_thumbnail" alt />
           </div>
@@ -16,11 +19,8 @@
             <div class="txt0 font-weight-bold">{{cb.post_title}}</div>
             <div class="txt1 text-truncate">{{cb.t_name}}</div>
           </div>
-          <router-link
-            class="box2 text-center"
-            :to="{name:'community',params:{'communityid':cb.id}}"
-          >进入</router-link>
-        </div>
+          <div class="box2 text-center">进入</div>
+        </router-link>
         <div class="about-box d-flex">
           <div class="mr-90">
             <span class="iconfont icon-remen"></span>
@@ -74,6 +74,7 @@ export default {
       .box1 {
         width: 410px;
         .txt0 {
+          color: initial;
           font-size: 30px;
         }
         .txt1 {

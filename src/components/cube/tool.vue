@@ -84,6 +84,7 @@
               <div
                 @click="tapTool(inx,ml)"
                 v-for="(ml,inx) in menuList"
+                v-show="!ml.hide"
                 v-bind:key="inx"
                 class="t-con text-center"
               >
@@ -141,7 +142,8 @@ export default {
         },
         {
           classObj: "icon-lipinka",
-          text: "赠好友"
+          text: "赠好友",
+          hide: true
         }
       ]
     };
@@ -164,6 +166,7 @@ export default {
       this.givedata.table = this.options.give.type;
       this.givedata.object_id = this.options.give.id;
       this.givedata.money = this.options.give.money;
+      if (!this.givedata.table) this.menuList[6].hide = false;
     }
   },
   updated() {
@@ -219,6 +222,14 @@ export default {
         this.$router.push({
           name: "share",
           query: { kc_id: this.options.give.id, type: this.options.give.type }
+        });
+      } else if (x == 5) {
+        let title = this.options.give.title || this.options.give.follow;
+        title = title.slice(0, 40);
+        let link = encodeURIComponent(location.href);
+        this.$router.push({
+          name: "complaint",
+          query: { title: title, link: link }
         });
       } else if (x == 6) {
         //   咨询

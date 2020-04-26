@@ -19,6 +19,8 @@ export default {
           appid = res.data.data.wechat_appid;
           this.getData2();
         });
+      }else{
+          
       }
     },
     getData2() {

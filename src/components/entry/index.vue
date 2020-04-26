@@ -39,6 +39,7 @@ export default {
   methods: {
     getData(page) {
       let arr = [];
+      inx = this.$route.query.entryid;
       this.page.now = page;
       if (!this.page.ojbk) {
         this.axios.post(
@@ -100,7 +101,6 @@ export default {
     }
   },
   mounted() {
-    inx = this.$route.query.entryid;
     keyword = this.$route.query.keyword;
     this.getData(1);
     this.getMenu();

@@ -23,7 +23,7 @@ export default {
   mounted() {},
   methods: {
     reload() {
-      if (history.length > 1) {
+      if (history.length > 2) {
         this.$router.go(-1);
       } else {
         this.$router.push({ path: "/" });
