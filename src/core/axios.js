@@ -31,6 +31,7 @@ export default {
                 setCookie("userid", "", -1);
                 location.href = "/user/login"
             } else {
+                // return;
                 if (noto) {
                     weui.alert(res.data.msg);
                     call(res);

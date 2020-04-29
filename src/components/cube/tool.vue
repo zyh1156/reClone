@@ -224,7 +224,12 @@ export default {
           query: { kc_id: this.options.give.id, type: this.options.give.type }
         });
       } else if (x == 5) {
-        let title = this.options.give.title || this.options.give.follow;
+        let title;
+        if (this.options.give) {
+          title = this.options.give.title;
+        } else {
+          title = this.options.follow.title;
+        }
         title = title.slice(0, 40);
         let link = encodeURIComponent(location.href);
         this.$router.push({

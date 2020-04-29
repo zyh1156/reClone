@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
-        port: 80,
+        // port: 80,
         proxy: {
             // detail: https://cli.vuejs.org/config/#devserver-proxy
             '/api': {

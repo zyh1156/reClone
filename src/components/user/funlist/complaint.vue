@@ -40,7 +40,7 @@
         <input placeholder="请输入手机号码" v-model="cpdata.phone" class="txt2" type="text" />
         <div class="txt3 text-right">*</div>
       </div>
-      <div class="d-flex b3 b3t">
+      <div class="d-none b3 b3t">
         <div class="txt1">校验码</div>
         <input placeholder="请输入校验码" v-model="cpdata.verify" class="txt2" type="text" />
         <div @click="changVer" class="txt3">
@@ -64,7 +64,7 @@ export default {
         title: "",
         name: "",
         phone: "",
-        verify: "",
+        // verify: "",
         msg: "",
         url: ""
       },
@@ -78,12 +78,17 @@ export default {
         this.weui.alert("请输入投诉描述");
       } else if (!/^1[3456789]\d{9}$/.test(data.phone)) {
         this.weui.alert("请输入正确的手机号");
-      } else if (data.verify.length == 0) {
-        this.weui.alert("请输入验证码");
       } else {
-        this.axios.post("/plugin/hz_msg_borad/do/addmsg.html", data, res => {
-          console.log(res);
-        });
+        this.axios.post(
+          "/api/user/index/addmsg.html",
+          data,
+          res => {
+            this.weui.toast(res.data.msg, 1500);
+            this.$router.go(-1);
+          },
+          false,
+          true
+        );
       }
     },
     changVer() {

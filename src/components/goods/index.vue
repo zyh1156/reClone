@@ -254,6 +254,7 @@ export default {
   }
   .money1 {
     width: 240px;
+    background-image: linear-gradient(to bottom, #fcef9b, #f7dd70);
     .aa {
       margin-top: 12px;
       font-size: 22px;
@@ -277,7 +278,6 @@ export default {
         border: 1px solid #7b4d28;
       }
     }
-    background-image: linear-gradient(to bottom, #fcef9b, #f7dd70);
   }
 }
 .coupon {

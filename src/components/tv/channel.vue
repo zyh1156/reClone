@@ -251,7 +251,7 @@ export default {
             imgUrl: res.thumbnail
           });
           let follow = {
-            title: res.data.post_title,
+            title: res.post_title,
             fav: res.is_fav == 1,
             id: res.id,
             string: "tv_post"
