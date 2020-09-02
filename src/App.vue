@@ -1,12 +1,11 @@
 <template>
-  <div id="app">
+  <div>
     <transition name="slide-fade">
       <router-view></router-view>
     </transition>
     <login></login>
   </div>
 </template>
-
 <script>
 import { setCookie, getCookie, checkCookie } from "./core/cookie";
 import login from "./components/user/welogin";

@@ -1,17 +1,4 @@
 module.exports = {
-    devServer: {
-        // port: 80,
-        proxy: {
-            // detail: https://cli.vuejs.org/config/#devserver-proxy
-            '/api': {
-                target: `http://192.168.1.92/api/`,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
-        }
-    },
     lintOnSave: false,
     runtimeCompiler: true,
     publicPath: "/", //打包路径
@@ -44,6 +31,15 @@ module.exports = {
             sass: {
                 prependData: `@import "@/assets/scss.scss";`
             }
+        }
+    },
+    configureWebpack: {
+        externals: {
+            'vue': 'Vue',
+            'axios': 'axios',
+            'vue-router': 'VueRouter',
+            'jquery': 'jQuery',
+            'bootstrap': 'bootstrap'
         }
     }
 }

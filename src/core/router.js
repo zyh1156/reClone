@@ -8,8 +8,7 @@ import {
 Vue.use(VueRouter)
 
 function reRouter(to) {
-    // return () => import("@/components/" + to )
-    return resolve => require(["@/components/" + to], resolve);
+    return () => import("@/components/" + to+".vue" )
 }
 
 const router = new VueRouter({
